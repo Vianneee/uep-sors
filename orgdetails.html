@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Balangaw Organization</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #FFFFFF;
+      color: #000000;
+    }
+
+    .top-dark { background: #131045; height: 42px; }
+    .top-blue { background: #22204F; height: 12px; }
+    .top-yellow { background: #FFD700; height: 12px; }
+
+    .top-white {
+      background: #ffffff;
+      height: 80px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 80px;
+    }
+
+    .logo-circle {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: url("imgs/logo.png") center/cover no-repeat;
+    }
+
+    .nav-links { display: flex; gap: 60px; }
+    .nav-links a {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: #000000;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .nav-links a:hover { color: #FFD700; }
+
+    .top-separator { background: #131045; height: 15px; }
+
+    .page { max-width: 1284px; margin: 0 auto; padding-bottom: 80px; }
+
+    .org-hero {
+      padding: 60px 40px 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .org-logo-wrapper { position: relative; display: inline-block; margin-bottom: 20px; }
+
+    .org-logo {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: url("imgs/balangaw.jpg") center/cover no-repeat;
+    }
+
+    .org-title {
+      font-size: 58px;
+      font-weight: 900;
+      color: #131045;
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+
+    .org-about-wrapper {
+      max-width: 1130px;
+      margin: 0 auto;
+      border: 10px solid #F5D83F;
+      border-radius: 40px;
+      padding: 26px 32px;
+      position: relative;
+    }
+
+    .org-about-highlight {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: #F5D83F;
+      border-radius: 29px 29px 15px 15px;
+      z-index: -1;
+    }
+
+    .org-about { font-size: 24px; line-height: 2; text-align: left; margin-top: 10px; }
+
+  .section-label-row { display: flex; align-items: center; margin: 60px 40px 30px; }
+  .section-label-box { width: 286px; height: 70px; background: #22204F; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-right: 30px; }
+  .section-label-box span { font-weight: 700; font-size: 40px; color: #F5D83F; }
+  .bar { flex: 1; height: 40px; background: #22204F; }
+
+.events-wrapper {
+    position: relative;
+    padding: 0 120px;
+    padding-top: 40px;
+}
+
+.scroll-arrow {
+    position: absolute;
+    top: 30%;
+    color: rgb(84, 84, 84);
+    font-size: 40px;
+    padding: 10px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    z-index: 5;
+}
+
+.left-arrow { left: 10px; }
+.right-arrow { right: 10px; }
+
+.events-container {
+    display: flex;
+    gap: 75px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0 0 20px 0;
+    scrollbar-width: none;
+}
+
+.events-container::-webkit-scrollbar { display: none; }
+
+.event-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.event-card {
+    min-width: 380px;
+    max-width: 380px;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 30px;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: transform .3s, box-shadow .3s;
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+.event-card img {
+    width: 100%;
+    height: 300px;
+    object-fit:fill;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.event-content {
+    background: #131045;
+    color: #fff;
+    padding: 25px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.event-content h3 {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom:50px;
+    
+}
+
+.date-line {
+    width: 130px;
+    height: 3px;
+    background: #ffd000;
+    margin-bottom: 5px;
+}
+
+.event-content span {
+    color: #ffd000;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.officers-section {
+  margin-top: 70px;
+  background: #131045;
+  padding: 40px 40px 60px;
+  color: #FFFFFF;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  box-sizing: border-box;
+}
+
+.officers-title {
+  text-align: center;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #FFD700;
+  margin-bottom: 40px;
+}
+
+.officers-wrapper {
+  position: relative;
+  padding: 0 120px;
+}
+
+.officer-scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #FFFFFF;
+  font-size: 40px;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+  z-index: 5;
+}
+
+.officer-left-arrow { left: 10px; }
+.officer-right-arrow { right: 10px; }
+
+.officers-strip {
+  overflow-x: auto;
+  padding-bottom: 16px;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+.officers-strip::-webkit-scrollbar { display: none; }
+
+.officers-row {
+  display: flex;
+  gap: 32px;
+  min-width: 100%;
+  justify-content: flex-start;
+}
+
+.officer-card {
+  width: 280px;
+  min-width: 280px;
+  background: #D9D9D9;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  color: #131045;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.officer-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  background: #C4C4C4;
+  margin-bottom: 20px;
+  object-fit: cover;
+  border: none;
+}
+
+.officer-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.officer-position {
+  font-family: 'Inria Sans', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  color: #131045;
+}
+
+.officer-line {
+  width: 130px;
+  border-top: 3px solid #3F54F5;
+  margin: 0 auto 10px;
+}
+
+.officer-name {
+  font-family: 'Inria Sans', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  color: #000000;
+}
+
+  .register-heading {
+  text-align: center;
+  margin: 100px 0 70px;
+  font-family: 'Inria Sans', sans-serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: 48px;
+  color: #22204F;
+}
+
+.register-block {
+  max-width: 900px;
+  margin: 0 auto 60px;
+  background: #22204F;
+  padding: 60px 30px 30px;
+  position: relative;
+  color: #131045;
+ 
+}
+
+.register-inner {
+  background: #F5D83F;
+  padding: 40px 40px 40px;
+  border-radius: 0;
+  position: relative;
+}
+
+.register-tab {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #22204F;
+  color: #FFFFFF;
+  padding: 16px 55px;
+  font-family: 'Inria Sans', sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: 0.08em;
+  border-bottom-right-radius: 80px;
+  font-style: italic;
+}
+
+.committee-title {
+  font-weight: 800;
+  font-size: 28px;
+  margin-top: 20px;
+  margin-bottom: 4px;
+  letter-spacing: 0.06em;
+}
+
+.committee-desc {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  max-width: 100%;
+}
+
+.register-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0 80px;
+  gap: 20px;
+  padding-left: 60px;
+}
+
+.register-link { text-decoration: none; }
+
+.register-btn {
+  padding: 10px 24px;
+  width: 150px;
+  height: 50px;
+  background: #131045;
+  border-radius: 18px;
+  border: 3px solid #131045;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover { border: 3px solid #FFD700; }
+
+    .footer {
+      position: relative;
+      background: url('imgs/420519959_751607456923358_7716867889919991985_n.png') center/cover no-repeat;
+      color: #fff;
+      padding: 60px 40px 30px;
+      min-height: 350px;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 82, 0.85);
+      z-index: 1;
+    }
+
+    .footer > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex: 1;
+    }
+
+    .footer-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .footer-logos img {
+      height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .footer-divider {
+      width: 2px;
+      height: 150px;
+      background: #fff;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .footer-uep-logo img {
+      height: 90px;
+      width: auto;
+    }
+
+    .footer-uep-text h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-uep-text p {
+      font-size: 14px;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      flex-wrap: wrap;
+      padding: 30px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: #FFD700;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #FFF;
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, .6);
+    }
+
+@media (max-width: 1024px) {
+    .mission-container { grid-template-columns: 1fr; }
+}
+
+    @media (max-width: 1024px) {
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-divider {
+        height: 2px;
+        width: 100%;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="top-dark"></div>
+    <div class="top-blue"></div>
+    <div class="top-yellow"></div>
+    <div class="top-white">
+      <div class="logo-circle"></div>
+      <nav class="nav-links">
+        <a href="dashboard.html">HOME</a>
+        <a href="org.html">ORGANIZATION</a>
+        <a href="regu.html">REGULATIONS</a>
+      </nav>
+    </div>
+    <div class="top-separator"></div>
+  </header>
+
+  <main class="page">
+
+    <section class="org-hero">
+      <div class="org-logo-wrapper">
+        <div class="org-logo"></div>
+      </div>
+      <h1 class="org-title">BALANGAW</h1>
+      <div class="org-about-wrapper">
+        <div class="org-about-highlight"></div>
+        <p class="org-about">
+            <br>
+            <br>
+            
+          Lorem ipsum dolor sit amet consectetur adipiscing elit. Iaculis massa nisl malesuada lacinia integer nunc posuere. Nulla molestie mattis scelerisque maximus eget fermentum odio. Ligula congue sollicitudin erat viverra ac tincidunt nam. Dui felis venenatis ultrices proin libero feugiat tristique. Sem placerat in id cursus mi pretium tellus. Taciti sociosqu ad litora torquent per conubia nostra. Mauris pharetra vestibulum fusce dictum risus blandit quis. Justo lectus commodo augue arcu dignissim velit aliquam. Senectus netus suscipit auctor curabitur facilisi cubilia curae. Sed diam urna tempor pulvinar vivamus fringilla lacus. Et magnis dis parturient montes nascetur ridiculus mus. Ante condimentum neque at luctus nibh finibus facilisis. Rutrum gravida cras eleifend turpis fames primis vulputate.
+        </p>
+        <br>
+        <p class="org-about">Lorem ipsum dolor sit amet consectetur adipiscing elit. Iaculis massa nisl malesuada lacinia integer nunc posuere. Nulla molestie mattis scelerisque maximus eget fermentum odio. Ligula congue sollicitudin erat viverra ac tincidunt nam. Dui felis venenatis ultrices proin libero feugiat tristique. Sem placerat in id cursus mi pretium tellus. </p>
+      </div>
+    </section>
+
+     <section style="width:100vw; margin-left:calc(-50vw + 50%);">
+      <div class="section-label-row">
+        <div class="section-label-box"><span>ACTIVITIES</span></div>
+        <div class="bar"></div>
+      </div>
+
+    <div class="events-wrapper">
+
+        <div class="scroll-arrow left-arrow">&#10094;</div>
+        <div class="scroll-arrow right-arrow">&#10095;</div>
+
+        <div class="events-container">
+
+            <a href="event1.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/event1.jpg" alt="Event 1">
+                    <div class="event-content"><h3>Kasaysayan sa UEP: 400+ estudyante nakilahok sa 'Walkout Against<br> Corruption                                                                                                                                                        
+                    </h3><div class="date-line"></div><span>November 18, 2025</span></div>
+                </div>
+            </a>
+
+            <a href="event22.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/eventv2.png"><div class="event-content"><h3>UEP BALANGAW attends
+                         <BR>KATADUNGAN 2025- Leadership in <br>Motion: From Principles to Practice</h3><div class="date-line"></div><span>November 04, 2025</span></div>
+                </div>
+            </a>
+ <a href="event.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/event3.jpg"><div class="event-content"><h3>USC, CSC PIOs joins 4th <br> Pagsubay: A Journalism <br>Skills Traning</h3><div class="date-line"></div><span>October 30, 2025</span></div>
+                </div>
+            </a>
+             <a href="event1.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/event1.jpg" alt="Event 1">
+                    <div class="event-content"><h3>Kasaysayan sa UEP: 400+ estudyante nakilahok sa 'Walkout Against<br> Corruption                                                                                                                                                        
+                    </h3><div class="date-line"></div><span>November 18, 2025</span></div>
+                </div>
+            </a>
+
+            <a href="event22.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/eventv2.png"><div class="event-content"><h3>UEP BALANGAW attends
+                         <BR>KATADUNGAN 2025- Leadership in <br>Motion: From Principles to Practice</h3><div class="date-line"></div><span>November 04, 2025</span></div>
+                </div>
+            </a>
+ <a href="event.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/event3.jpg"><div class="event-content"><h3>USC, CSC PIOs joins 4th <br> Pagsubay: A Journalism <br>Skills Traning</h3><div class="date-line"></div><span>October 30, 2025</span></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="officers-section">
+  <h2 class="officers-title">OFFICERS</h2>
+
+  <div class="officers-wrapper">
+    <div class="officer-scroll-arrow officer-left-arrow">&#10094;</div>
+    <div class="officer-scroll-arrow officer-right-arrow">&#10095;</div>
+
+    <div class="officers-strip" id="officers-strip">
+      <div class="officers-row">
+        
+        <div class="officer-card">
+          <div class="officer-avatar">
+            <img src="imgs/icon.png" alt="Chairperson">
+          </div>
+          <div class="officer-position">CHAIRPERSON</div>
+          <div class="officer-line"></div>
+          <div class="officer-name">NAME OF PERSON</div>
+        </div>
+
+        <div class="officer-card">
+          <div class="officer-avatar">
+            <img src="imgs/icon.png" alt="Vice Chairperson"> 
+          </div>
+          <div class="officer-position">VICE CHAIRPERSON</div>
+          <div class="officer-line"></div>
+          <div class="officer-name">NAME OF PERSON</div>
+        </div>
+
+        <div class="officer-card">
+          <div class="officer-avatar">
+             <img src="imgs/icon.png" alt="External Minister"> 
+          </div>
+          <div class="officer-position">EXTERNAL MINISTER</div>
+          <div class="officer-line"></div>
+          <div class="officer-name">NAME OF PERSON</div>
+        </div>
+
+        <div class="officer-card">
+          <div class="officer-avatar">
+             <img src="imgs/icon.png" alt="Internal Minister"> 
+          </div>
+          <div class="officer-position">INTERNAL MINISTER</div>
+          <div class="officer-line"></div>
+          <div class="officer-name">NAME OF PERSON</div>
+        </div>
+
+        <div class="officer-card">
+          <div class="officer-avatar">
+             <img src="imgs/perspn.jpg" alt="Finance Minister"> 
+          </div>
+          <div class="officer-position">FINANCE MINISTER</div>
+          <div class="officer-line"></div>
+          <div class="officer-name">JUAN DELA CRUZ</div>
+        </div>
+
+        <div class="officer-card">
+          <div class="officer-avatar">
+             <img src="imgs/perspn.jpg" alt="Sergeant at Arms"> 
+          </div>
+          <div class="officer-position">SERGEANT AT ARMS</div>
+          <div class="officer-line"></div>
+          <div class="officer-name">JUAN DELA CRUZ</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<h2 class="register-heading">REGISTER NOW!</h2>
+
+<section class="register-block">
+  <div class="register-inner">
+    <div class="register-tab">BE PART OF LOREM IPSUM</div>
+
+    <h3 class="committee-title">INTERNAL COMMITTEE</h3>
+    <p class="committee-desc">
+      Focuses on members' welfare, engagement, and personal development to foster
+      a supportive and collaborative environment within the organization.  
+      It also supervises the Secretariat Committee, which handles documentation,
+      attendance tracking, and other administrative responsibilities.
+    </p>
+
+    <h3 class="committee-title">EXTERNAL COMMITTEE</h3>
+    <p class="committee-desc">
+      Builds partnerships and manages communication with other organizations,
+      institutions, and networks. It also oversees logistics and other
+      requirements needed to ensure activities run smoothly.
+    </p>
+
+    <h3 class="committee-title">FINANCE COMMITTEE</h3>
+    <p class="committee-desc">
+      Manages the organization's financial operations, including budgeting,
+      fundraising, and resource allocation to sustain its programs and activities.
+    </p>
+
+    <h3 class="committee-title">MULTIMEDIA COMMITTEE</h3>
+    <p class="committee-desc">
+      Handles promotions by producing creative materials such as publications,
+      social media content, and other visual or digital outputs.
+    </p>
+
+    <h3 class="committee-title">DOCUMENTATION COMMITTEE</h3>
+    <p class="committee-desc">
+      Documents and archives the organization's activities and milestones through
+      photos, videos, and written reports to preserve its history and promote transparency.
+    </p>
+  </div>
+</section>
+
+<div class="register-button-wrapper">
+  <a href="register.html" class="register-link">
+    <div class="register-btn">REGISTER</div>
+  </a>
+</div>
+
+  </main>
+
+  <footer class="footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <div class="footer-logos">
+        <img src="imgs/Screenshot 2025-11-22 120936.png" alt="SOCOTEC Logo">
+        <img src="imgs/images-removebg-preview.png" alt="Freedom of Information">
+        <img src="imgs/images-removebg-preview (1).png" alt="Philippine Transparency Seal">
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-right">
+      <div class="footer-uep-logo">
+        <img src="imgs/logo.png" alt="UEP Logo">
+      </div>
+      <div class="footer-uep-text">
+        <h3>UNIVERSITY OF EASTERN PHILIPPINES</h3>
+        <p>University Town, Northern Samar</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-links">
+    <a href="https://ueplms.net/studentportal/">UEP Student Portal</a>
+    <a href="https://www.facebook.com/UEPOfficialFBPage">Official Facebook Page</a>
+    <a href="http://uep.edu.ph/certificate-of-program-compliance/">UEP COPC</a>
+    <a href="https://emailmg.ipage.com/roundcube/">UEP Official Webmail</a>
+  </div>
+
+  <div class="footer-bottom">
+    Copyright © 2025 University of Eastern Philippines
+  </div>
+</footer>
+ <script>
+  const scrollContainer = document.querySelector('.events-container');
+  const leftArrow = document.querySelector('.left-arrow');
+  const rightArrow = document.querySelector('.right-arrow');
+
+  rightArrow.addEventListener('click', () => {
+    scrollContainer.scrollLeft += 350;
+  });
+
+  leftArrow.addEventListener('click', () => {
+    scrollContainer.scrollLeft -= 350;
+  });
+
+  const officersStrip = document.getElementById('officers-strip');
+  const officerLeft = document.querySelector('.officer-left-arrow');
+  const officerRight = document.querySelector('.officer-right-arrow');
+
+  officerRight.addEventListener('click', () => {
+    officersStrip.scrollLeft += 320;
+  });
+
+  officerLeft.addEventListener('click', () => {
+    officersStrip.scrollLeft -= 320;
+  });
+</script>
+</body>
+</html>

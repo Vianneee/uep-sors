@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+ 
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inria Sans', Arial, sans-serif; background: #ffffff; display: flex; flex-direction: column; min-height: 100vh; }
+
+    .site-header { width: 100%; position: sticky; top: 0; z-index: 999; }
+    .top-dark { background: #131045; height: 42px; }
+    .top-blue { background: #22204F; height: 12px; position: relative; }
+    .top-yellow { background: #FFD700; height: 12px; }
+    .top-white { background: #ffffff; height: 80px; position: relative; display: flex; align-items: center; justify-content: flex-end; padding-right: 80px; }
+    .logo-circle { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 70px; height: 70px; border-radius: 50%; background: url("imgs/logo.png") center/cover no-repeat; }
+    .top-separator { background: #131045; height: 15px; }
+    .nav-links { display: flex; gap: 60px; }
+    .nav-links a { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.04em; color: #000; text-decoration: none; transition: color 0.2s ease; }
+    .nav-links a:hover { color: #FFD700; }
+
+    /* Title Section */
+    .title-section { margin-top: 60px; display: flex; align-items: center; justify-content: center; gap: 24px; }
+    .title-line { display: inline-block; width: 542px; height: 22px; background: #131045; }
+    .title-box { background: #22204F; border-radius: 20px; padding: 10px 70px; position: relative; }
+    .title-box h1 { font-size: 32px; line-height: 40px; font-weight: 700; color: #F5D83F; font-family: 'Inria Sans', sans-serif; white-space: nowrap; }
+
+    /* Form */
+    .page-wrap { max-width: 1200px; margin: 40px auto 40px; padding: 0 20px; flex: 1; }
+    .section-box { background: #131045; padding: 30px 40px 40px; margin-bottom: 40px; position: relative; }
+    .section-title { font-weight: 700; font-size: 20px; margin-bottom: 20px; color:#FFD700; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 40px; }
+    .field { margin-bottom: 22px; }
+    label { display: block; font-weight: 700; font-size: 20px; margin-bottom: 6px;color: #ccc; }
+
+    .input-wrap { position: relative; display: flex; align-items: center; }
+    .error-asterisk { color: red; font-size: 20px; font-weight: bold; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: none; pointer-events: none; }
+    .input-field { width: 100%; padding: 10px 14px; border-radius: 20px; border: 2px solid #ccc; font-size: 16px; padding-right: 30px; transition: border-color 0.2s ease; }
+    .input-field.invalid { border-color: red !important; }
+    textarea { width: 100%; padding: 10px 14px; border-radius: 10px; border: 2px solid #ccc; font-size: 16px; resize: vertical; min-height: 170px;font-style: italic; }
+    .note-text { font-size: 23px; line-height: 1.3; margin-bottom: 25px; color: #ffffff; }
+    .facebook-field { max-width: 320px; }
+
+
+    .submit-wrap { margin-top: 20px; text-align: center; }
+    .submit-btn { display: inline-flex; justify-content: center; align-items: center; padding: 10px 24px; width: 153px; height: 53px; border-radius: 24px; border: 3px solid #FFD700; background: #FFD700; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 24px; letter-spacing: -0.05em; color: #050505; cursor: pointer; transition: 0.2s ease; }
+    .submit-btn:hover { background-color: #FFD700; border-color: #22204F; color: #22204F; transform: translateY(-1px); }
+
+    #back-btn { 
+      display: block;
+      margin: 10px 1100px auto;
+      width: 153px; 
+      height: 53px; 
+      border-radius: 24px; 
+      border: 3px solid #FFD700; 
+      background: #FFD700; 
+
+      font-weight: 500; 
+      font-size: 24px; 
+      color: #050505; 
+      cursor: pointer; 
+      transition: 0.2s ease;
+    }
+    #back-btn:hover { background-color: #FFD700; border-color: #22204F; color: #22204F; transform: translateY(-1px); }
+
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .notif-outer {
+      background: #131045;
+      border-radius: 22px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      max-width: 600px;
+      text-align: center;
+    }
+    .notif-title { font-weight: 700; font-size: 28px; color: #fff; }
+    .notif-inner {
+      background: #FFD700;
+      border-radius: 22px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .notif-text { font-weight: 700; font-size: 18px; color: #000; line-height: 1.6; }
+    .notif-text.italic { font-style: italic; }
+    .back-popup-btn { margin-top: 10px; padding: 10px 20px; border-radius: 24px; border: none; font-size: 18px; font-weight: 500; background: #FFD700; cursor: pointer; color: #000; transition: 0.2s; }
+    .back-popup-btn:hover { filter: brightness(0.95); }
+
+    @media (max-width: 1100px) { .title-line { display: none; } }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } .nav-links { gap: 30px; } .top-white { padding-right: 20px; } }
+    @media (max-width: 768px) { .section-box { padding: 20px 20px 30px; } .title-box h1 { font-size: 24px; } label { font-size: 18px; } }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="top-dark"></div>
+    <div class="top-blue"></div>
+    <div class="top-yellow"></div>
+    <div class="top-white">
+        <div class="logo-circle"></div>
+        <nav class="nav-links">
+            <a href="dashboard.html">HOME</a>
+            <a href="org.html">ORGANIZATION</a>
+            <a href="regu.html">REGULATIONS</a>
+        </nav>
+    </div>
+    <div class="top-separator"></div>
+</header>
+
+<section class="applicants-section">
+    <h1 class="applicants-title">APPLICANTS</h1>
+    <div class="title-underline"></div>
+</section>
+
+<div class="form-container">
+<form>
+
+<section class="section-box">
+<h2 class="section-title">Student Information</h2>
+<div class="grid-2">
+<div class="field"><label>Full Name</label><input class="input-field" value="Juan Dela Cruz" readonly></div>
+<div class="field"><label>Student Number</label><input class="input-field" value="245808" readonly></div>
+<div class="field"><label>Program / Course</label><input class="input-field" value="BS Information Technology" readonly></div>
+<div class="field"><label>Year Level</label><input class="input-field" value="2nd Year" readonly></div>
+<div class="field"><label>Email Address</label><input class="input-field" value="JuanDelaCruz04@gmail.com" readonly></div>
+<div class="field"><label>Contact Number</label><input class="input-field" value="0912345678" readonly></div>
+</div>
+</section>
+
+<section class="section-box">
+<h2 class="section-title">Tell Us About Yourself</h2>
+<div class="field"><label>Why do you want to join this organization?</label><textarea readonly>Lorem ipsum dolor sit amet consectetur adipiscing elit. Iaculis massa nisl malesuada lacinia integer nunc posuere. Nulla molestie mattis scelerisque maximus eget fermentum odio. Ligula congue sollicitudin erat viverra ac tincidunt nam.</textarea></div>
+<div class="field"><label>What skills or talent can you contribute?</label><textarea readonly>Lorem ipsum dolor sit amet consectetur adipiscing elit. Iaculis massa nisl malesuada lacinia integer nunc posuere. Nulla molestie mattis scelerisque maximus eget fermentum odio. Ligula congue sollicitudin erat viverra ac tincidunt nam.</textarea></div>
+<div class="field"><label>Previous Organization experience (if any)</label><textarea readonly>Lorem ipsum dolor sit amet consectetur adipiscing elit. Iaculis massa nisl malesuada lacinia integer nunc posuere. Nulla molestie mattis scelerisque maximus eget fermentum odio. Ligula congue sollicitudin erat viverra ac tincidunt nam.</textarea></div>
+</section>
+
+<section class="section-box">
+<p class="note-text">Facebook Link</p>
+<div class="fb-wrapper">
+<input id="fbLink" class="facebook-link-input" value="https://facebook.com/juan.delacruz" readonly>
+<span class="copy-icon" onclick="copyFB()">📋</span>
+</div>
+
+<div style="display:flex; justify-content:flex-end; margin-top:30px;">
+<button type="button" class="back-btn" onclick="history.back()">BACK</button>
+</div>
+</section>
+
+</form>
+</div>
+
+<script>
+function copyFB() {
+  navigator.clipboard.writeText(document.getElementById("fbLink").value);
+}
+</script>
+
+</body>
+</html>

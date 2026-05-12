@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+ 
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inria Sans', Arial, sans-serif; background: #ffffff; display: flex; flex-direction: column; min-height: 100vh; }
+
+    .site-header { width: 100%; position: sticky; top: 0; z-index: 999; }
+    .top-dark { background: #131045; height: 42px; }
+    .top-blue { background: #22204F; height: 12px; position: relative; }
+    .top-yellow { background: #FFD700; height: 12px; }
+    .top-white { background: #ffffff; height: 80px; position: relative; display: flex; align-items: center; justify-content: flex-end; padding-right: 80px; }
+    .logo-circle { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 70px; height: 70px; border-radius: 50%; background: url("imgs/logo.png") center/cover no-repeat; }
+    .top-separator { background: #131045; height: 15px; }
+    .nav-links { display: flex; gap: 60px; }
+    .nav-links a { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.04em; color: #000; text-decoration: none; transition: color 0.2s ease; }
+    .nav-links a:hover { color: #FFD700; }
+
+    .title-section { margin-top: 60px; display: flex; align-items: center; justify-content: center; gap: 24px; }
+    .title-line { display: inline-block; width: 542px; height: 22px; background: #131045; }
+    .title-box { background: #22204F; border-radius: 20px; padding: 10px 70px; position: relative; }
+    .title-box h1 { font-size: 32px; line-height: 40px; font-weight: 700; color: #F5D83F; font-family: 'Inria Sans', sans-serif; white-space: nowrap; }
+
+    .page-wrap { max-width: 1200px; margin: 40px auto 40px; padding: 0 20px; flex: 1; }
+    .section-box { background: #131045; padding: 30px 40px 40px; margin-bottom: 40px; position: relative; }
+    .section-title { font-weight: 700; font-size: 20px; margin-bottom: 20px; color:#FFD700; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 40px; }
+    .field { margin-bottom: 22px; }
+    label { display: block; font-weight: 700; font-size: 20px; margin-bottom: 6px;color: #ccc; }
+
+    .input-wrap { position: relative; display: flex; align-items: center; }
+    .error-asterisk { color: red; font-size: 20px; font-weight: bold; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: none; pointer-events: none; }
+    .input-field { width: 100%; padding: 10px 14px; border-radius: 20px; border: 2px solid #ccc; font-size: 16px; padding-right: 30px; transition: border-color 0.2s ease; }
+    .input-field.invalid { border-color: red !important; }
+    textarea { width: 100%; padding: 10px 14px; border-radius: 10px; border: 2px solid #ccc; font-size: 16px; resize: vertical; min-height: 170px;font-style: italic; }
+    .note-text { font-size: 23px; line-height: 1.3; margin-bottom: 25px; color: #ffffff; }
+    .facebook-field { max-width: 320px; }
+
+    .submit-wrap { margin-top: 20px; text-align: center; }
+    .submit-btn { display: inline-flex; justify-content: center; align-items: center; padding: 10px 24px; width: 153px; height: 53px; border-radius: 24px; border: 3px solid #FFD700; background: #FFD700; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 24px; letter-spacing: -0.05em; color: #050505; cursor: pointer; transition: 0.2s ease; }
+    .submit-btn:hover { background-color: #FFD700; border-color: #22204F; color: #22204F; transform: translateY(-1px); }
+
+    #back-btn { 
+      display: block;
+      margin: 10px 1100px auto;
+      width: 153px; 
+      height: 53px; 
+      border-radius: 24px; 
+      border: 3px solid #FFD700; 
+      background: #FFD700; 
+      font-weight: 500; 
+      font-size: 24px; 
+      color: #050505; 
+      cursor: pointer; 
+      transition: 0.2s ease;
+    }
+    #back-btn:hover { background-color: #FFD700; border-color: #22204F; color: #22204F; transform: translateY(-1px); }
+
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .notif-outer {
+      background: #131045;
+      border-radius: 22px;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      max-width: 600px;
+      text-align: center;
+    }
+    .notif-title { font-weight: 700; font-size: 28px; color: #fff; }
+    .notif-inner {
+      background: #FFD700;
+      border-radius: 22px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .notif-text { font-weight: 700; font-size: 18px; color: #000; line-height: 1; }
+   
+.popup-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 4px;
+  width: 153px;
+  height: 53px;
+  border-radius: 24px;
+  border: 3px solid #FFD700;
+  background: #FFD700;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #131045;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.popup-btn:hover {
+  background-color: #FFC700;
+  color: #131045;
+  transform: translateY(-1px);
+}
+
+    @media (max-width: 1100px) { .title-line { display: none; } }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } .nav-links { gap: 30px; } .top-white { padding-right: 20px; } }
+    @media (max-width: 768px) { .section-box { padding: 20px 20px 30px; } .title-box h1 { font-size: 24px; } label { font-size: 18px; } }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="top-dark"></div>
+    <div class="top-blue"></div>
+    <div class="top-yellow"></div>
+    <div class="top-white">
+        <div class="logo-circle"></div>
+        <nav class="nav-links">
+            <a href="dashboard.html">HOME</a>
+            <a href="org.html">ORGANIZATION</a>
+            <a href="regu.html">REGULATIONS</a>
+        </nav>
+    </div>
+    <div class="top-separator"></div>
+</header>
+
+<section class="title-section">
+    <span class="title-line"></span>
+    <div class="title-box"><h1>REGISTRATION FORM</h1></div>
+    <span class="title-line"></span>
+</section>
+
+<form class="page-wrap" id="regForm">
+  <section class="section-box">
+    <h2 class="section-title"><i>Student Information</i></h2>
+    <div class="grid-2">
+      <div class="field">
+        <label for="full-name">Full Name</label>
+        <div class="input-wrap">
+          <span class="error-asterisk">*</span>
+          <input id="full-name" type="text" name="full_name" required pattern="[A-Za-z\s]+" class="input-field">
+        </div>
+      </div>
+      <div class="field">
+        <label for="student-number">Student Number</label>
+        <div class="input-wrap">
+          <span class="error-asterisk">*</span>
+          <input id="student-number" type="text" name="student_number" required pattern="[0-9]{6}" maxlength="6" class="input-field">
+        </div>
+      </div>
+      <div class="field">
+        <label for="program">Program/Course</label>
+        <div class="input-wrap">
+          <span class="error-asterisk">*</span>
+          <input id="program" type="text" name="program" required pattern="[A-Za-z\s]+" class="input-field">
+        </div>
+      </div>
+      <div class="field">
+        <label for="year-level">Year Level</label>
+        <div class="input-wrap">
+          <span class="error-asterisk">*</span>
+          <input id="year-level" type="text" name="year_level" required pattern="[0-9]+" class="input-field">
+        </div>
+      </div>
+      <div class="field">
+        <label for="email">Email Address</label>
+        <div class="input-wrap">
+          <span class="error-asterisk">*</span>
+          <input id="email" type="email" name="email" required pattern="[^@\s]+@[^@\s]+\.[^@\s]+" class="input-field">
+        </div>
+      </div>
+      <div class="field">
+        <label for="contact">Contact Number</label>
+        <div class="input-wrap">
+          <span class="error-asterisk">*</span>
+          <input id="contact" type="text" name="contact" required pattern="[0-9]{11}" maxlength="11" class="input-field">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <h2 class="section-title"><i>Tell Us About Yourself</i></h2>
+    <div class="field">
+      <label for="why-join">Why do you want to join this organization?</label>
+      <textarea id="why-join" name="why_join" placeholder="Share your interest and motivation..." required></textarea>
+    </div>
+    <div class="field">
+      <label for="skills">What skills or talent can you contribute?</label>
+      <textarea id="skills" name="skills" placeholder="Leadership, design, communication etc.." required></textarea>
+    </div>
+    <div class="field">
+      <label for="experience">Previous organization experience (if any)</label>
+      <textarea id="experience" name="experience" placeholder="List any organization you've joined before..."></textarea>
+    </div>
+  </section>
+
+  <section class="section-box">
+    <p class="note-text">Once you submit this form, please check your email and phone regularly for confirmation.</p>
+    <p class="note-text">Provide your Facebook profile link for group chat updates.</p>
+    <div class="field facebook-field">
+      <label for="facebook-link">Facebook Link</label>
+      <input id="facebook-link" type="text" name="facebook_link">
+    </div>
+
+    <div class="submit-wrap">
+      <button type="submit" class="submit-btn">SUBMIT</button>
+    </div>
+  </section>
+</form>
+
+<button type="button" id="back-btn">BACK</button>
+
+<div id="popup" class="popup-overlay">
+  <div class="notif-outer">
+    <h2 class="notif-title">Application Successfully Submitted!</h2>
+    <div class="notif-inner">
+     
+      <p class="notif-text">
+        We have successfully reviewed your entry. Please allow time for our team to review it and send an official acknowledgment via email 
+      </p>
+    </div>
+    <button class="submit-btn" onclick="closePopup()">Back</button>
+  </div>
+</div>
+
+<div id="back-popup" class="popup-overlay">
+  <div class="notif-outer" style="max-width: 600px; padding: 36px; background: #131045; border-radius: 22px; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+    
+    <div class="notif-inner" style="flex-direction: column; gap: 30px; padding: 36px;">
+      <p class="notif-text" style="font-size: 24px; font-weight: 700; color: #000; text-align: center;">
+        Leaving this page will discard all entered information. Do you wish to continue?
+      </p>
+    </div>
+
+    <div style="display: flex; justify-content: space-around; gap: 20px; width: 100%;  padding: 20px; border-radius: 0 0 22px 22px;">
+      <button id="stay-btn-fgma" class="popup-btn">Stay on Page</button>
+      <button id="leave-btn-fgma" class="popup-btn">Leave Page</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('regForm');
+  const inputs = form.querySelectorAll(".input-field");
+
+  inputs.forEach(input => {
+    const asterisk = input.parentElement.querySelector(".error-asterisk");
+    input.addEventListener("input", () => {
+      if (input.checkValidity()) {
+        input.classList.remove("invalid");
+        asterisk.style.display = "none";
+      } else {
+        input.classList.add("invalid");
+        asterisk.style.display = "inline";
+      }
+    });
+  });
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    let valid = true;
+    inputs.forEach(input => {
+      const asterisk = input.parentElement.querySelector(".error-asterisk");
+      if (!input.checkValidity()) {
+        input.classList.add("invalid");
+        asterisk.style.display = "inline";
+        valid = false;
+      }
+    });
+    if(valid) showPopup();
+  });
+
+  function showPopup() { document.getElementById('popup').style.display = 'flex'; }
+  function closePopup() { document.getElementById('popup').style.display = 'none'; }
+
+  const backBtn = document.getElementById('back-btn');
+  const backPopup = document.getElementById('back-popup');
+  const stayBtnFgma = document.getElementById('stay-btn-fgma');
+  const leaveBtnFgma = document.getElementById('leave-btn-fgma');
+
+  backBtn.addEventListener('click', () => { backPopup.style.display = 'flex'; });
+  stayBtnFgma.addEventListener('click', () => { backPopup.style.display = 'none'; });
+  leaveBtnFgma.addEventListener('click', () => { window.location.href='dashboard.html'; });
+</script>
+
+</body>
+</html>

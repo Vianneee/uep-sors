@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USC, CSC PIOs joins 4th Pagsubay</title>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inria Sans', sans-serif;
+      background: #ffffff;
+    }
+
+    .top-dark {
+      background: #131045;
+      height: 42px;
+    }
+    .top-blue {
+      background: #22204F;
+      height: 12px;
+    }
+    .top-yellow {
+      background: #FFD700;
+      height: 12px;
+    }
+
+    .top-white {
+      background: #ffffff;
+      height: 80px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 80px;
+    }
+
+    .logo-circle {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: url("imgs/logo.png") center/cover no-repeat;
+    }
+  .top-separator {
+            background: #131045;
+            height: 8px;
+        }
+    .nav-links {
+      display: flex;
+      gap: 60px;
+    }
+
+    .nav-links a {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #FFD700;
+    }
+
+    .top-separator {
+      background: #131045;
+      height: 8px;
+    }
+
+    .page {
+      max-width: 1336px;
+      min-height: 1700px;
+      margin: 0 auto;
+      background: #ffffff;
+      position: relative;
+    }
+
+    .title {
+      width: 950px;
+      margin: 50px auto 0;
+      font-weight: 700;
+      font-size: 40px;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .title-line {
+      width: 390px;
+      margin: 10px auto 0;
+      border-top: 5px solid #FFE203;
+    }
+
+    .subtitle {
+      width: 619px;
+      margin: 20px auto 0;
+      font-weight: 700;
+      font-size: 18px;
+      text-align: center;
+      color: #131045;
+    }
+
+    .hero-image {
+      width: 976px;
+      height: 534px;
+      margin: 90px auto 0;
+      background: url('imgs/Screenshot 2025-12-15 230827.png') no-repeat center/cover;
+    }
+
+    .article {
+      width: 1190px;
+      margin: 90px auto 0;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 40px;
+    }
+
+    .article p {
+      margin-bottom: 18px;
+      text-align: justify;
+    }
+
+    .back-button-container {
+      text-align: center;
+      margin: 50px 0;
+    }
+
+   .btn-back {
+    padding: 15px 22px;
+    border: 1.5px solid #ffd000;
+    border-radius: 20px;
+    background:#ffd000;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.btn-back:hover {
+    background: #FCE87F;
+    color: #0F0F45;
+}
+
+    .footer {
+      position: relative;
+      background: url('imgs/420519959_751607456923358_7716867889919991985_n.png') center/cover no-repeat;
+      color: #fff;
+      padding: 60px 40px 30px;
+      min-height: 350px;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 82, 0.85);
+      z-index: 1;
+    }
+
+    .footer > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex: 1;
+    }
+
+    .footer-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .footer-logos img {
+      height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .footer-divider {
+      width: 2px;
+      height: 150px;
+      background: #fff;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .footer-uep-logo img {
+      height: 90px;
+      width: auto;
+    }
+
+    .footer-uep-text h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-uep-text p {
+      font-size: 14px;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      flex-wrap: wrap;
+      padding: 30px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: #FFD700;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #FFF;
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, .6);
+    }
+
+    /* Responsive footer */
+    @media (max-width: 1024px) {
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-divider {
+        height: 2px;
+        width: 100%;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="top-dark"></div>
+<div class="top-blue"></div>
+<div class="top-yellow"></div>
+<div class="top-white">
+  <div class="logo-circle"></div>
+  <nav class="nav-links">
+    <a href="dashboard.html">HOME</a>
+    <a href="org.html">ORGANIZATION</a>
+    <a href="regu.html">REGULATIONS</a>
+  </nav>
+</div>
+<div class="top-separator"></div>
+<div class="page">
+   <h1 class="title"> UEP BALANGAW attends KATADUNGAN 2025- Leadership in Motion: From Principles to Practice </h1>
+    <div class="title-line"></div> 
+    <div class="subtitle"> By UEP BALANGAW on November 04, 2025 </div> 
+    <div class="hero-image"></div> 
+    <div class="article">
+      
+       <p>The University Student Council (USC) of the University of Eastern Philippines proudly concluded Katungdanan 2025 Leadership in Motion: From Principles to Practice on October 25 - 26, 2025, held at the UEP White Beach Pavilion, Catarman, Northern Samar. </p>
+        <br>
+       <p> The event served as a vital platform for nurturing the next generation of student leaders.The training was an uplifting blend of insightful sessions and collaborative activities, leaving student leaders with excitement and armed with practical knowledge. </p>
+         <br>
+       <p> UEP Balangaw is proud that members had the distinct privilege of participating in this enriching leadership training. We are confident that the knowledge, skills, and connections gained will significantly contribute to our organization's mission and impact. We eagerly anticipate applying these lessons within our community, fostering a culture of leadership, collaboration, and innovation. </p>
+           <br>
+       <p>Inspired with Robin Sharma's words, "Leadership is not about a title or a designation, It's about impact, influence, and inspiration". </p>
+           </div>
+           </div> 
+            <div class="back-button-container">
+               <a href="dashboard.html"> <button class="btn-back">BACK</button> 
+              </a> 
+            </div>
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <div class="footer-logos">
+        <img src="imgs/Screenshot 2025-11-22 120936.png" alt="SOCOTEC Logo">
+        <img src="imgs/images-removebg-preview.png" alt="Freedom of Information">
+        <img src="imgs/images-removebg-preview (1).png" alt="Philippine Transparency Seal">
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-right">
+      <div class="footer-uep-logo">
+        <img src="imgs/logo.png" alt="UEP Logo">
+      </div>
+      <div class="footer-uep-text">
+        <h3>UNIVERSITY OF EASTERN PHILIPPINES</h3>
+        <p>University Town, Northern Samar</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-links">
+    <a href="https://ueplms.net/studentportal/">UEP Student Portal</a>
+    <a href="https://www.facebook.com/UEPOfficialFBPage">Official Facebook Page</a>
+    <a href="http://uep.edu.ph/certificate-of-program-compliance/">UEP COPC</a>
+    <a href="https://emailmg.ipage.com/roundcube/">UEP Official Webmail</a>
+  </div>
+
+  <div class="footer-bottom">
+    Copyright © 2025 University of Eastern Philippines
+  </div>
+</footer>
+
+
+</body>
+</html>

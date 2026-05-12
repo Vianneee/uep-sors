@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USC, CSC PIOs joins 4th Pagsubay</title>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inria Sans', sans-serif;
+      background: #ffffff;
+    }
+
+    .top-dark {
+      background: #131045;
+      height: 42px;
+    }
+    .top-blue {
+      background: #22204F;
+      height: 12px;
+    }
+    .top-yellow {
+      background: #FFD700;
+      height: 12px;
+    }
+
+    .top-white {
+      background: #ffffff;
+      height: 80px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 80px;
+    }
+
+    .logo-circle {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: url("imgs/logo.png") center/cover no-repeat;
+    }
+  .top-separator {
+            background: #131045;
+            height: 8px;
+        }
+    .nav-links {
+      display: flex;
+      gap: 60px;
+    }
+
+    .nav-links a {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: #FFD700;
+    }
+
+    .top-separator {
+      background: #131045;
+      height: 8px;
+    }
+
+    .page {
+      max-width: 1336px;
+      min-height: 1700px;
+      margin: 0 auto;
+      background: #ffffff;
+      position: relative;
+    }
+
+    .title {
+      width: 840px;
+      margin: 50px auto 0;
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .title-line {
+      width: 390px;
+      margin: 10px auto 0;
+      border-top: 5px solid #FFE203;
+    }
+
+    .subtitle {
+      width: 619px;
+      margin: 20px auto 0;
+      font-weight: 700;
+      font-size: 18px;
+      text-align: center;
+      color: #131045;
+    }
+
+    .hero-image {
+      width: 976px;
+      height: 534px;
+      margin: 90px auto 0;
+      background: url('imgs/event3.jpg') no-repeat center/cover;
+    }
+
+    .article {
+      width: 1190px;
+      margin: 90px auto 0;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 40px;
+    }
+
+    .article p {
+      margin-bottom: 18px;
+      text-align: justify;
+    }
+
+    .back-button-container {
+      text-align: center;
+      margin: 50px 0;
+    }
+
+   .btn-back {
+    padding: 15px 22px;
+    border: 1.5px solid #ffd000;
+    border-radius: 20px;
+    background:#ffd000;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.btn-back:hover {
+    background: #FCE87F;
+    color: #0F0F45;
+}
+
+    .footer {
+      position: relative;
+      background: url('imgs/420519959_751607456923358_7716867889919991985_n.png') center/cover no-repeat;
+      color: #fff;
+      padding: 60px 40px 30px;
+      min-height: 350px;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 82, 0.85);
+      z-index: 1;
+    }
+
+    .footer > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex: 1;
+    }
+
+    .footer-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .footer-logos img {
+      height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .footer-divider {
+      width: 2px;
+      height: 150px;
+      background: #fff;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .footer-uep-logo img {
+      height: 90px;
+      width: auto;
+    }
+
+    .footer-uep-text h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-uep-text p {
+      font-size: 14px;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      flex-wrap: wrap;
+      padding: 30px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: #FFD700;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #FFF;
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, .6);
+    }
+
+    /* Responsive footer */
+    @media (max-width: 1024px) {
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-divider {
+        height: 2px;
+        width: 100%;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="top-dark"></div>
+<div class="top-blue"></div>
+<div class="top-yellow"></div>
+<div class="top-white">
+  <div class="logo-circle"></div>
+  <nav class="nav-links">
+    <a href="dashboard.html">HOME</a>
+    <a href="org.html">ORGANIZATION</a>
+    <a href="regu.html">REGULATIONS</a>
+  </nav>
+</div>
+<div class="top-separator"></div>
+<div class="page">
+   <h1 class="title"> USC, CSC PIOs joins 4th Pagsubay: A Journalism Skills Training </h1>
+    <div class="title-line"></div> 
+    <div class="subtitle"> By University Student Council - UEP Main Campus on October 30, 2025 </div> 
+    <div class="hero-image"></div> 
+    <div class="article">
+       <p> USC, CSC PIOs joins 4th Pagsubay: A Journalism Skills Training </p> 
+       <br>
+       <p> University Student Council (USC) and College Student Council (CSC) Public Information Officers along with campus student journalists participated in the 4th Pagsubay: A Journalism Skills Training organized by The Pillar, on October 27–30, held at UEP Centennial Hall and Farmer's Training Center. </p>
+        <br>
+       <p> The four-day event was attended by Glaiza MJ Camacho, USC PIO; Grythel Banayag, CAC SC PIO; Angel Joy Reyes, CAFNR SC PIO; Kleint Cajeme, CBA SC PIO; Kimverly Igat, CCJ SC PIO; and Rowel Dela Cruz, USC PIO of PRMC, which involved workshops and sessions in writing, photojournalism, videography, and broadcasting, equipping them with skills that are essential for their roles in public relations and releasing council reports.  This also served as an avenue for PIOs to broaden their knowledge in both technicalities and applications, laying the foundation for a responsible, action-driven dissemination of information. </p>
+         <br>
+       <p> During the culmination of the event, PIOs bagged the third placer in Editorial Writing with its piece titled "Deferral of UEPAA: Benefit in Disguise," highlighting its stance with the postponement of this year's UEPAA Games. </p>
+           <br>
+       <p> Building on this experience, the USC PIO with its committee is set to revive The Crier, the official publication of the USC, looking forward to making it part of next year's training. </p>
+           </div>
+           </div> 
+   
+            <div class="back-button-container">
+               <a href="dashboard.html"> <button class="btn-back">BACK</button> 
+              </a> 
+            </div>
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <div class="footer-logos">
+        <img src="imgs/Screenshot 2025-11-22 120936.png" alt="SOCOTEC Logo">
+        <img src="imgs/images-removebg-preview.png" alt="Freedom of Information">
+        <img src="imgs/images-removebg-preview (1).png" alt="Philippine Transparency Seal">
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-right">
+      <div class="footer-uep-logo">
+        <img src="imgs/logo.png" alt="UEP Logo">
+      </div>
+      <div class="footer-uep-text">
+        <h3>UNIVERSITY OF EASTERN PHILIPPINES</h3>
+        <p>University Town, Northern Samar</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-links">
+    <a href="https://ueplms.net/studentportal/">UEP Student Portal</a>
+    <a href="https://www.facebook.com/UEPOfficialFBPage">Official Facebook Page</a>
+    <a href="http://uep.edu.ph/certificate-of-program-compliance/">UEP COPC</a>
+    <a href="https://emailmg.ipage.com/roundcube/">UEP Official Webmail</a>
+  </div>
+
+  <div class="footer-bottom">
+    Copyright © 2025 University of Eastern Philippines
+  </div>
+</footer>
+
+
+</body>
+</html>

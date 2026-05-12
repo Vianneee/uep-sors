@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizations</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inria Sans', Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .site-header {
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .top-dark {
+            background: #131045;
+            height: 42px;
+        }
+ .top-blue {
+            background: #22204F;
+            height: 12px;
+        }
+        .top-yellow {
+            background: #FFD700;
+            height: 12px;
+        }
+
+        .top-white {
+            background: #ffffff;
+            height: 80px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 80px;
+        }
+
+        .logo-circle {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: url("imgs/logo.png") center/cover no-repeat;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 60px;
+        }
+
+        .nav-links a {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.04em;
+            color: #000000;
+            text-decoration: none;
+            transition: 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: #FFD700;
+        }
+
+        .top-separator {
+            background: #131045;
+            height: 15px;
+        }
+.page-title {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 60px;
+    font-weight: 600;
+    color: #0F0F45;
+    margin-top: 45px;
+    letter-spacing: 3px;
+}
+
+        .events-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 40px 80px;
+            max-width: 1300px;
+            margin: 10px auto;
+        }
+
+        .event-card {
+            background: #0F0F45;
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 400px;
+            transition: 0.3s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .event-img {
+            width: 140px;
+            height: 140px;
+            background: white;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .event-title {
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+
+        .event-btn {
+            padding: 10px 22px;
+            border: 3px solid #ffd000;
+            border-radius: 20px;
+            color: white;
+            background: transparent;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .event-btn:hover {
+            background: #ffd000;
+            color: #0F0F45;
+        }
+.back-button-container {
+      text-align: center;
+      margin: 50px 0;
+    }
+
+   .btn-back {
+    padding: 15px 22px;
+    border: 1.5px solid #ffd000;
+    border-radius: 20px;
+    background:#ffd000;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.btn-back:hover {
+    background: #FCE87F;
+    color: #0F0F45;
+    }
+       .footer {
+            position: relative;
+            background: url('imgs/420519959_751607456923358_7716867889919991985_n.png') center/cover no-repeat;
+            color: #fff;
+            padding: 60px 40px 30px;
+            min-height: 350px;
+            margin-top: auto;
+        }
+        .footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26,26,82,0.85); z-index: 1; }
+        .footer > * { position: relative; z-index: 2; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 40px; margin-bottom: 50px; }
+        .footer-left { display: flex; align-items: center; justify-content: center; gap: 40px; flex: 1; }
+        .footer-logos { display: flex; align-items: center; justify-content: center; gap: 40px; }
+        .footer-logos img { height: 120px; width: auto; object-fit: contain; }
+        .footer-divider { width: 2px; height: 150px; background: #fff; }
+        .footer-right { display: flex; align-items: center; gap: 30px; }
+        .footer-uep-logo img { height: 90px; width: auto; }
+        .footer-uep-text { text-align: left; }
+        .footer-uep-text h3 { font-size: 24px; font-weight: 700; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .footer-uep-text p { font-size: 14px; font-weight: 400; opacity: 0.9; }
+        .footer-links { display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; padding: 30px 0; border-top: 1px solid rgba(255,255,255,0.3); max-width: 1400px; margin: 0 auto; }
+        .footer-links a { text-decoration: none; color: #FFD700; font-weight: 600; font-size: 15px; transition: 0.2s; }
+        .footer-links a:hover { color: #FFF; text-decoration: underline; }
+        .footer-bottom { text-align: center; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.6); }
+
+        @media (max-width: 1024px) { .footer-content { flex-direction: column; text-align: center; } .footer-divider { height: 2px; width: 100%; } .footer-links { gap: 40px; } }
+        @media (max-width: 768px) { .events-container { padding: 30px 20px; gap: 30px; } .footer-links { flex-direction: column; gap: 20px; } .nav-links { gap: 30px; } .top-white { padding-right: 20px; } }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="top-dark"></div>
+    <div class="top-blue"></div>
+    <div class="top-yellow"></div>
+    <div class="top-white">
+        <div class="logo-circle"></div>
+        <nav class="nav-links">
+            <a href="dashboard.html">HOME</a>
+            <a href="org.html">ORGANIZATION</a>
+            <a href="regu.html">REGULATIONS</a>
+        </nav>
+    </div>
+    <div class="top-separator"></div>
+</header>
+
+<h1 class="page-title">ORGANIZATIONS</h1>
+
+<div class="events-container">
+    <div class="event-card">
+        <img src="imgs/balangaw.jpg" alt="BALANGAW" class="event-img">
+        <div class="event-title">Balangaw</div>
+        <a href="orgdetails.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+    <div class="event-card">
+        <img src="imgs/upao.jpg" alt="UPAO" class="event-img">
+        <div class="event-title">University Performing Arts Organization (UPAO)</div>
+        <a href="upao.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+    <div class="event-card">
+        <img src="imgs/cmo.jpg" alt="Organization 3" class="event-img">
+        <div class="event-title">Campus Ministry Organization (CMO)</div>
+        <a href="cmo.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+    <div class="event-card">
+        <img src="imgs/redcross.jpg" alt="redcross" class="event-img">
+        <div class="event-title">Red Cross Youth</div>
+        <a href="org4.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+    <div class="event-card">
+        <img src="imgs/esans.jpg" alt="Organization 5" class="event-img">
+        <div class="event-title">Eagle Scout Orgzanization of Northern Samar(ESANAS)</div>
+        <a href="org5.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+    <div class="event-card">
+        <img src="imgs/bayanihan.png" alt="Bayanihan Youth For Peace" class="event-img">
+        <div class="event-title">Bayanihan Youth For Peace</div>
+        <a href="org6.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+   <div class="event-card">
+        <img src="imgs/upsilon.jpg" alt="Bayanihan Youth For Peace" class="event-img">
+        <div class="event-title">Upsilon Phi Sigma</div>
+        <a href="org6.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+ <div class="event-card">
+        <img src="imgs/cfc.jpg" alt="Bayanihan Youth For Peace" class="event-img">
+        <div class="event-title">CFC-Youth for Christ</div>
+        <a href="org6.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+<div class="event-card">
+        <img src="imgs/leysam.jpg" alt="Bayanihan Youth For Peace" class="event-img">
+        <div class="event-title">Leyte Samar Student Organizaion(LEYSAM)</div>
+        <a href="org6.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+ <div class="event-card">
+        <img src="imgs/sanag.jpg" alt="Bayanihan Youth For Peace" class="event-img">
+        <div class="event-title">Sinag ng Hilaga</div>
+        <a href="org6.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+ <div class="event-card">
+        <img src="imgs/kappa.jpg" alt="Bayanihan Youth For Peace" class="event-img">
+        <div class="event-title">Kappa Nu Gamma</div>
+        <a href="org6.html" class="event-btn">LEARN MORE</a>
+    </div>
+
+ <div class="event-card">
+        <img src="imgs/pesa.jpg" alt="Bayanihan Youth For Peace" class="event-img">
+        <div class="event-title">Physical Education Student Association(PESA)</div>
+        <a href="org6.html" class="event-btn">LEARN MORE</a>
+    </div>
+</div>
+<div class="back-button-container">
+               <a href="dashboard.html"> <button class="btn-back">BACK</button> 
+              </a> 
+            </div>
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <div class="footer-logos">
+        <img src="imgs/Screenshot 2025-11-22 120936.png" alt="SOCOTEC Logo">
+        <img src="imgs/images-removebg-preview.png" alt="Freedom of Information">
+        <img src="imgs/images-removebg-preview (1).png" alt="Philippine Transparency Seal">
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-right">
+      <div class="footer-uep-logo">
+        <img src="imgs/logo.png" alt="UEP Logo">
+      </div>
+      <div class="footer-uep-text">
+        <h3>UNIVERSITY OF EASTERN PHILIPPINES</h3>
+        <p>University Town, Northern Samar</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-links">
+    <a href="https://ueplms.net/studentportal/">UEP Student Portal</a>
+    <a href="https://www.facebook.com/UEPOfficialFBPage">Official Facebook Page</a>
+    <a href="http://uep.edu.ph/certificate-of-program-compliance/">UEP COPC</a>
+    <a href="https://emailmg.ipage.com/roundcube/">UEP Official Webmail</a>
+  </div>
+
+  <div class="footer-bottom">
+    Copyright © 2025 University of Eastern Philippines
+  </div>
+</footer>
+
+</body>
+</html>

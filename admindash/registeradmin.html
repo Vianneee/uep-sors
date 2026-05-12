@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applicants Registration</title>
+
+
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --dark-blue: #131045;
+    --yellow: #FFE203;
+    --light-yellow: #FFD700;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 2800px;
+}
+
+/* ===== HEADER ===== */
+.site-header { width: 100%; position: sticky; top: 0; z-index: 999; }
+.top-dark { background: var(--dark-blue); height: 42px; }
+.top-blue { background: #22204F; height: 12px; }
+.top-yellow { background: var(--light-yellow); height: 12px; }
+.top-white {
+    background: var(--white);
+    height: 80px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 80px;
+}
+.logo-circle {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--dark-blue);
+}
+.top-separator { background: var(--dark-blue); height: 15px; }
+
+.nav-links {
+    display: flex;
+    gap: 60px;
+}
+.nav-links a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: #000;
+    text-decoration: none;
+}
+.nav-links a:hover { color: var(--light-yellow); }
+
+/* ===== TITLE ===== */
+.applicants-section {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.applicants-title {
+    font-size: 80px;
+    font-weight: 700;
+    color: var(--dark-blue);
+}
+
+.title-underline {
+    width: 311px;
+    height: 5px;
+    background: var(--yellow);
+    margin: 10px auto 0;
+}
+
+/* ===== FORM ===== */
+.form-container {
+    width: 1208px;
+    margin-top: 80px;
+}
+
+.section-box {
+    background: var(--dark-blue);
+    padding: 30px 40px 40px;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-style: italic;
+    font-weight: 600;
+    font-size: 32px;
+    color: var(--light-yellow);
+    margin-bottom: 30px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 40px;
+}
+
+.field { margin-bottom: 20px; }
+
+label {
+    font-weight: 700;
+    font-size: 24px;
+    color: #fff;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.input-field,
+.facebook-link-input {
+    width: 100%;
+    height: 49px;
+    padding: 10px 50px 10px 17px;
+    border-radius: 18px;
+    border: none;
+    font-size: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 225px;
+    padding: 30px 40px;
+    border-radius: 10px;
+    border: none;
+    resize: none;
+    font-size: 20px;
+}
+
+input[readonly],
+textarea[readonly] {
+    cursor: default;
+    outline: none;
+}
+
+/* NOTE */
+.note-text {
+   
+    font-size: 32px;
+    color: var(--light-yellow);
+    margin-bottom: 20px;
+}
+
+/* FB COPY */
+.fb-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.copy-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* BUTTON */
+.back-btn {
+    width: 153px;
+    height: 53px;
+    border-radius: 24px;
+    background: var(--light-yellow);
+    border: 3px solid var(--light-yellow);
+    font-size: 24px;
+    cursor: pointer;
+}
+.back-btn:hover {
+    border-color: #22204F;
+    color: #22204F;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+    width: 100%;
+    background: var(--dark-blue);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    margin-top: 60px;
+}
+.footer-nav {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+.footer-nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+}
+.footer-nav a:hover { color: var(--light-yellow); }
+.footer-copy {
+    font-size: 14px;
+    color: #ccc;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header">
+    <div class="top-dark"></div>
+    <div class="top-blue"></div>
+    <div class="top-yellow"></div>
+    <div class="top-white">
+        <div class="logo-circle"></div>
+        <nav class="nav-links">
+            <a href="dashboard.html">HOME</a>
+            <a href="org.html">ORGANIZATION</a>
+            <a href="regu.html">REGULATIONS</a>
+        </nav>
+    </div>
+    <div class="top-separator"></div>
+</header>
+
+<!-- ===== TITLE ===== -->
+<section class="applicants-section">
+    <h1 class="applicants-title">APPLICANTS</h1>
+    <div class="title-underline"></div>
+</section>
+
+<div class="form-container">
+<form>
+
+<section class="section-box">
+<h2 class="section-title">Student Information</h2>
+<div class="grid-2">
+<div class="field"><label>Full Name</label><input class="input-field" value="Juan Dela Cruz" readonly></div>
+<div class="field"><label>Student Number</label><input class="input-field" value="245808" readonly></div>
+<div class="field"><label>Program / Course</label><input class="input-field" value="BS Information Technology" readonly></div>
+<div class="field"><label>Year Level</label><input class="input-field" value="2nd Year" readonly></div>
+<div class="field"><label>Email Address</label><input class="input-field" value="JuanDelaCruz04@gmail.com" readonly></div>
+<div class="field"><label>Contact Number</label><input class="input-field" value="0912345678" readonly></div>
+</div>
+</section>
+
+<section class="section-box">
+<h2 class="section-title">Tell Us About Yourself</h2>
+<div class="field"><label>Why do you want to join this organization?</label><textarea readonly>Lorem ipsum dolor sit amet consectetur adipiscing elit. Iaculis massa nisl malesuada lacinia integer nunc posuere. Nulla molestie mattis scelerisque maximus eget fermentum odio. Ligula congue sollicitudin erat viverra ac tincidunt nam.</textarea></div>
+<div class="field"><label>What skills or talent can you contribute?</label><textarea readonly>Lorem ipsum dolor sit amet consectetur adipiscing elit. Iaculis massa nisl malesuada lacinia integer nunc posuere. Nulla molestie mattis scelerisque maximus eget fermentum odio. Ligula congue sollicitudin erat viverra ac tincidunt nam.</textarea></div>
+<div class="field"><label>Previous Organization experience (if any)</label><textarea readonly>Lorem ipsum dolor sit amet consectetur adipiscing elit. Iaculis massa nisl malesuada lacinia integer nunc posuere. Nulla molestie mattis scelerisque maximus eget fermentum odio. Ligula congue sollicitudin erat viverra ac tincidunt nam.</textarea></div>
+</section>
+
+<section class="section-box">
+<p class="note-text">Facebook Link</p>
+<div class="fb-wrapper">
+<input id="fbLink" class="facebook-link-input" value="https://facebook.com/juan.delacruz" readonly>
+<span class="copy-icon" onclick="copyFB()">📋</span>
+</div>
+
+<div style="display:flex; justify-content:flex-end; margin-top:30px;">
+<button type="button" class="back-btn" onclick="history.back()">BACK</button>
+</div>
+</section>
+
+</form>
+</div>
+
+
+<script>
+function copyFB() {
+  navigator.clipboard.writeText(document.getElementById("fbLink").value);
+}
+</script>
+
+</body>
+</html>
