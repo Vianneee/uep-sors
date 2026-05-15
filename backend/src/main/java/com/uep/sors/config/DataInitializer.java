@@ -15,10 +15,7 @@ public class DataInitializer implements CommandLineRunner {
     
     @Override
     public void run(String... args) throws Exception {
-        // Initialize sample registration periods if they don't exist
-        
         if (registrationPeriodRepository.findAll().isEmpty()) {
-            // Sample organization 1 - Registration open
             RegistrationPeriod period1 = RegistrationPeriod.builder()
                     .organizationId(1L)
                     .startDate(LocalDateTime.of(2026, 5, 1, 0, 0))
@@ -28,7 +25,6 @@ public class DataInitializer implements CommandLineRunner {
                     .build();
             registrationPeriodRepository.save(period1);
             
-            // Sample organization 2 - Registration open
             RegistrationPeriod period2 = RegistrationPeriod.builder()
                     .organizationId(2L)
                     .startDate(LocalDateTime.of(2026, 5, 1, 0, 0))
@@ -38,7 +34,6 @@ public class DataInitializer implements CommandLineRunner {
                     .build();
             registrationPeriodRepository.save(period2);
             
-            // Sample organization 3 - Registration closed (for demo)
             RegistrationPeriod period3 = RegistrationPeriod.builder()
                     .organizationId(3L)
                     .startDate(LocalDateTime.of(2026, 4, 1, 0, 0))
@@ -47,10 +42,6 @@ public class DataInitializer implements CommandLineRunner {
                     .description("Music Club - Spring 2026 Recruitment")
                     .build();
             registrationPeriodRepository.save(period3);
-        }
-    }
-}
-            System.out.println("✓ Sample registration periods initialized successfully");
         }
     }
 }

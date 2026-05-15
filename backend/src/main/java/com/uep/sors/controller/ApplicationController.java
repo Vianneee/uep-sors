@@ -17,120 +17,45 @@ import java.util.List;
 @RequestMapping("/applications")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "*", allowedMethods = {"GET", "POST", "PUT", "DELETE"})
+@CrossOrigin(origins = "*")
 public class ApplicationController {
-    
+
     private final ApplicationService applicationService;
-    
-    /**
-     * POST /api/applications
-     * Submit a new application
-     * Validates registration window before accepting submission (FR-2, FR-3)
-     */
+
     @PostMapping
     public ResponseEntity<ApiResponse<Application>> submitApplication(
             @Valid @RequestBody ApplicationSubmissionDTO dto) {
-        
-        log.info("Received application submission request for organization: {}", dto.getOrganizationId());
-        
-        try {
-            Application application = applicationService.submitApplication(dto);
-            
-            ApiResponse<Application> response = ApiResponse.builder()
-                    .success(true)
-                    .message("Application submitted successfully")
-                    .data(application)
-                    .build();
-            
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (Exception ex) {
-            log.error("Error submitting application: {}", ex.getMessage());
-            throw ex;
-        }
+        log.info("Received application submission for organization: {}", dto.getOrganizationId());
+        Application application = applicationService.submitApplication(dto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ApiResponse<>(true, "Application submitted successfully", application));
     }
-    
-    /**
-     * GET /api/applications/{id}
-     * Get application by ID
-     */
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Application>> getApplicationById(@PathVariable Long id) {
-        try {
-            Application application = applicationService.getApplicationById(id);
-            
-            ApiResponse<Application> response = ApiResponse.builder()
-                    .success(true)
-                    .message("Application retrieved successfully")
-                    .data(application)
-                    .build();
-            
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException ex) {
-            log.error("Error retrieving application: {}", ex.getMessage());
-            throw ex;
-        }
+        Application application = applicationService.getApplicationById(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Application retrieved successfully", application));
     }
-    
-    /**
-     * GET /api/applications/organization/{organizationId}
-     * Get all applications for an organization (FR-6)
-     */
+
     @GetMapping("/organization/{organizationId}")
     public ResponseEntity<ApiResponse<List<Application>>> getApplicationsByOrganization(
             @PathVariable Long organizationId) {
-        
         log.info("Fetching applications for organization: {}", organizationId);
-        
         List<Application> applications = applicationService.getApplicationsByOrganization(organizationId);
-        
-        ApiResponse<List<Application>> response = ApiResponse.builder()
-                .success(true)
-                .message("Applications retrieved successfully")
-                .data(applications)
-                .build();
-        
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Applications retrieved successfully", applications));
     }
-    
-    /**
-     * GET /api/applications/student/{studentNumber}
-     * Get all applications for a student
-     */
+
     @GetMapping("/student/{studentNumber}")
     public ResponseEntity<ApiResponse<List<Application>>> getApplicationsByStudent(
             @PathVariable String studentNumber) {
-        
         log.info("Fetching applications for student: {}", studentNumber);
-        
         List<Application> applications = applicationService.getApplicationsByStudent(studentNumber);
-        
-        ApiResponse<List<Application>> response = ApiResponse.builder()
-                .success(true)
-                .message("Applications retrieved successfully")
-                .data(applications)
-                .build();
-        
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Applications retrieved successfully", applications));
     }
-    
-    /**
-     * DELETE /api/applications/{id}
-     * Delete an application (FR-7)
-     */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Object>> deleteApplication(@PathVariable Long id) {
-        try {
-            applicationService.deleteApplication(id);
-            
-            ApiResponse<Object> response = ApiResponse.builder()
-                    .success(true)
-                    .message("Application deleted successfully")
-                    .build();
-            
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException ex) {
-            log.error("Error deleting application: {}", ex.getMessage());
-            throw ex;
-        }
+        applicationService.deleteApplication(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Application deleted successfully"));
     }
 }
