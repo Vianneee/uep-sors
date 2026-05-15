@@ -40,6 +40,131 @@
     .note-text { font-size: 23px; line-height: 1.3; margin-bottom: 25px; color: #ffffff; }
     .facebook-field { max-width: 320px; }
 
+    /* Registration Period Card Styles */
+    .registration-period-card {
+      background: linear-gradient(135deg, #22204F 0%, #131045 100%);
+      border-radius: 20px;
+      padding: 30px 40px;
+      margin-bottom: 40px;
+      border: 3px solid #FFD700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .period-status {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .status-indicator {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .status-indicator.open {
+      background-color: #4CAF50;
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+    }
+
+    .status-indicator.closed {
+      background-color: #FF6B6B;
+      box-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .status-text {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .status-label {
+      font-weight: 700;
+      font-size: 16px;
+      color: #ccc;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .status-value {
+      font-weight: 700;
+      font-size: 28px;
+      color: #FFD700;
+    }
+
+    .status-value.open {
+      color: #4CAF50;
+    }
+
+    .status-value.closed {
+      color: #FF6B6B;
+    }
+
+    .period-info {
+      display: flex;
+      gap: 40px;
+      flex: 1;
+      flex-wrap: wrap;
+      min-width: 300px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .info-label {
+      font-weight: 700;
+      font-size: 14px;
+      color: #ccc;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .info-value {
+      font-weight: 700;
+      font-size: 18px;
+      color: #FFD700;
+    }
+
+    .closed-message {
+      background: rgba(255, 107, 107, 0.1);
+      border: 2px solid #FF6B6B;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 40px;
+      text-align: center;
+      display: none;
+    }
+
+    .closed-message.show {
+      display: block;
+    }
+
+    .closed-message p {
+      color: #FF6B6B;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .form-disabled {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
     .submit-wrap { margin-top: 20px; text-align: center; }
     .submit-btn { display: inline-flex; justify-content: center; align-items: center; padding: 10px 24px; width: 153px; height: 53px; border-radius: 24px; border: 3px solid #FFD700; background: #FFD700; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 24px; letter-spacing: -0.05em; color: #050505; cursor: pointer; transition: 0.2s ease; }
     .submit-btn:hover { background-color: #FFD700; border-color: #22204F; color: #22204F; transform: translateY(-1px); }
@@ -142,6 +267,39 @@
     <div class="title-box"><h1>REGISTRATION FORM</h1></div>
     <span class="title-line"></span>
 </section>
+
+<!-- Registration Period Card -->
+<div class="page-wrap">
+  <div class="registration-period-card">
+    <div class="period-status">
+      <div class="status-indicator open" id="statusIndicator"></div>
+      <div class="status-text">
+        <span class="status-label">Registration Status</span>
+        <span class="status-value open" id="statusValue">OPEN</span>
+      </div>
+    </div>
+    <div class="period-info">
+      <div class="info-item">
+        <span class="info-label">Registration Starts</span>
+        <span class="info-value" id="startDate">May 1, 2026</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Registration Ends</span>
+        <span class="info-value" id="endDate">May 30, 2026</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Days Remaining</span>
+        <span class="info-value" id="daysRemaining">16 days</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Closed Message -->
+  <div class="closed-message" id="closedMessage">
+    <p>⚠️ Registration Period is Closed</p>
+    <p>Registration is no longer available. Please try again during the next registration period.</p>
+  </div>
+</div>
 
 <form class="page-wrap" id="regForm">
   <section class="section-box">
@@ -255,6 +413,69 @@
 </div>
 
 <script>
+  // Registration Period Configuration
+  const registrationPeriod = {
+    startDate: new Date(2026, 4, 1),   // May 1, 2026
+    endDate: new Date(2026, 4, 30),    // May 10, 2026 (CLOSED - for demo)
+  };
+
+  // Initialize registration period display
+  function initializeRegistrationPeriod() {
+    const now = new Date();
+    const isOpen = now >= registrationPeriod.startDate && now <= registrationPeriod.endDate;
+    
+    updateRegistrationStatus(isOpen);
+    updateFormState(isOpen);
+  }
+
+  // Update registration status display
+  function updateRegistrationStatus(isOpen) {
+    const statusIndicator = document.getElementById('statusIndicator');
+    const statusValue = document.getElementById('statusValue');
+    const closedMessage = document.getElementById('closedMessage');
+    const daysRemainingEl = document.getElementById('daysRemaining');
+
+    if (isOpen) {
+      statusIndicator.classList.remove('closed');
+      statusIndicator.classList.add('open');
+      statusValue.classList.remove('closed');
+      statusValue.classList.add('open');
+      statusValue.textContent = 'OPEN';
+      closedMessage.classList.remove('show');
+
+      // Calculate days remaining
+      const today = new Date();
+      const daysLeft = Math.ceil((registrationPeriod.endDate - today) / (1000 * 60 * 60 * 24));
+      daysRemainingEl.textContent = `${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`;
+    } else {
+      statusIndicator.classList.remove('open');
+      statusIndicator.classList.add('closed');
+      statusValue.classList.remove('open');
+      statusValue.classList.add('closed');
+      statusValue.textContent = 'CLOSED';
+      closedMessage.classList.add('show');
+      daysRemainingEl.textContent = '0 days';
+    }
+  }
+
+  // Update form state based on registration status
+  function updateFormState(isOpen) {
+    const form = document.getElementById('regForm');
+    const submitBtn = form.querySelector('.submit-btn');
+
+    if (isOpen) {
+      form.classList.remove('form-disabled');
+      submitBtn.disabled = false;
+      submitBtn.style.cursor = 'pointer';
+    } else {
+      form.classList.add('form-disabled');
+      submitBtn.disabled = true;
+      submitBtn.style.cursor = 'not-allowed';
+      submitBtn.style.opacity = '0.6';
+    }
+  }
+
+  // Form validation and submission
   const form = document.getElementById('regForm');
   const inputs = form.querySelectorAll(".input-field");
 
@@ -273,6 +494,16 @@
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
+    
+    // Check if registration is still open
+    const now = new Date();
+    const isOpen = now >= registrationPeriod.startDate && now <= registrationPeriod.endDate;
+    
+    if (!isOpen) {
+      alert('Registration period is closed. Submissions are no longer accepted.');
+      return;
+    }
+
     let valid = true;
     inputs.forEach(input => {
       const asterisk = input.parentElement.querySelector(".error-asterisk");
@@ -296,6 +527,9 @@
   backBtn.addEventListener('click', () => { backPopup.style.display = 'flex'; });
   stayBtnFgma.addEventListener('click', () => { backPopup.style.display = 'none'; });
   leaveBtnFgma.addEventListener('click', () => { window.location.href='dashboard.html'; });
+
+  // Initialize on page load
+  window.addEventListener('DOMContentLoaded', initializeRegistrationPeriod);
 </script>
 
 </body>
