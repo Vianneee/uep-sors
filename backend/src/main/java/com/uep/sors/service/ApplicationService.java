@@ -2,6 +2,7 @@ package com.uep.sors.service;
 
 import com.uep.sors.dto.ApplicationSubmissionDTO;
 import com.uep.sors.entity.Application;
+import com.uep.sors.entity.ApplicationStatus;
 import com.uep.sors.entity.RegistrationPeriod;
 import com.uep.sors.exception.DuplicateApplicationException;
 import com.uep.sors.exception.RegistrationClosedException;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -111,5 +113,37 @@ public class ApplicationService {
         Application application = getApplicationById(id);
         applicationRepository.delete(application);
         log.info("Application deleted with ID: {}", id);
+    }
+    
+    /**
+     * Approve an application
+     * FR-13/FR-15: Admin can approve applications with review notes
+     */
+    @Transactional
+    public Application approveApplication(Long id, String reviewNotes) {
+        Application application = getApplicationById(id);
+        application.setStatus(ApplicationStatus.APPROVED);
+        application.setReviewedAt(LocalDateTime.now());
+        application.setReviewNotes(reviewNotes);
+        
+        Application updated = applicationRepository.save(application);
+        log.info("Application {} approved with review notes", id);
+        return updated;
+    }
+    
+    /**
+     * Reject an application
+     * FR-13/FR-15: Admin can reject applications with review notes (5-year retention policy)
+     */
+    @Transactional
+    public Application rejectApplication(Long id, String reviewNotes) {
+        Application application = getApplicationById(id);
+        application.setStatus(ApplicationStatus.REJECTED);
+        application.setReviewedAt(LocalDateTime.now());
+        application.setReviewNotes(reviewNotes);
+        
+        Application updated = applicationRepository.save(application);
+        log.info("Application {} rejected with review notes. Data retained for 5-year policy", id);
+        return updated;
     }
 }

@@ -1,6 +1,7 @@
 package com.uep.sors.controller;
 
 import com.uep.sors.dto.ApiResponse;
+import com.uep.sors.dto.ApplicationReviewDTO;
 import com.uep.sors.dto.ApplicationSubmissionDTO;
 import com.uep.sors.entity.Application;
 import com.uep.sors.service.ApplicationService;
@@ -57,5 +58,23 @@ public class ApplicationController {
     public ResponseEntity<ApiResponse<Object>> deleteApplication(@PathVariable Long id) {
         applicationService.deleteApplication(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "Application deleted successfully"));
+    }
+
+    @PutMapping("/{id}/approve")
+    public ResponseEntity<ApiResponse<Application>> approveApplication(
+            @PathVariable Long id,
+            @RequestBody ApplicationReviewDTO reviewDTO) {
+        log.info("Approving application: {}", id);
+        Application application = applicationService.approveApplication(id, reviewDTO.getReviewNotes());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Application approved successfully", application));
+    }
+
+    @PutMapping("/{id}/reject")
+    public ResponseEntity<ApiResponse<Application>> rejectApplication(
+            @PathVariable Long id,
+            @RequestBody ApplicationReviewDTO reviewDTO) {
+        log.info("Rejecting application: {}", id);
+        Application application = applicationService.rejectApplication(id, reviewDTO.getReviewNotes());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Application rejected successfully", application));
     }
 }
