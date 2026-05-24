@@ -1,27 +1,42 @@
 package com.uep.sors.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "users")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    @Column(nullable = false)
+    private String fullName;
 
-    @Column(unique = true, nullable = false)
-    private String studentId; // 6-digit student ID
+    @Column(nullable = false, unique = true)
+    private String studentId;
 
-    private String password; // hashed birthday
+    @Column(nullable = false)
+    private Integer age;
+
+    @Column(nullable = false)
+    private String program;
+
+    @Column(nullable = false)
+    private Integer yearLevel;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
+
+    @Column(nullable = false)
+    private Boolean isVerified = false;
 }

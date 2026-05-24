@@ -1,8 +1,5 @@
- package com.uep.sors.entity;
+package com.uep.sors.entity;
 
 public enum Role {
-    STUDENT,
-    ADMIN,
-    PIO,
-    EDITOR_IN_CHIEF
+    STUDENT, ADMIN, PIO, EDITOR_IN_CHIEF, GUEST
 }

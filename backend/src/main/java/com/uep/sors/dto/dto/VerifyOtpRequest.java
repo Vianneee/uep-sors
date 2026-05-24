@@ -3,8 +3,8 @@ package com.uep.sors.dto;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class VerifyOtpRequest {
 
     private String email;
-    private String password;
+    private String otp;
 }
