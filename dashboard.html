@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard</title>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: #f5f5f5;
+}
+
+.top-dark { background: #131045; height: 42px; }
+.top-blue { background: #22204F; height: 12px; }
+.top-yellow { background: #FFD700; height: 12px; }
+
+.top-white {
+    background: #ffffff;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 80px;
+    position: relative;
+}
+
+.logo-circle {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: url("imgs/logo.png") center/cover no-repeat;
+}
+
+.nav-links {
+    display: flex;
+    gap: 60px;
+}
+
+.nav-links a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: #000000;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.nav-links a:hover { color: #FFD700; }
+
+.header-stripe {
+    height: 45px;
+    background: repeating-linear-gradient(90deg, #1a1a52 0, #1a1a52 30px, white 30px, white 60px);
+}
+
+.hero {
+    position: relative;
+    height: 734px;
+    width: 100%;
+    background: url('imgs/event1.jpg') center/cover no-repeat;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(19, 16, 69, 0.75);
+    z-index: 1;
+}
+
+ .hero-content {
+            position: relative;
+            z-index: 4;
+            max-width: 1000px;
+            padding-left: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hero-content h1 {
+            font-size: 68px;
+            line-height: 1.15;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 750px;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+.hero-content p {
+    font-size: 18px;
+    line-height: 1.9;
+    max-width: 700px;
+    margin-bottom: 35px;
+}
+
+.btn-hero {
+    padding: 10px 26px;
+    border-radius: 23px;
+    border: 2.8px solid #FFD700;
+    background: transparent;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-hero:hover {
+    background: #FFD700;
+    color: #131045;
+}
+
+.recent-events {
+    padding: 80px 0;
+    background: #fff;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.section-header h2 {
+    font-size: 38px;
+    font-weight: 800;
+    padding: 0 40px;
+}
+
+.yellow-line-left {
+    flex: 0 0 100px;
+    height: 15px;
+    background: #ffd000;
+}
+
+.yellow-line-right {
+    flex: 1;
+    height: 15px;
+    background: #ffd000;
+}
+
+.events-wrapper {
+    position: relative;
+    padding: 0 100px;
+}
+
+.scroll-arrow {
+    position: absolute;
+    top: 30%;
+    color: rgb(84, 84, 84);
+    font-size: 40px;
+    padding: 10px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    z-index: 5;
+}
+
+.left-arrow { left: 10px; }
+.right-arrow { right: 10px; }
+
+.events-container {
+    display: flex;
+    gap: 65px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 0 0 20px 0;
+    scrollbar-width: none;
+}
+
+.events-container::-webkit-scrollbar { display: none; }
+
+.event-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.event-card {
+    min-width: 380px;
+    max-width: 380px;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 30px;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: transform .3s, box-shadow .3s;
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+.event-card img {
+    width: 100%;
+    height: 300px;
+    object-fit:fill;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.event-content {
+    background: #131045;
+    color: #fff;
+    padding: 25px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.event-content h3 {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom:50px;
+    
+}
+
+.date-line {
+    width: 130px;
+    height: 3px;
+    background: #ffd000;
+    margin-bottom: 5px;
+}
+
+.event-content span {
+    color: #ffd000;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.mission-section {
+    background: #131045;
+    color: #fff;
+    padding: 40px 0;
+}
+
+.mission-container {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 30px;
+    align-items: center;
+    border: 5px solid #ffd000;
+    border-radius: 35px;
+    padding: 30px;
+}
+
+.mission-text p {
+    font-size: 30px;
+    line-height: 2.0;
+    font-weight: 800;
+}
+
+.mission-image img {
+    max-height: 590px;
+    width: auto;
+    object-fit: contain;
+}
+
+.cta-section {
+    padding: 160px 0;
+    background: #fff;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 50px;
+    margin-bottom: 35px;
+    font-weight: 800;
+}
+
+.btn-cta {
+    padding: 15px 22px;
+    border: 1.5px solid #ffd000;
+    border-radius: 20px;
+    background:#ffd000;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.btn-cta:hover {
+    background: #FCE87F;
+    color: #0F0F45;
+}
+
+.footer {
+      position: relative;
+      background: url('imgs/420519959_751607456923358_7716867889919991985_n.png') center/cover no-repeat;
+      color: #fff;
+      padding: 60px 40px 30px;
+      min-height: 350px;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 26, 82, 0.85);
+      z-index: 1;
+    }
+
+    .footer > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex: 1;
+    }
+
+    .footer-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .footer-logos img {
+      height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .footer-divider {
+      width: 2px;
+      height: 150px;
+      background: #fff;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .footer-uep-logo img {
+      height: 90px;
+      width: auto;
+    }
+
+    .footer-uep-text h3 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-uep-text p {
+      font-size: 14px;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+      flex-wrap: wrap;
+      padding: 30px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: #FFD700;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #FFF;
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, .6);
+    }
+
+@media (max-width: 1024px) {
+    .mission-container { grid-template-columns: 1fr; }
+}
+
+    @media (max-width: 1024px) {
+      .footer-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-divider {
+        height: 2px;
+        width: 100%;
+      }
+    }
+
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="top-dark"></div>
+    <div class="top-blue"></div>
+    <div class="top-yellow"></div>
+    <div class="top-white">
+        <div class="logo-circle"></div>
+        <nav class="nav-links">
+            <a href="dashboard.html">HOME</a>
+            <a href="org.html">ORGANIZATION</a>
+            <a href="regu.html">REGULATIONS</a>
+        </nav>
+    </div>
+    <div class="header-stripe"></div>
+</header>
+
+<section class="hero">
+    <div class="hero-stripes"></div>
+
+    <div class="hero-content">
+        <h1>
+            Kasaysayan sa UEP: 400+<br>
+            estudyante nakilahok sa<br>
+            'Walkout Against Corruption'
+        </h1>
+
+        <p>
+            Nobyembre 17, 2025 — Isang makasaysayang Walkout Against Corruption
+            ang dinaluhan ng higit 400 UEPians, sa pangunguna ng The Pillar at
+            University Student Council (USC).
+        </p>
+
+        <button class="btn-hero" onclick="window.location.href='event1.html'">
+            LEARN MORE
+        </button>
+    </div>
+</section>
+
+<section class="recent-events">
+    <div class="section-header">
+        <div class="yellow-line-left"></div>
+        <h2>RECENT EVENTS</h2>
+        <div class="yellow-line-right"></div>
+    </div>
+
+    <div class="events-wrapper">
+
+        <div class="scroll-arrow left-arrow">&#10094;</div>
+        <div class="scroll-arrow right-arrow">&#10095;</div>
+
+        <div class="events-container">
+
+            <a href="event1.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/event1.jpg" alt="Event 1">
+                    <div class="event-content"><h3>Kasaysayan sa UEP: 400+ estudyante nakilahok sa 'Walkout Against<br> Corruption                                                                                                                                                        
+                    </h3><div class="date-line"></div><span>November 18, 2025</span></div>
+                </div>
+            </a>
+
+            <a href="event22.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/eventv2.png"><div class="event-content"><h3>UEP BALANGAW attends
+                         <BR>KATADUNGAN 2025- Leadership in <br>Motion: From Principles to Practice</h3><div class="date-line"></div><span>November 04, 2025</span></div>
+                </div>
+            </a>
+ <a href="event.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/event3.jpg"><div class="event-content"><h3>USC, CSC PIOs joins 4th <br> Pagsubay: A Journalism <br>Skills Traning</h3><div class="date-line"></div><span>October 30, 2025</span></div>
+                </div>
+            </a>
+                       <a href="event1.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/event1.jpg" alt="Event 1">
+                    <div class="event-content"><h3>Kasaysayan sa UEP: 400+ estudyante nakilahok sa 'Walkout Against<br> Corruption                                                                                                                                                        
+                    </h3><div class="date-line"></div><span>November 18, 2025</span></div>
+                </div>
+            </a>
+
+            <a href="event22.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/eventv2.png"><div class="event-content"><h3>UEP BALANGAW attends
+                         <BR>KATADUNGAN 2025- Leadership in <br>Motion: From Principles to Practice</h3><div class="date-line"></div><span>November 04, 2025</span></div>
+                </div>
+            </a>
+ <a href="event.html" class="event-card-link">
+                <div class="event-card">
+                    <img src="imgs/event3.jpg"><div class="event-content"><h3>USC, CSC PIOs joins 4th <br> Pagsubay: A Journalism <br>Skills Traning</h3><div class="date-line"></div><span>October 30, 2025</span></div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<section class="mission-section">
+    <div class="mission-container">
+        <div class="mission-text">
+           <p><i>To carry out the university's mission of 
+developing holistic individuals, 
+the University provides for 
+various organizations where  
+students can join and maximize their  
+talents, skills and leadership  potentials.</i></p>
+        </div>
+        <div class="mission-image">
+            <img src="imgs/carabao.png">
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <h2>WANT TO JOIN AN ORGANIZATION?</h2>
+    <a href="org.html"><button class="btn-cta">VIEW MORE</button></a>
+</section>
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-left">
+      <div class="footer-logos">
+        <img src="imgs/Screenshot 2025-11-22 120936.png" alt="SOCOTEC Logo">
+        <img src="imgs/images-removebg-preview.png" alt="Freedom of Information">
+        <img src="imgs/images-removebg-preview (1).png" alt="Philippine Transparency Seal">
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-right">
+      <div class="footer-uep-logo">
+        <img src="imgs/logo.png" alt="UEP Logo">
+      </div>
+      <div class="footer-uep-text">
+        <h3>UNIVERSITY OF EASTERN PHILIPPINES</h3>
+        <p>University Town, Northern Samar</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-links">
+    <a href="https://ueplms.net/studentportal/">UEP Student Portal</a>
+    <a href="https://www.facebook.com/UEPOfficialFBPage">Official Facebook Page</a>
+    <a href="http://uep.edu.ph/certificate-of-program-compliance/">UEP COPC</a>
+    <a href="https://emailmg.ipage.com/roundcube/">UEP Official Webmail</a>
+  </div>
+
+  <div class="footer-bottom">
+    Copyright © 2025 University of Eastern Philippines
+  </div>
+</footer>
+
+<script>
+const scrollContainer = document.querySelector('.events-container');
+const leftArrow = document.querySelector('.left-arrow');
+const rightArrow = document.querySelector('.right-arrow');
+
+rightArrow.addEventListener('click', () => {
+    scrollContainer.scrollLeft += 350;
+});
+
+leftArrow.addEventListener('click', () => {
+    scrollContainer.scrollLeft -= 350;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+C:\Users\acer\.vscode\schooll\html\log\bin\Debug\net10.0\log.exe
+C:\Users\acer\.vscode\schooll\html\log\bin\Debug\net10.0\log.deps.json
+C:\Users\acer\.vscode\schooll\html\log\bin\Debug\net10.0\log.runtimeconfig.json
+C:\Users\acer\.vscode\schooll\html\log\bin\Debug\net10.0\log.dll
+C:\Users\acer\.vscode\schooll\html\log\bin\Debug\net10.0\log.pdb
+C:\Users\acer\.vscode\schooll\html\log\obj\Debug\net10.0\log.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\acer\.vscode\schooll\html\log\obj\Debug\net10.0\log.AssemblyInfoInputs.cache
+C:\Users\acer\.vscode\schooll\html\log\obj\Debug\net10.0\log.AssemblyInfo.cs
+C:\Users\acer\.vscode\schooll\html\log\obj\Debug\net10.0\log.csproj.CoreCompileInputs.cache
+C:\Users\acer\.vscode\schooll\html\log\obj\Debug\net10.0\log.dll
+C:\Users\acer\.vscode\schooll\html\log\obj\Debug\net10.0\refint\log.dll
+C:\Users\acer\.vscode\schooll\html\log\obj\Debug\net10.0\log.pdb
+C:\Users\acer\.vscode\schooll\html\log\obj\Debug\net10.0\log.genruntimeconfig.cache
+C:\Users\acer\.vscode\schooll\html\log\obj\Debug\net10.0\ref\log.dll

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to right, #1e3c72, #2a5298, #5a7ba8, #8ba3b8, #bbc8d4, #d4d8bc, #e8e4a4, #f0e68c);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 400px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+        }
+        .login-form-content { 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            background-color: #e8e8e8;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+            outline: none;
+            transition: background-color 0.3s;
+        }
+
+        .password-container input {
+            padding-right: 45px; 
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+
+        .form-group input:focus {
+            background-color: #ddd;
+        }
+
+
+        #togglePassword {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            
+            background: none;
+            border: none;
+            cursor: pointer; 
+            outline: none;
+            padding: 0;
+            z-index: 10;
+        }
+
+        #togglePassword img {
+            width: 24px;
+            height: 24px;
+            display: block;
+        }
+
+        .login-btn {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+
+            width: 100%;
+            padding: 14px;
+            background-color: #4c4cff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background-color: #3838dd;
+        }
+
+        .login-btn:active {
+            background-color: #2929bb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-card">
+            <div class="logo">
+                <img src="imgs/logo.png" alt="School Logo">
+            </div>
+            
+            <div class="login-form-content"> 
+                <div class="form-group">
+                    <label for="studentId">Student ID</label>
+                    <input 
+                        type="text" 
+                        id="studentId" 
+                        name="studentId" 
+                        placeholder="Enter Student ID Number"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    
+                    <div class="password-container"> 
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password"
+                            placeholder="Enter Birthday (eg, 01/20/2006)"
+                        >
+                        
+                        <button type="button" id="togglePassword" aria-label="Toggle password visibility">
+                            <img src="view.png" alt="Show/Hide Password">
+                        </button>
+                    </div>
+                </div>
+                
+                <a href="dashboard.html" class="login-btn">Login</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        const iconImg = togglePassword.querySelector('img'); 
+
+        const SHOW_ICON = 'view.png'; 
+        const HIDE_ICON = 'hide.png';
+
+        togglePassword.addEventListener('click', function (e) {
+ 
+            const isPasswordHidden = passwordInput.getAttribute('type') === 'password';
+            
+
+            const newType = isPasswordHidden ? 'text' : 'password';
+            passwordInput.setAttribute('type', newType);
+            
+
+            const newIconSrc = isPasswordHidden ? HIDE_ICON : SHOW_ICON;
+            iconImg.src = newIconSrc;
+        });
+    </script>
+</body>
+</html>
