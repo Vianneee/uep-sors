@@ -353,31 +353,6 @@
   </div>
 </footer>
 
-<!-- Events Section -->
-<section id="events-section" style="padding:40px; background:#f9f9f9;">
-  <h2 style="color:#22204F; margin-bottom:20px;">Upcoming Events</h2>
-  <div id="events-list"></div>
-</section>
 
-<script>
-const EVENT_API = 'http://localhost:8080/api/events';
-
-async function loadEvents() {
-  const response = await fetch(EVENT_API);
-  const events = await response.json();
-  const list = document.getElementById('events-list');
-  list.innerHTML = events.map(e => `
-    <div style="background:white; padding:20px; margin-bottom:15px; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.1);">
-      <h3 style="color:#22204F;">${e.title}</h3>
-      <p><strong>Date:</strong> ${e.eventDate}</p>
-      <p><strong>Location:</strong> ${e.location}</p>
-      <p><strong>Organizer:</strong> ${e.organizer}</p>
-      <p style="margin-top:10px;">${e.description}</p>
-    </div>
-  `).join('');
-}
-
-loadEvents();
-</script>
 </body>
 </html>
