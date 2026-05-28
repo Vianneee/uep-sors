@@ -1,205 +1,407 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — UEP SORS</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #f0f0f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    .login-wrap {
+      display: flex;
+      width: 100%;
+      max-width: 900px;
+      min-height: 540px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(19,16,69,0.15);
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(to right, #1e3c72, #2a5298, #5a7ba8, #8ba3b8, #bbc8d4, #d4d8bc, #e8e4a4, #f0e68c);
-        }
+    /* Left panel — navy */
+    .login-left {
+      flex: 1;
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
+    /* Gold decorative circle */
+    .login-left::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 40px solid rgba(255,215,0,0.08);
+      bottom: -80px;
+      left: -80px;
+    }
 
-        .login-card {
-            background: white;
-            padding: 40px 50px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            width: 400px;
-        }
+    .login-left::after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 30px solid rgba(255,215,0,0.06);
+      top: -60px;
+      right: -60px;
+    }
 
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    .login-left-logo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: url("imgs/logo.png") center/cover no-repeat;
+      margin-bottom: 24px;
+      border: 3px solid rgba(255,215,0,0.5);
+      position: relative;
+      z-index: 1;
+    }
 
-        .logo img {
-            width: 120px;
-            height: auto;
-        }
-        .login-form-content { 
-            display: flex;
-            flex-direction: column;
-        }
+    .login-left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 8px;
+      line-height: 1.2;
+      position: relative;
+      z-index: 1;
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    .login-left p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
 
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
+    /* Right panel — white */
+    .login-right {
+      flex: 1.2;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px 44px;
+    }
 
-        .password-container {
-            position: relative;
-            width: 100%;
-        }
+    .login-right h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
 
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            border: none;
-            background-color: #e8e8e8;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #666;
-            outline: none;
-            transition: background-color 0.3s;
-        }
+    .login-right .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
 
-        .password-container input {
-            padding-right: 45px; 
-        }
+    .form-group { margin-bottom: 20px; }
 
-        .form-group input::placeholder {
-            color: #aaa;
-        }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
 
-        .form-group input:focus {
-            background-color: #ddd;
-        }
+    .password-container { position: relative; }
 
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid var(--gray-border);
+      background: var(--gray-bg);
+      border-radius: var(--radius);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
 
-        #togglePassword {
-            position: absolute;
-            top: 50%;
-            right: 15px;
-            transform: translateY(-50%);
-            
-            background: none;
-            border: none;
-            cursor: pointer; 
-            outline: none;
-            padding: 0;
-            z-index: 10;
-        }
+    .password-container input { padding-right: 48px; }
 
-        #togglePassword img {
-            width: 24px;
-            height: 24px;
-            display: block;
-        }
+    .form-group input:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(19,16,69,0.08);
+      background: var(--white);
+    }
 
-        .login-btn {
-            display: block;
-            text-align: center;
-            text-decoration: none;
+    .form-group input::placeholder { color: #bbb; }
 
-            width: 100%;
-            padding: 14px;
-            background-color: #4c4cff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
+    .login-btn {
+      display: block;
+      text-align: center;
+      width: 100%;
+      padding: 14px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+      letter-spacing: 0.04em;
+    }
 
-        .login-btn:hover {
-            background-color: #3838dd;
-        }
+    .login-btn:hover {
+      background: var(--gold-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(255,215,0,0.35);
+    }
 
-        .login-btn:active {
-            background-color: #2929bb;
-        }
-    </style>
+    .guest-btn {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      border: 2px solid var(--gray-border);
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      text-decoration: none;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .guest-btn:hover {
+      border-color: var(--navy);
+      background: var(--gray-bg);
+    }
+
+    .login-footer-text {
+      text-align: center;
+      margin-top: 4px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .login-footer-text a {
+      color: var(--navy);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .login-footer-text a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .login-left { display: none; }
+      .login-right { padding: 32px 24px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="login-card">
-            <div class="logo">
-                <img src="imgs/logo.png" alt="School Logo">
-            </div>
-            
-            <div class="login-form-content"> 
-                <div class="form-group">
-                    <label for="studentId">Student ID</label>
-                    <input 
-                        type="text" 
-                        id="studentId" 
-                        name="studentId" 
-                        placeholder="Enter Student ID Number"
-                    >
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    
-                    <div class="password-container"> 
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password"
-                            placeholder="Enter Birthday (eg, 01/20/2006)"
-                        >
-                        
-                        <button type="button" id="togglePassword" aria-label="Toggle password visibility">
-                            <img src="view.png" alt="Show/Hide Password">
-                        </button>
-                    </div>
-                </div>
-                
-                <a href="dashboard.html" class="login-btn">Login</a>
-            </div>
-        </div>
+
+  <div class="login-wrap">
+    <!-- LEFT PANEL — navy -->
+    <div class="login-left">
+      <div class="login-left-logo"></div>
+      <h1>UEP SORS</h1>
+      <p>Student Organization<br>Registration System</p>
     </div>
-    
-    <script>
-        const togglePassword = document.getElementById('togglePassword');
-        const passwordInput = document.getElementById('password');
-        const iconImg = togglePassword.querySelector('img'); 
 
-        const SHOW_ICON = 'view.png'; 
-        const HIDE_ICON = 'hide.png';
+    <!-- RIGHT PANEL — white -->
+    <div class="login-right">
+      <h2>Welcome back</h2>
+      <p class="subtitle">Sign in to your student account</p>
 
-        togglePassword.addEventListener('click', function (e) {
- 
-            const isPasswordHidden = passwordInput.getAttribute('type') === 'password';
-            
+      <div class="form-group">
+        <label for="studentId">Student ID</label>
+        <input type="text" id="studentId" name="studentId" placeholder="Enter your student ID number">
+      </div>
 
-            const newType = isPasswordHidden ? 'text' : 'password';
-            passwordInput.setAttribute('type', newType);
-            
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-container">
+          <input type="password" id="password" name="password" placeholder="Enter your password">
+        </div>
+      </div>
 
-            const newIconSrc = isPasswordHidden ? HIDE_ICON : SHOW_ICON;
-            iconImg.src = newIconSrc;
+      <button class="login-btn" onclick="loginAsStudent()">Sign In</button>
+
+      <div style="display:flex;align-items:center;gap:12px;margin:20px 0 12px;">
+        <div style="flex:1;height:1px;background:#e2e2e8;"></div>
+        <span style="font-size:12px;color:#666;">or</span>
+        <div style="flex:1;height:1px;background:#e2e2e8;"></div>
+      </div>
+
+      <a href="dashboard.html" class="guest-btn" onclick="localStorage.setItem('sors_user','guest')">Continue as Guest</a>
+
+      <p class="login-footer-text">
+        Interested in joining? <a href="signup.html">Create a profile</a>.
+      </p>
+    </div>
+  </div>
+
+  <script src="sors.js"></script>
+  <script>
+    async function loginAsStudent() {
+      const studentId = document.getElementById('studentId').value.trim();
+      const password = document.getElementById('password').value.trim();
+      if (!studentId || !password) {
+        alert('Please enter your Student ID and password.');
+        return;
+      }
+
+      const btn = document.querySelector('.login-btn');
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
+
+      try {
+        const res = await fetch('http://localhost:8080/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: studentId, password: password })
         });
-    </script>
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          alert(data.message || 'Invalid credentials. Please try again.');
+          return;
+        }
+
+        // Step 1 success — OTP sent to email
+        localStorage.setItem('sors_pending_email', data.email);
+        localStorage.setItem('sors_pending_studentId', studentId);
+        showOtpStep();
+
+      } catch (err) {
+        alert('Could not connect to the server. Make sure the backend is running.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    }
+
+    function showOtpStep() {
+      document.querySelector('.login-right').innerHTML = `
+        <h2>Check your email</h2>
+        <p class="subtitle">We sent a 6-digit code to your registered email address.</p>
+
+        <div id="otp-error" style="
+          display:none; background:#fef2f2; border:1px solid #fca5a5;
+          color:#dc2626; border-radius:10px; padding:12px 16px;
+          font-size:13px; margin-bottom:16px;
+        "></div>
+
+        <div class="form-group" style="margin-top:8px;">
+          <label for="otpInput">Verification Code</label>
+          <input type="text" id="otpInput" placeholder="000000" maxlength="6"
+            style="
+              width:100%; padding:16px; border:2px solid #e2e2e8;
+              border-radius:12px; font-family:'Poppins',sans-serif;
+              font-size:28px; font-weight:700; text-align:center;
+              letter-spacing:12px; color:#131045; outline:none;
+            "
+            oninput="this.value=this.value.replace(/\s/g,''); this.style.borderColor = this.value.length === 6 ? '#FFD700' : '#e2e2e8'"
+          >
+        </div>
+
+        <button class="login-btn" id="verifyBtn" onclick="verifyLoginOtp()">Verify & Sign In</button>
+
+        <p style="text-align:center; margin-top:16px; font-size:13px; color:#666;">
+          Didn't receive a code? 
+          <a href="#" onclick="resendLoginOtp()" style="color:#131045; font-weight:600;">Resend</a>
+        </p>
+        <p style="text-align:center; margin-top:8px; font-size:13px;">
+          <a href="login.html" style="color:#131045; font-weight:600;">← Go back</a>
+        </p>
+      `;
+    }
+
+    async function verifyLoginOtp() {
+      const email = localStorage.getItem('sors_pending_email');
+      const studentId = localStorage.getItem('sors_pending_studentId');
+      const otp = document.getElementById('otpInput').value.trim();
+
+      if (!/^\d{6}$/.test(otp)) {
+        const err = document.getElementById('otp-error');
+        err.textContent = 'Please enter a valid 6-digit code.';
+        err.style.display = 'block';
+        return;
+      }
+
+      const btn = document.getElementById('verifyBtn');
+      btn.disabled = true;
+      btn.textContent = 'Verifying...';
+
+      try {
+        const res = await fetch('http://localhost:8080/api/auth/verify-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, otp })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.token) {
+          const err = document.getElementById('otp-error');
+          err.textContent = data.message || 'Invalid or expired code. Try again.';
+          err.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Verify & Sign In';
+          return;
+        }
+
+        // Save everything from the auth response
+        localStorage.setItem('sors_user', 'student');
+        localStorage.setItem('sors_studentNumber', data.studentId || studentId);
+        localStorage.setItem('sors_token', data.token);
+        localStorage.removeItem('sors_pending_email');
+        localStorage.removeItem('sors_pending_studentId');
+
+        window.location.href = 'dashboard.html';
+
+      } catch (err) {
+        alert('Could not connect to the server.');
+        btn.disabled = false;
+        btn.textContent = 'Verify & Sign In';
+      }
+    }
+
+    async function resendLoginOtp() {
+      const email = localStorage.getItem('sors_pending_email');
+      if (!email) return;
+      try {
+        await fetch('http://localhost:8080/api/auth/resend-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, type: 'LOGIN' })
+        });
+        alert('OTP resent! Check your email.');
+      } catch (err) {
+        alert('Could not resend OTP.');
+      }
+    }
+  </script>
 </body>
 </html>

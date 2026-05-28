@@ -565,17 +565,8 @@
     <!-- SEARCH CARD -->
     <div class="search-card">
       <div class="search-label">Look Up Your Applications</div>
-      <p class="search-desc">Enter your 6-digit student number to view all your submitted applications.</p>
-      <div class="search-row">
-        <input
-          type="text"
-          id="studentNumberInput"
-          class="search-input"
-          placeholder="e.g. 123456"
-          maxlength="6"
-          pattern="\d{6}"
-        />
-        <button class="btn-search" id="searchBtn" onclick="fetchHistory()">View History</button>
+      <p class="search-desc">Showing applications for your account.</p>
+
       </div>
     </div>
 
@@ -606,36 +597,16 @@
 
     // ── Auto-fill from localStorage ──
     const saved = localStorage.getItem('sors_studentNumber');
-    if (saved) {
-      document.getElementById('studentNumberInput').value = saved;
-      // Auto-fetch if student number is already saved
-      fetchHistory();
-    }
-
-    // ── Allow Enter key to search ──
-    document.getElementById('studentNumberInput').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') fetchHistory();
-    });
-
-    async function fetchHistory() {
-      const input = document.getElementById('studentNumberInput');
-      const studentNumber = input.value.trim();
-
-      if (!/^\d{6}$/.test(studentNumber)) {
-        input.style.borderColor = '#ef4444';
-        input.focus();
-        showResults(`<div class="error-state">⚠️ Please enter a valid 6-digit student number.</div>`);
-        return;
+    const studentNumber = localStorage.getItem('sors_studentNumber');
+      if (!studentNumber) {
+        showResults(`<div class="error-state">⚠️ You're not logged in. <a href="login.html">Sign in</a> to view your applications.</div>`);
+      } else {
+        fetchHistory();
       }
 
-      input.style.borderColor = '';
-
-      // Save to localStorage for next time
-      localStorage.setItem('sors_studentNumber', studentNumber);
-
-      const btn = document.getElementById('searchBtn');
-      btn.disabled = true;
-      btn.textContent = 'Loading...';
+    async function fetchHistory() {
+      const studentNumber = localStorage.getItem('sors_studentNumber');
+        if (!studentNumber) return;
 
       showResults(`
         <div class="loading-state">
@@ -645,7 +616,10 @@
       `);
 
       try {
-        const res = await fetch(`${API_BASE}/api/applications/student/${studentNumber}`);
+        const token = localStorage.getItem('sors_token');
+        const res = await fetch(`${API_BASE}/api/applications/student/${studentNumber}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
         const data = await res.json();
 
         if (!res.ok || !data.success) {
@@ -755,5 +729,6 @@
     }
   </script>
 
+<script src="sors.js"></script>
 </body>
 </html>

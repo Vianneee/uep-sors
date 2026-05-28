@@ -809,10 +809,13 @@
       };
 
       try {
+        const token = localStorage.getItem('sors_token');
         const res = await fetch(`${API_BASE}/api/applications`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
         });
 
         const data = await res.json();
@@ -866,5 +869,6 @@
       history.back();
     });
   </script>
+<script src="sors.js"></script>
 </body>
 </html>

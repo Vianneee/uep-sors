@@ -1,11 +1,9 @@
 package com.uep.sors.controller;
-
 import com.uep.sors.dto.*;
 import com.uep.sors.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 
 @RestController
@@ -13,7 +11,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class AuthController {
-
     private final AuthService authService;
 
     // ─── Register Step 1 ───────────────────────────────────
@@ -42,8 +39,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
-            String message = authService.login(request);
-            return ResponseEntity.ok(Map.of("success", true, "message", message));
+            Map<String, String> result = authService.login(request);
+            return ResponseEntity.ok(Map.of("success", true, "message", result.get("message"), "email", result.get("email")));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
         }

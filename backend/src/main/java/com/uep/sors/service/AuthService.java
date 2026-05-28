@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -125,20 +126,27 @@ public class AuthService {
     }
 
     // ─── LOGIN Step 1 ──────────────────────────────────────
-    public String login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail().toLowerCase().trim())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password."));
+    public Map<String, String> login(LoginRequest request) {
+        User user;
+
+        // Allow login by student ID or email
+        if (request.getEmail().contains("@")) {
+            user = userRepository.findByEmail(request.getEmail().toLowerCase().trim())
+                    .orElseThrow(() -> new RuntimeException("Invalid credentials."));
+        } else {
+            user = userRepository.findByStudentId(request.getEmail().trim())
+                    .orElseThrow(() -> new RuntimeException("Invalid credentials."));
+        }
 
         if (!user.getIsVerified())
             throw new RuntimeException("Please verify your email first.");
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
-            throw new RuntimeException("Invalid email or password.");
+            throw new RuntimeException("Invalid credentials.");
 
-        // Send OTP
         saveAndSendOTP(user.getEmail(), OtpType.LOGIN);
 
-        return "Credentials verified. OTP sent to your email.";
+        return Map.of("message", "Credentials verified. OTP sent to your email.", "email", user.getEmail());
     }
 
     // ─── LOGIN Step 2 — Verify OTP ─────────────────────────

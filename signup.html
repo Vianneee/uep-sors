@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account — UEP SORS</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #f0f0f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .signup-wrap {
+      display: flex;
+      width: 100%;
+      max-width: 960px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(19,16,69,0.15);
+    }
+
+    /* Left panel — navy */
+    .signup-left {
+      flex: 0 0 300px;
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signup-left::before {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 40px solid rgba(255,215,0,0.08);
+      bottom: -80px;
+      right: -80px;
+    }
+
+    .signup-left::after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 30px solid rgba(255,215,0,0.05);
+      top: -60px;
+      left: -60px;
+    }
+
+    .signup-left-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: url("imgs/logo.png") center/cover no-repeat;
+      border: 3px solid rgba(255,215,0,0.4);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signup-left h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--gold);
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signup-left p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signup-steps {
+      margin-top: 40px;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      text-align: left;
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255,215,0,0.15);
+      border: 2px solid rgba(255,215,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+      transition: all 0.3s;
+    }
+
+    .step-dot.active {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold);
+    }
+
+    .step-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      font-weight: 500;
+    }
+
+    .step-label.active {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Right panel */
+    .signup-right {
+      flex: 1;
+      background: #fff;
+      padding: 40px 44px;
+      overflow-y: auto;
+      max-height: 90vh;
+    }
+
+    .signup-right h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--gray-border);
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      color: var(--navy);
+      background: #fff;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+    }
+
+    .password-container { position: relative; }
+    .password-container input { padding-right: 48px; }
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--text-muted);
+      padding: 4px;
+    }
+
+    .password-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .signup-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 8px;
+    }
+
+    .signup-btn:hover { background: var(--gold-dark); transform: translateY(-1px); }
+    .signup-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .login-link a {
+      color: var(--navy);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .login-link a:hover { text-decoration: underline; }
+
+    .error-msg {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #dc2626;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    /* OTP Step */
+    .otp-icon {
+      font-size: 48px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .otp-input {
+      width: 100%;
+      padding: 16px;
+      border: 2px solid var(--gray-border);
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 12px;
+      color: var(--navy);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .otp-input:focus { border-color: var(--gold); }
+
+    .resend-link {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .resend-link a {
+      color: var(--navy);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .resend-link a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .signup-left { display: none; }
+      .signup-right { padding: 32px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="signup-wrap">
+  <!-- LEFT PANEL -->
+  <div class="signup-left">
+    <div class="signup-left-logo"></div>
+    <h1>UEP SORS</h1>
+    <p>Student Organization<br>Registration System</p>
+
+    <div class="signup-steps">
+      <div class="step-item">
+        <div class="step-dot active" id="dot1">1</div>
+        <span class="step-label active" id="label1">Create your profile</span>
+      </div>
+      <div class="step-item">
+        <div class="step-dot" id="dot2">2</div>
+        <span class="step-label" id="label2">Verify your email</span>
+      </div>
+      <div class="step-item">
+        <div class="step-dot" id="dot3">✓</div>
+        <span class="step-label" id="label3">Start exploring</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="signup-right" id="signup-right">
+
+    <!-- STEP 1: Registration Form -->
+    <div id="step-form">
+      <h2>Create your profile</h2>
+      <p class="subtitle">Fill in your details to get started</p>
+
+      <div id="error-msg" class="error-msg"></div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" placeholder="e.g. Juan Dela Cruz">
+        </div>
+        <div class="form-group">
+          <label for="studentId">Student ID</label>
+          <input type="text" id="studentId" placeholder="e.g. 123456" maxlength="6">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="program">Program</label>
+          <input type="text" id="program" placeholder="e.g. Computer Science">
+        </div>
+        <div class="form-group">
+          <label for="yearLevel">Year Level</label>
+          <select id="yearLevel">
+            <option value="">Select year</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+            <option value="5">5th Year</option>
+            <option value="6">6th Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" placeholder="e.g. 20" min="16" max="60">
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="your@email.com">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-container">
+          <input type="password" id="password" placeholder="Create a strong password">
+        </div>
+        <p class="password-hint">Min. 8 characters, 1 uppercase, 1 number, 1 special character</p>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-container">
+          <input type="password" id="confirmPassword" placeholder="Re-enter your password">
+        </div>
+      </div>
+
+      <button class="signup-btn" id="registerBtn" onclick="submitRegistration()">Create Account</button>
+
+      <p class="login-link">Already have an account? <a href="login.html">Sign in</a></p>
+    </div>
+
+    <!-- STEP 2: OTP Verification -->
+    <div id="step-otp" style="display:none;">
+      <div class="otp-icon">📧</div>
+      <h2 style="text-align:center;">Check your email</h2>
+      <p class="subtitle" style="text-align:center;">We sent a 6-digit verification code to<br><strong id="otp-email-display"></strong></p>
+
+      <div id="otp-error-msg" class="error-msg"></div>
+
+      <div class="form-group" style="margin-top:24px;">
+        <label for="otpInput">Verification Code</label>
+        <input type="text" class="otp-input" id="otpInput" placeholder="000000" maxlength="6" pattern="\d{6}" oninput="this.value=this.value.replace(/\s/g,'')">
+      </div>
+
+      <button class="signup-btn" id="verifyBtn" onclick="verifyOtp()">Verify & Activate Account</button>
+
+      <p class="resend-link">Didn't receive a code? <a onclick="resendOtp()">Resend OTP</a></p>
+      <p class="login-link" style="margin-top:12px;"><a href="#" onclick="goBack()">← Go back</a></p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const API_BASE = 'http://localhost:8080/api';
+
+  function showError(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function hideError(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  async function submitRegistration() {
+    hideError('error-msg');
+
+    const fullName = document.getElementById('fullName').value.trim();
+    const studentId = document.getElementById('studentId').value.trim();
+    const program = document.getElementById('program').value.trim();
+    const yearLevel = parseInt(document.getElementById('yearLevel').value);
+    const age = parseInt(document.getElementById('age').value);
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (!fullName || !studentId || !program || !yearLevel || !age || !email || !password || !confirmPassword) {
+      showError('error-msg', 'Please fill in all fields.');
+      return;
+    }
+
+    const btn = document.getElementById('registerBtn');
+    btn.disabled = true;
+    btn.textContent = 'Creating account...';
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullName, studentId, age, program, yearLevel, email, password, confirmPassword })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        showError('error-msg', data.message || 'Registration failed. Please try again.');
+        return;
+      }
+
+      // Save email for OTP step
+      localStorage.setItem('sors_pending_email', email);
+
+      // Show OTP step
+      document.getElementById('step-form').style.display = 'none';
+      document.getElementById('step-otp').style.display = 'block';
+      document.getElementById('otp-email-display').textContent = email;
+
+      // Update step indicators
+      document.getElementById('dot1').classList.remove('active');
+      document.getElementById('label1').classList.remove('active');
+      document.getElementById('dot2').classList.add('active');
+      document.getElementById('label2').classList.add('active');
+
+    } catch (err) {
+      showError('error-msg', 'Could not connect to the server. Make sure the backend is running.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Create Account';
+    }
+  }
+
+  async function verifyOtp() {
+    hideError('otp-error-msg');
+
+    const email = localStorage.getItem('sors_pending_email');
+    const otp = document.getElementById('otpInput').value.trim();
+
+    if (!/^\d{6}$/.test(otp)) {
+      showError('otp-error-msg', 'Please enter a valid 6-digit code.');
+      return;
+    }
+
+    const btn = document.getElementById('verifyBtn');
+    btn.disabled = true;
+    btn.textContent = 'Verifying...';
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/verify-register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        showError('otp-error-msg', data.message || 'Invalid or expired code. Try again.');
+        return;
+      }
+
+      // Update step indicator
+      document.getElementById('dot2').classList.remove('active');
+      document.getElementById('label2').classList.remove('active');
+      document.getElementById('dot3').classList.add('active');
+      document.getElementById('label3').classList.add('active');
+
+      localStorage.removeItem('sors_pending_email');
+
+      // Redirect to login after short delay
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1500);
+
+      btn.textContent = '✓ Account activated! Redirecting...';
+
+    } catch (err) {
+      showError('otp-error-msg', 'Could not connect to the server.');
+    } finally {
+      if (btn.textContent !== '✓ Account activated! Redirecting...') {
+        btn.disabled = false;
+        btn.textContent = 'Verify & Activate Account';
+      }
+    }
+  }
+
+  async function resendOtp() {
+    const email = localStorage.getItem('sors_pending_email');
+    if (!email) return;
+
+    try {
+      await fetch(`${API_BASE}/auth/resend-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, type: 'REGISTER' })
+      });
+      alert('OTP resent! Check your email.');
+    } catch (err) {
+      alert('Could not resend OTP. Make sure the backend is running.');
+    }
+  }
+
+  function goBack() {
+    document.getElementById('step-otp').style.display = 'none';
+    document.getElementById('step-form').style.display = 'block';
+    document.getElementById('dot2').classList.remove('active');
+    document.getElementById('label2').classList.remove('active');
+    document.getElementById('dot1').classList.add('active');
+    document.getElementById('label1').classList.add('active');
+  }
+</script>
+
+</body>
+</html>
