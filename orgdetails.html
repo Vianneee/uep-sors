@@ -1,166 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organization Details</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inria Sans', Arial, sans-serif; background: #ffffff; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organization Details — UEP SORS</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: var(--gray-bg); }
 
-        .site-header { width: 100%; position: sticky; top: 0; z-index: 999; }
-        .top-dark { background: #131045; height: 42px; }
-        .top-blue { background: #22204F; height: 12px; }
-        .top-yellow { background: #FFD700; height: 12px; }
-        .top-white { background: #ffffff; height: 80px; position: relative; display: flex; align-items: center; justify-content: flex-end; padding-right: 80px; }
-        .logo-circle { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 70px; height: 70px; border-radius: 50%; background: url("imgs/logo.png") center/cover no-repeat; }
-        .nav-links { display: flex; gap: 60px; }
-        .nav-links a { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.04em; color: #000000; text-decoration: none; transition: 0.2s ease; }
-        .nav-links a:hover { color: #FFD700; }
-        .top-separator { background: #131045; height: 15px; }
+    .page {
+      max-width: 900px;
+      margin: 48px auto 60px;
+      padding: 0 32px;
+    }
 
-        .page { max-width: 1100px; margin: 60px auto; padding: 0 40px; }
+    /* Org Header Card */
+    .org-header-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 36px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-border);
+      margin-bottom: 24px;
+    }
 
-        .org-header { display: flex; align-items: center; gap: 40px; margin-bottom: 40px; }
-        .org-logo { width: 180px; height: 180px; object-fit: cover; border-radius: 10px; border: 4px solid #131045; }
-        .org-info h1 { font-size: 42px; font-weight: 700; color: #131045; margin-bottom: 10px; }
-        .org-category { display: inline-block; background: #FFD700; color: #131045; font-weight: 700; font-size: 14px; padding: 6px 18px; border-radius: 20px; margin-bottom: 20px; }
+    .org-logo {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 3px solid var(--gray-border);
+      flex-shrink: 0;
+    }
 
-        .section-box { background: #131045; border-radius: 20px; padding: 35px 40px; margin-bottom: 30px; }
-        .section-title { font-size: 24px; font-weight: 700; color: #FFD700; margin-bottom: 18px; }
-        .section-text { font-size: 18px; color: #ffffff; line-height: 1.8; }
+    .org-info { flex: 1; }
 
-        .officers-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-        .officers-list li { background: #FFD700; color: #131045; font-weight: 700; font-size: 16px; padding: 12px 20px; border-radius: 10px; }
+    .org-category {
+      display: inline-block;
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-bottom: 10px;
+    }
 
-        .back-button-container { text-align: center; margin: 50px 0; }
-        .btn-back { padding: 15px 22px; border: 1.5px solid #ffd000; border-radius: 20px; background: #ffd000; font-weight: 600; font-size: 18px; cursor: pointer; }
-        .btn-back:hover { background: #FCE87F; color: #0F0F45; }
+    .org-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--navy);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
 
-        .loading { text-align: center; font-size: 24px; color: #666; margin: 100px 0; }
+    .register-btn {
+      display: inline-block;
+      padding: 11px 28px;
+      background: var(--gold);
+      color: var(--navy);
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s;
+    }
 
-        .footer { position: relative; background: url('imgs/420519959_751607456923358_7716867889919991985_n.png') center/cover no-repeat; color: #fff; padding: 60px 40px 30px; min-height: 350px; margin-top: auto; }
-        .footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26,26,82,0.85); z-index: 1; }
-        .footer > * { position: relative; z-index: 2; }
-        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 40px; margin-bottom: 50px; }
-        .footer-left { display: flex; align-items: center; justify-content: center; gap: 40px; flex: 1; }
-        .footer-logos { display: flex; align-items: center; justify-content: center; gap: 40px; }
-        .footer-logos img { height: 120px; width: auto; object-fit: contain; }
-        .footer-divider { width: 2px; height: 150px; background: #fff; }
-        .footer-right { display: flex; align-items: center; gap: 30px; }
-        .footer-uep-logo img { height: 90px; width: auto; }
-        .footer-uep-text h3 { font-size: 24px; font-weight: 700; margin-bottom: 5px; }
-        .footer-uep-text p { font-size: 14px; opacity: 0.9; }
-        .footer-links { display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; padding: 30px 0; border-top: 1px solid rgba(255,255,255,0.3); max-width: 1400px; margin: 0 auto; }
-        .footer-links a { text-decoration: none; color: #FFD700; font-weight: 600; font-size: 15px; transition: 0.2s; }
-        .footer-links a:hover { color: #FFF; text-decoration: underline; }
-        .footer-bottom { text-align: center; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.6); }
-    </style>
+    .register-btn:hover {
+      background: var(--gold-dark);
+      transform: translateY(-1px);
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-border);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-text {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* Officers */
+    .officers-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .officers-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--gray-bg);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .officers-list li::before {
+      content: '👤';
+      font-size: 16px;
+    }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--gold-dark); }
+
+    /* Loading/error */
+    .loading-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #dc2626;
+      font-size: 15px;
+    }
+
+    @media (max-width: 640px) {
+      .org-header-card { flex-direction: column; text-align: center; }
+      .org-logo { width: 100px; height: 100px; }
+      .org-name { font-size: 24px; }
+    }
+  </style>
 </head>
 <body>
 
+<!-- NAVBAR -->
 <header class="site-header">
-    <div class="top-dark"></div>
-    <div class="top-blue"></div>
-    <div class="top-yellow"></div>
-    <div class="top-white">
-        <div class="logo-circle"></div>
-        <nav class="nav-links">
-            <a href="dashboard.html">HOME</a>
-            <a href="org.html">ORGANIZATION</a>
-            <a href="regu.html">REGULATIONS</a>
-        </nav>
-    </div>
-    <div class="top-separator"></div>
+  <nav class="navbar">
+    <a href="dashboard.html" class="nav-logo">
+      <div class="nav-logo-img"></div>
+      <span class="nav-logo-text">University of Eastern Philippines</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="org.html" class="active">Organizations</a></li>
+      <li><a href="regu.html">Regulations</a></li>
+    </ul>
+  </nav>
 </header>
 
-<div class="page" id="pageContent">
-    <p class="loading">Loading organization details...</p>
+<!-- PAGE CONTENT -->
+<div class="page">
+  <a href="org.html" class="back-link">← Back to Organizations</a>
+  <div id="pageContent">
+    <div class="loading-state">⏳ Loading organization details...</div>
+  </div>
 </div>
 
-<div class="back-button-container">
-    <a href="org.html"><button class="btn-back">BACK</button></a>
-</div>
-
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-left">
-            <div class="footer-logos">
-                <img src="imgs/Screenshot 2025-11-22 120936.png" alt="SOCOTEC Logo">
-                <img src="imgs/images-removebg-preview.png" alt="Freedom of Information">
-                <img src="imgs/images-removebg-preview (1).png" alt="Philippine Transparency Seal">
-            </div>
-        </div>
-        <div class="footer-divider"></div>
-        <div class="footer-right">
-            <div class="footer-uep-logo"><img src="imgs/logo.png" alt="UEP Logo"></div>
-            <div class="footer-uep-text">
-                <h3>UNIVERSITY OF EASTERN PHILIPPINES</h3>
-                <p>University Town, Northern Samar</p>
-            </div>
-        </div>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"></div>
+      <div>
+        <div class="footer-name">University of Eastern Philippines</div>
+        <div class="footer-tagline">University Town, Northern Samar</div>
+      </div>
     </div>
-    <div class="footer-links">
-        <a href="https://ueplms.net/studentportal/">UEP Student Portal</a>
-        <a href="https://www.facebook.com/UEPOfficialFBPage">Official Facebook Page</a>
-        <a href="http://uep.edu.ph/certificate-of-program-compliance/">UEP COPC</a>
-        <a href="https://emailmg.ipage.com/roundcube/">UEP Official Webmail</a>
+    <div class="footer-links-group">
+      <a href="https://ueplms.net/studentportal/" target="_blank">Student Portal</a>
+      <a href="https://www.facebook.com/UEPOfficialFBPage" target="_blank">Facebook Page</a>
+      <a href="http://uep.edu.ph/certificate-of-program-compliance/" target="_blank">UEP COPC</a>
+      <a href="https://emailmg.ipage.com/roundcube/" target="_blank">Webmail</a>
     </div>
-    <div class="footer-bottom">Copyright © 2025 University of Eastern Philippines</div>
+  </div>
+  <div class="footer-bottom">Copyright © 2025 University of Eastern Philippines</div>
 </footer>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
 
-    async function fetchOrg() {
-        try {
-            const res = await fetch(`http://localhost:8082/api/organizations/${id}`);
-            const org = await res.json();
-            renderOrg(org);
-        } catch (err) {
-            document.getElementById('pageContent').innerHTML = '<p class="loading">Failed to load organization. Make sure backend is running.</p>';
-        }
+  async function fetchOrg() {
+    try {
+      const res = await fetch(`http://localhost:8082/api/organizations/${id}`);
+      const org = await res.json();
+      renderOrg(org);
+    } catch (err) {
+      document.getElementById('pageContent').innerHTML = `
+        <div class="error-state">
+          ❌ Failed to load organization. Make sure the organizations backend is running on port 8082.
+        </div>`;
     }
+  }
 
-    function renderOrg(org) {
-        const officersList = org.officers && org.officers.length > 0
-            ? org.officers.map(o => `<li>${o}</li>`).join('')
-            : '<li>No officers listed.</li>';
+  function renderOrg(org) {
+    const officersList = org.officers && org.officers.length > 0
+      ? org.officers.map(o => `<li>${o}</li>`).join('')
+      : '<li>No officers listed.</li>';
 
-        document.getElementById('pageContent').innerHTML = `
-            <div class="org-header">
-                <img src="${org.logoUrl}" alt="${org.name}" class="org-logo" onerror="this.src='imgs/logo.png'">
-                <div class="org-info">
-                    <h1>${org.name}</h1>
-                    <span class="org-category">${org.category}</span>
-                </div>
-            </div>
+    document.getElementById('pageContent').innerHTML = `
+      <div class="org-header-card">
+        <img src="${org.logoUrl}" alt="${org.name}" class="org-logo" onerror="this.src='imgs/logo.png'">
+        <div class="org-info">
+          <span class="org-category">${org.category || 'Organization'}</span>
+          <div class="org-name">${org.name}</div>
+          <a href="register.html?orgId=${org.id}" class="register-btn">Apply to Join</a>
+        </div>
+      </div>
 
-            <div class="section-box">
-                <h2 class="section-title">About the Organization</h2>
-                <p class="section-text">${org.description}</p>
-            </div>
+      <div class="section-card">
+        <h2 class="section-title">📋 About the Organization</h2>
+        <p class="section-text">${org.description || 'No description available.'}</p>
+      </div>
 
-            <div class="section-box">
-                <h2 class="section-title">Officers</h2>
-                <ul class="officers-list">
-                    ${officersList}
-                </ul>
-            </div>
-        `;
+      <div class="section-card">
+        <h2 class="section-title">👥 Officers</h2>
+        <ul class="officers-list">
+          ${officersList}
+        </ul>
+      </div>
+    `;
 
-        document.title = org.name;
-    }
+    document.title = `${org.name} — UEP SORS`;
+  }
 
-    if (id) {
-        fetchOrg();
-    } else {
-        document.getElementById('pageContent').innerHTML = '<p class="loading">No organization selected.</p>';
-    }
+  if (id) {
+    fetchOrg();
+  } else {
+    document.getElementById('pageContent').innerHTML = `
+      <div class="error-state">No organization selected. <a href="org.html">Go back</a></div>`;
+  }
 </script>
 
-<script src="sors.js"></script>
 <script src="sors.js"></script>
 </body>
 </html>

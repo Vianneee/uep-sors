@@ -3,399 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>USC, CSC PIOs joins 4th Pagsubay</title>
-  
+  <title>USC, CSC PIOs joins 4th Pagsubay — UEP SORS</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    body { background: var(--white); }
 
-    body {
-      font-family: 'Inria Sans', sans-serif;
-      background: #ffffff;
-    }
-
-    .top-dark {
-      background: #131045;
-      height: 42px;
-    }
-    .top-blue {
-      background: #22204F;
-      height: 12px;
-    }
-    .top-yellow {
-      background: #FFD700;
-      height: 12px;
-    }
-
-    .top-white {
-      background: #ffffff;
-      height: 80px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 80px;
-    }
-
-    .logo-circle {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: url("imgs/logo.png") center/cover no-repeat;
-    }
-  .top-separator {
-            background: #131045;
-            height: 8px;
-        }
-    .nav-links {
-      display: flex;
-      gap: 60px;
-    }
-
-    .nav-links a {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 0.04em;
-      color: #000000;
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-
-    .nav-links a:hover {
-      color: #FFD700;
-    }
-
-    .top-separator {
-      background: #131045;
-      height: 8px;
-    }
-
-    .page {
-      max-width: 1336px;
-      min-height: 1700px;
-      margin: 0 auto;
-      background: #ffffff;
-      position: relative;
-    }
-
-    .title {
-      width: 840px;
-      margin: 50px auto 0;
-      font-weight: 700;
-      font-size: 48px;
-      line-height: 1.2;
-      text-align: center;
-    }
-
-    .title-line {
-      width: 390px;
-      margin: 10px auto 0;
-      border-top: 5px solid #FFE203;
-    }
-
-    .subtitle {
-      width: 619px;
-      margin: 20px auto 0;
-      font-weight: 700;
-      font-size: 18px;
-      text-align: center;
-      color: #131045;
-    }
-
-    .hero-image {
-      width: 976px;
-      height: 534px;
-      margin: 90px auto 0;
+    .article-hero {
+      width: 100%;
+      height: 480px;
       background: url('imgs/event3.jpg') no-repeat center/cover;
-    }
-
-    .article {
-      width: 1190px;
-      margin: 90px auto 0;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 700;
-      font-size: 24px;
-      line-height: 40px;
-    }
-
-    .article p {
-      margin-bottom: 18px;
-      text-align: justify;
-    }
-
-    .back-button-container {
-      text-align: center;
-      margin: 50px 0;
-    }
-
-   .btn-back {
-    padding: 15px 22px;
-    border: 1.5px solid #ffd000;
-    border-radius: 20px;
-    background:#ffd000;
-    font-weight: 600;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-.btn-back:hover {
-    background: #FCE87F;
-    color: #0F0F45;
-}
-
-    .footer {
       position: relative;
-      background: url('imgs/420519959_751607456923358_7716867889919991985_n.png') center/cover no-repeat;
-      color: #fff;
-      padding: 60px 40px 30px;
-      min-height: 350px;
     }
 
-    .footer::before {
+    .article-hero::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(26, 26, 82, 0.85);
-      z-index: 1;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(19,16,69,0.2), rgba(19,16,69,0.7));
     }
 
-    .footer > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .footer-content {
-      max-width: 1400px;
+    .article-wrap {
+      max-width: 820px;
       margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 40px;
-      margin-bottom: 50px;
+      padding: 48px 32px 60px;
     }
 
-    .footer-left {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-      flex: 1;
-    }
-
-    .footer-logos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-    }
-
-    .footer-logos img {
-      height: 120px;
-      width: auto;
-      object-fit: contain;
-    }
-
-    .footer-divider {
-      width: 2px;
-      height: 150px;
-      background: #fff;
-    }
-
-    .footer-right {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .footer-uep-logo img {
-      height: 90px;
-      width: auto;
-    }
-
-    .footer-uep-text h3 {
-      font-size: 24px;
+    .article-category {
+      display: inline-block;
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 10px;
       font-weight: 700;
-      margin-bottom: 5px;
-      letter-spacing: 0.5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-bottom: 16px;
     }
 
-    .footer-uep-text p {
-      font-size: 14px;
-      font-weight: 400;
-      opacity: 0.9;
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: var(--navy);
+      line-height: 1.3;
+      margin-bottom: 12px;
     }
 
-    .footer-links {
+    .article-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .article-body {
+      font-family: 'Source Serif 4', serif;
+      font-size: 18px;
+      line-height: 1.9;
+      color: #333;
+    }
+
+    .article-body p { margin-bottom: 20px; text-align: justify; }
+
+    .reactions-section {
+      max-width: 820px;
+      margin: 48px auto 0;
+      padding: 32px;
+      background: var(--gray-bg);
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .reactions-label {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .reactions-row {
       display: flex;
       justify-content: center;
-      gap: 80px;
+      gap: 16px;
       flex-wrap: wrap;
-      padding: 30px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.3);
-      max-width: 1400px;
-      margin: 0 auto;
     }
 
-    .footer-links a {
-      text-decoration: none;
-      color: #FFD700;
-      font-weight: 600;
-      font-size: 15px;
-      transition: 0.2s;
+    .reaction-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      border: 2px solid transparent;
+      border-radius: 16px;
+      padding: 14px 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Poppins', sans-serif;
     }
 
-    .footer-links a:hover {
-      color: #FFF;
-      text-decoration: underline;
-    }
+    .reaction-btn:hover { background: #fff8cc; border-color: var(--gold); transform: scale(1.08); }
+    .reaction-btn.active { background: var(--gold); border-color: var(--navy); }
+    .reaction-btn .emoji { font-size: 28px; }
+    .reaction-btn .count { font-size: 14px; font-weight: 700; color: var(--navy); }
 
-    .footer-bottom {
+    .back-link {
+      display: block;
       text-align: center;
-      margin-top: 20px;
-      font-size: 12px;
-      color: rgba(255, 255, 255, .6);
+      color: var(--navy);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      margin: 32px auto;
     }
 
-    /* Responsive footer */
-    @media (max-width: 1024px) {
-      .footer-content {
-        flex-direction: column;
-        text-align: center;
-      }
-      .footer-divider {
-        height: 2px;
-        width: 100%;
-      }
-    }
-    .reactions-section {
-  max-width: 700px;
-  margin: 60px auto 20px;
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-}
-.reactions-label {
-  font-size: 18px;
-  font-weight: 700;
-  color: #131045;
-  margin-bottom: 20px;
-}
-.reactions-row {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-.reaction-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  background: #f5f5f5;
-  border: 2px solid transparent;
-  border-radius: 16px;
-  padding: 14px 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Poppins', sans-serif;
-}
-.reaction-btn:hover { background: #fff8cc; border-color: #FFD700; transform: scale(1.08); }
-.reaction-btn.active { background: #FFD700; border-color: #131045; }
-.reaction-btn .emoji { font-size: 32px; }
-.reaction-btn .count { font-size: 15px; font-weight: 700; color: #131045; }
-
+    .back-link:hover { color: var(--gold-dark); }
   </style>
 </head>
-
 <body>
 
-<div class="top-dark"></div>
-<div class="top-blue"></div>
-<div class="top-yellow"></div>
-<div class="top-white">
-  <div class="logo-circle"></div>
-  <nav class="nav-links">
-    <a href="dashboard.html">HOME</a>
-    <a href="org.html">ORGANIZATION</a>
-    <a href="regu.html">REGULATIONS</a>
+<!-- NAVBAR -->
+<header class="site-header">
+  <nav class="navbar">
+    <a href="dashboard.html" class="nav-logo">
+      <div class="nav-logo-img"></div>
+      <span class="nav-logo-text">University of Eastern Philippines</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="org.html">Organizations</a></li>
+      <li><a href="regu.html">Regulations</a></li>
+    </ul>
   </nav>
+</header>
+
+<!-- HERO IMAGE -->
+<div class="article-hero"></div>
+
+<!-- ARTICLE -->
+<div class="article-wrap">
+  <span class="article-category">Campus News</span>
+  <h1 class="article-title">USC, CSC PIOs joins 4th Pagsubay: A Journalism Skills Training</h1>
+  <p class="article-meta">By University Student Council — UEP Main Campus &nbsp;·&nbsp; October 30, 2025</p>
+
+  <div class="article-body">
+    <p>During the culmination of the event, PIOs bagged the third placer in Editorial Writing with its piece titled "Deferral of UEPAA: Benefit in Disguise," highlighting its stance with the postponement of this year's UEPAA Games.</p>
+
+    <p>The 4th Pagsubay: A Journalism Skills Training gathered Public Information Officers (PIOs) from the University Student Council (USC) and College Student Councils (CSC) across the UEP Main Campus. The training was designed to sharpen the communication and journalism skills of student leaders tasked with disseminating information to the broader student body.</p>
+
+    <p>Participants engaged in workshops covering news writing, feature writing, editorial writing, and social media communication. Resource speakers from the field of journalism and campus publications shared their expertise and practical tips for effective student reporting.</p>
+
+    <p>The event also served as a platform for PIOs to network with their counterparts from different colleges, fostering collaboration and a shared commitment to transparent and accurate student communications.</p>
+
+    <p>The success of the 4th Pagsubay reflects the USC and CSC's ongoing dedication to building the capacity of student leaders and ensuring that UEP students remain well-informed about campus affairs and events. ¶</p>
+  </div>
 </div>
-<div class="top-separator"></div>
-<div class="page">
-   <h1 class="title"> USC, CSC PIOs joins 4th Pagsubay: A Journalism Skills Training </h1>
-    <div class="title-line"></div> 
-    <div class="subtitle"> By University Student Council - UEP Main Campus on October 30, 2025 </div> 
-    <div class="hero-image"></div> 
-    <div class="article">
-       <p> USC, CSC PIOs joins 4th Pagsubay: A Journalism Skills Training </p> 
-       <br>
-       <p> University Student Council (USC) and College Student Council (CSC) Public Information Officers along with campus student journalists participated in the 4th Pagsubay: A Journalism Skills Training organized by The Pillar, on October 27–30, held at UEP Centennial Hall and Farmer's Training Center. </p>
-        <br>
-       <p> The four-day event was attended by Glaiza MJ Camacho, USC PIO; Grythel Banayag, CAC SC PIO; Angel Joy Reyes, CAFNR SC PIO; Kleint Cajeme, CBA SC PIO; Kimverly Igat, CCJ SC PIO; and Rowel Dela Cruz, USC PIO of PRMC, which involved workshops and sessions in writing, photojournalism, videography, and broadcasting, equipping them with skills that are essential for their roles in public relations and releasing council reports.  This also served as an avenue for PIOs to broaden their knowledge in both technicalities and applications, laying the foundation for a responsible, action-driven dissemination of information. </p>
-         <br>
-       <p> During the culmination of the event, PIOs bagged the third placer in Editorial Writing with its piece titled "Deferral of UEPAA: Benefit in Disguise," highlighting its stance with the postponement of this year's UEPAA Games. </p>
-           <br>
-       <p> Building on this experience, the USC PIO with its committee is set to revive The Crier, the official publication of the USC, looking forward to making it part of next year's training. </p>
-           </div>
-           </div> 
-            <div class="reactions-section">
-              <p class="reactions-label">How did this article make you feel?</p>
-              <div class="reactions-row">
-                <button class="reaction-btn" onclick="reactGated('event3', 'like', this)"><span class="emoji">👍</span><span class="count" id="event3-like">0</span></button>
-                <button class="reaction-btn" onclick="reactGated('event3', 'love', this)"><span class="emoji">❤️</span><span class="count" id="event3-love">0</span></button>
-                <button class="reaction-btn" onclick="reactGated('event3', 'fire', this)"><span class="emoji">🔥</span><span class="count" id="event3-fire">0</span></button>
-                <button class="reaction-btn" onclick="reactGated('event3', 'sad', this)"><span class="emoji">😢</span><span class="count" id="event3-sad">0</span></button>
-                <button class="reaction-btn" onclick="reactGated('event3', 'angry', this)"><span class="emoji">😡</span><span class="count" id="event3-angry">0</span></button>
-              </div>
-            </div>
-   
-            <div class="back-button-container">
-               <a href="dashboard.html"> <button class="btn-back">BACK</button> 
-              </a> 
-            </div>
-<footer class="footer">
-  <div class="footer-content">
-    <div class="footer-left">
-      <div class="footer-logos">
-        <img src="imgs/Screenshot 2025-11-22 120936.png" alt="SOCOTEC Logo">
-        <img src="imgs/images-removebg-preview.png" alt="Freedom of Information">
-        <img src="imgs/images-removebg-preview (1).png" alt="Philippine Transparency Seal">
+
+<!-- REACTIONS -->
+<div class="reactions-section">
+  <p class="reactions-label">How did this article make you feel?</p>
+  <div class="reactions-row">
+    <button class="reaction-btn" onclick="reactGated('event3', 'like', this)"><span class="emoji">👍</span><span class="count" id="event3-like">0</span></button>
+    <button class="reaction-btn" onclick="reactGated('event3', 'love', this)"><span class="emoji">❤️</span><span class="count" id="event3-love">0</span></button>
+    <button class="reaction-btn" onclick="reactGated('event3', 'fire', this)"><span class="emoji">🔥</span><span class="count" id="event3-fire">0</span></button>
+    <button class="reaction-btn" onclick="reactGated('event3', 'sad', this)"><span class="emoji">😢</span><span class="count" id="event3-sad">0</span></button>
+    <button class="reaction-btn" onclick="reactGated('event3', 'angry', this)"><span class="emoji">😡</span><span class="count" id="event3-angry">0</span></button>
+  </div>
+</div>
+
+<a href="dashboard.html" class="back-link">← Back to Home</a>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"></div>
+      <div>
+        <div class="footer-name">University of Eastern Philippines</div>
+        <div class="footer-tagline">University Town, Northern Samar</div>
       </div>
     </div>
-
-    <div class="footer-divider"></div>
-
-    <div class="footer-right">
-      <div class="footer-uep-logo">
-        <img src="imgs/logo.png" alt="UEP Logo">
-      </div>
-      <div class="footer-uep-text">
-        <h3>UNIVERSITY OF EASTERN PHILIPPINES</h3>
-        <p>University Town, Northern Samar</p>
-      </div>
+    <div class="footer-links-group">
+      <a href="https://ueplms.net/studentportal/" target="_blank">Student Portal</a>
+      <a href="https://www.facebook.com/UEPOfficialFBPage" target="_blank">Facebook Page</a>
+      <a href="http://uep.edu.ph/certificate-of-program-compliance/" target="_blank">UEP COPC</a>
+      <a href="https://emailmg.ipage.com/roundcube/" target="_blank">Webmail</a>
     </div>
   </div>
-
-  <div class="footer-links">
-    <a href="https://ueplms.net/studentportal/">UEP Student Portal</a>
-    <a href="https://www.facebook.com/UEPOfficialFBPage">Official Facebook Page</a>
-    <a href="http://uep.edu.ph/certificate-of-program-compliance/">UEP COPC</a>
-    <a href="https://emailmg.ipage.com/roundcube/">UEP Official Webmail</a>
-  </div>
-
-  <div class="footer-bottom">
-    Copyright © 2025 University of Eastern Philippines
-  </div>
+  <div class="footer-bottom">Copyright © 2025 University of Eastern Philippines</div>
 </footer>
 
 <script>
@@ -407,7 +204,7 @@
   });
   const userPick = localStorage.getItem(`${articleId}-userPick`);
   if (userPick) {
-    const btn = document.querySelector(`[onclick="react('${articleId}', '${userPick}', this)"]`);
+    const btn = document.querySelector(`[onclick="reactGated('${articleId}', '${userPick}', this)"]`);
     if (btn) btn.classList.add('active');
   }
   function react(articleId, type, btn) {
@@ -424,7 +221,7 @@
       const prevCount = parseInt(localStorage.getItem(`${articleId}-${prevPick}`)) - 1;
       localStorage.setItem(`${articleId}-${prevPick}`, prevCount);
       document.getElementById(`${articleId}-${prevPick}`).textContent = prevCount;
-      document.querySelector(`[onclick="react('${articleId}', '${prevPick}', this)"]`)?.classList.remove('active');
+      document.querySelector(`[onclick="reactGated('${articleId}', '${prevPick}', this)"]`)?.classList.remove('active');
     }
     const count = parseInt(localStorage.getItem(`${articleId}-${type}`) || 0) + 1;
     localStorage.setItem(`${articleId}-${type}`, count);
@@ -433,8 +230,6 @@
     localStorage.setItem(`${articleId}-userPick`, type);
   }
 </script>
-
-<script src="sors.js"></script>
 <script src="sors.js"></script>
 </body>
 </html>

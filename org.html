@@ -1,205 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organizations</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inria Sans', Arial, sans-serif; background: #f5f5f5; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organizations — UEP SORS</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .page-hero {
+      background: var(--navy);
+      padding: 56px 32px 48px;
+      text-align: center;
+      border-bottom: 4px solid var(--gold);
+    }
+    .page-hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .page-hero p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+    }
 
-        .site-header { width: 100%; position: sticky; top: 0; z-index: 999; }
-        .top-dark { background: #131045; height: 42px; }
-        .top-blue { background: #22204F; height: 12px; }
-        .top-yellow { background: #FFD700; height: 12px; }
-        .top-white { background: #ffffff; height: 80px; position: relative; display: flex; align-items: center; justify-content: flex-end; padding-right: 80px; }
-        .logo-circle { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 70px; height: 70px; border-radius: 50%; background: url("imgs/logo.png") center/cover no-repeat; }
-        .nav-links { display: flex; gap: 60px; }
-        .nav-links a { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.04em; color: #000000; text-decoration: none; transition: 0.2s ease; }
-        .nav-links a:hover { color: #FFD700; }
-        .top-separator { background: #131045; height: 15px; }
+    /* Controls */
+    .controls {
+      max-width: 900px;
+      margin: 40px auto 0;
+      padding: 0 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
 
-        .page-title { text-align: center; font-family: 'Poppins', sans-serif; font-size: 60px; font-weight: 600; color: #0F0F45; margin-top: 45px; letter-spacing: 3px; }
+    .search-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+    }
 
-        /* Search and Filter */
-        .controls { display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 30px auto; max-width: 1300px; padding: 0 80px; }
-        .search-bar { width: 100%; max-width: 600px; padding: 12px 20px; border-radius: 25px; border: 2px solid #131045; font-size: 16px; outline: none; }
-        .search-bar:focus { border-color: #FFD700; }
-        .filter-btns { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .filter-btn { padding: 10px 24px; border-radius: 20px; border: 2px solid #131045; background: transparent; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; color: #131045; }
-        .filter-btn:hover, .filter-btn.active { background: #131045; color: #FFD700; }
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--text-muted);
+    }
 
-        .events-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 40px 80px; max-width: 1300px; margin: 10px auto; }
-        .event-card { background: #0F0F45; border-radius: 20px; padding: 40px 20px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; align-items: center; height: 400px; transition: 0.3s; }
-        .event-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .event-img { width: 140px; height: 140px; background: white; border-radius: 5px; object-fit: cover; }
-        .event-title { color: white; font-size: 18px; font-weight: 600; margin: 20px 0; }
-        .event-btn { padding: 10px 22px; border: 3px solid #ffd000; border-radius: 20px; color: white; background: transparent; font-size: 14px; cursor: pointer; font-weight: 600; transition: 0.2s; text-decoration: none; display: inline-block; }
-        .event-btn:hover { background: #ffd000; color: #0F0F45; }
+    .search-bar {
+      width: 100%;
+      padding: 13px 16px 13px 44px;
+      border: 2px solid var(--gray-border);
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      color: var(--navy);
+      outline: none;
+      transition: border-color 0.2s;
+      background: var(--white);
+    }
 
-        .no-results { text-align: center; color: #666; font-size: 20px; margin: 40px 0; width: 100%; }
+    .search-bar:focus { border-color: var(--gold); }
 
-        .back-button-container { text-align: center; margin: 50px 0; }
-        .btn-back { padding: 15px 22px; border: 1.5px solid #ffd000; border-radius: 20px; background: #ffd000; font-weight: 600; font-size: 18px; cursor: pointer; }
-        .btn-back:hover { background: #FCE87F; color: #0F0F45; }
+    .filter-btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-        .footer { position: relative; background: url('imgs/420519959_751607456923358_7716867889919991985_n.png') center/cover no-repeat; color: #fff; padding: 60px 40px 30px; min-height: 350px; margin-top: auto; }
-        .footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26,26,82,0.85); z-index: 1; }
-        .footer > * { position: relative; z-index: 2; }
-        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 40px; margin-bottom: 50px; }
-        .footer-left { display: flex; align-items: center; justify-content: center; gap: 40px; flex: 1; }
-        .footer-logos { display: flex; align-items: center; justify-content: center; gap: 40px; }
-        .footer-logos img { height: 120px; width: auto; object-fit: contain; }
-        .footer-divider { width: 2px; height: 150px; background: #fff; }
-        .footer-right { display: flex; align-items: center; gap: 30px; }
-        .footer-uep-logo img { height: 90px; width: auto; }
-        .footer-uep-text h3 { font-size: 24px; font-weight: 700; margin-bottom: 5px; letter-spacing: 0.5px; }
-        .footer-uep-text p { font-size: 14px; font-weight: 400; opacity: 0.9; }
-        .footer-links { display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; padding: 30px 0; border-top: 1px solid rgba(255,255,255,0.3); max-width: 1400px; margin: 0 auto; }
-        .footer-links a { text-decoration: none; color: #FFD700; font-weight: 600; font-size: 15px; transition: 0.2s; }
-        .footer-links a:hover { color: #FFF; text-decoration: underline; }
-        .footer-bottom { text-align: center; margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.6); }
+    .filter-btn {
+      padding: 8px 20px;
+      border-radius: 50px;
+      border: 2px solid var(--navy);
+      background: transparent;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--navy);
+    }
 
-        @media (max-width: 768px) { .events-container { padding: 30px 20px; gap: 30px; } .controls { padding: 0 20px; } }
-    </style>
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--navy);
+      color: var(--gold);
+    }
+
+    /* Org Grid */
+    .orgs-section {
+      max-width: 1200px;
+      margin: 40px auto 60px;
+      padding: 0 32px;
+    }
+
+    .orgs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .org-card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-border);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .org-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .org-card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .org-card-img img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .org-card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .org-category {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--navy);
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 50px;
+      margin-bottom: 10px;
+    }
+
+    .org-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .org-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      flex: 1;
+      margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .org-btn {
+      display: inline-block;
+      padding: 9px 20px;
+      background: var(--gold);
+      color: var(--navy);
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .org-btn:hover { background: var(--gold-dark); }
+
+    /* States */
+    .loading-state,
+    .empty-state,
+    .error-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 15px;
+      grid-column: 1 / -1;
+    }
+
+    .empty-state h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .page-hero h1 { font-size: 32px; }
+      .orgs-section { padding: 0 16px; }
+      .controls { padding: 0 16px; }
+    }
+  </style>
 </head>
 <body>
 
+<!-- NAVBAR -->
 <header class="site-header">
-    <div class="top-dark"></div>
-    <div class="top-blue"></div>
-    <div class="top-yellow"></div>
-    <div class="top-white">
-        <div class="logo-circle"></div>
-        <nav class="nav-links">
-            <a href="dashboard.html">HOME</a>
-            <a href="org.html">ORGANIZATION</a>
-            <a href="regu.html">REGULATIONS</a>
-        </nav>
-    </div>
-    <div class="top-separator"></div>
+  <nav class="navbar">
+    <a href="dashboard.html" class="nav-logo">
+      <div class="nav-logo-img"></div>
+      <span class="nav-logo-text">University of Eastern Philippines</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Home</a></li>
+      <li><a href="org.html" class="active">Organizations</a></li>
+      <li><a href="regu.html">Regulations</a></li>
+    </ul>
+  </nav>
 </header>
 
-<h1 class="page-title">ORGANIZATIONS</h1>
+<!-- HERO -->
+<section class="page-hero">
+  <p class="page-hero-label">Student Organizations</p>
+  <h1>Find Your Community</h1>
+  <p>Browse and join organizations that match your interests and goals.</p>
+</section>
 
+<!-- CONTROLS -->
 <div class="controls">
-    <input type="text" class="search-bar" id="searchInput" placeholder="Search organization...">
-    <div class="filter-btns">
-        <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
-        <button class="filter-btn" onclick="filterCategory('Civic', this)">Civic</button>
-        <button class="filter-btn" onclick="filterCategory('Non-Civic', this)">Non-Civic</button>
-        <button class="filter-btn" onclick="filterCategory('Academic', this)">Academic</button>
-        <button class="filter-btn" onclick="filterCategory('Non-Academic', this)">Non-Academic</button>
-    </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-bar" id="searchInput" placeholder="Search organizations...">
+  </div>
+  <div class="filter-btns">
+    <button class="filter-btn active" onclick="filterCategory('all', this)">All</button>
+    <button class="filter-btn" onclick="filterCategory('Civic', this)">Civic</button>
+    <button class="filter-btn" onclick="filterCategory('Non-Civic', this)">Non-Civic</button>
+    <button class="filter-btn" onclick="filterCategory('Academic', this)">Academic</button>
+    <button class="filter-btn" onclick="filterCategory('Non-Academic', this)">Non-Academic</button>
+  </div>
 </div>
 
-<div class="events-container" id="orgContainer">
-    <p style="color:#666; font-size:18px;">Loading organizations...</p>
-</div>
+<!-- ORG GRID -->
+<section class="orgs-section">
+  <div class="orgs-grid" id="orgContainer">
+    <div class="loading-state">⏳ Loading organizations...</div>
+  </div>
+</section>
 
-<div class="back-button-container">
-    <a href="dashboard.html"><button class="btn-back">BACK</button></a>
-</div>
-
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-left">
-            <div class="footer-logos">
-                <img src="imgs/Screenshot 2025-11-22 120936.png" alt="SOCOTEC Logo">
-                <img src="imgs/images-removebg-preview.png" alt="Freedom of Information">
-                <img src="imgs/images-removebg-preview (1).png" alt="Philippine Transparency Seal">
-            </div>
-        </div>
-        <div class="footer-divider"></div>
-        <div class="footer-right">
-            <div class="footer-uep-logo"><img src="imgs/logo.png" alt="UEP Logo"></div>
-            <div class="footer-uep-text">
-                <h3>UNIVERSITY OF EASTERN PHILIPPINES</h3>
-                <p>University Town, Northern Samar</p>
-            </div>
-        </div>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"></div>
+      <div>
+        <div class="footer-name">University of Eastern Philippines</div>
+        <div class="footer-tagline">University Town, Northern Samar</div>
+      </div>
     </div>
-    <div class="footer-links">
-        <a href="https://ueplms.net/studentportal/">UEP Student Portal</a>
-        <a href="https://www.facebook.com/UEPOfficialFBPage">Official Facebook Page</a>
-        <a href="http://uep.edu.ph/certificate-of-program-compliance/">UEP COPC</a>
-        <a href="https://emailmg.ipage.com/roundcube/">UEP Official Webmail</a>
+    <div class="footer-links-group">
+      <a href="https://ueplms.net/studentportal/" target="_blank">Student Portal</a>
+      <a href="https://www.facebook.com/UEPOfficialFBPage" target="_blank">Facebook Page</a>
+      <a href="http://uep.edu.ph/certificate-of-program-compliance/" target="_blank">UEP COPC</a>
+      <a href="https://emailmg.ipage.com/roundcube/" target="_blank">Webmail</a>
     </div>
-    <div class="footer-bottom">Copyright © 2025 University of Eastern Philippines</div>
+  </div>
+  <div class="footer-bottom">Copyright © 2025 University of Eastern Philippines</div>
 </footer>
 
 <script>
-    const API_URL = 'http://localhost:8082/api/organizations';
-    let allOrgs = [];
-    let currentCategory = 'all';
+  const API_URL = 'http://localhost:8082/api/organizations';
+  let allOrgs = [];
 
-    async function fetchOrgs() {
-        try {
-            const res = await fetch(API_URL);
-            allOrgs = await res.json();
-            renderOrgs(allOrgs);
-        } catch (err) {
-            document.getElementById('orgContainer').innerHTML = '<p class="no-results">Failed to load organizations. Make sure the backend is running.</p>';
-        }
+  async function fetchOrgs() {
+    try {
+      const res = await fetch(API_URL);
+      allOrgs = await res.json();
+      renderOrgs(allOrgs);
+    } catch (err) {
+      document.getElementById('orgContainer').innerHTML = `
+        <div class="error-state">
+          ❌ Could not load organizations. Make sure the organizations backend is running on port 8082.
+        </div>`;
     }
+  }
 
-    function renderOrgs(orgs) {
-        const container = document.getElementById('orgContainer');
-        if (orgs.length === 0) {
-            container.innerHTML = '<p class="no-results">No organizations found.</p>';
-            return;
-        }
-        container.innerHTML = orgs.map(org => `
-            <div class="event-card">
-                <img src="${org.logoUrl}" alt="${org.name}" class="event-img" onerror="this.src='imgs/logo.png'">
-                <div class="event-title">${org.name}</div>
-                <a href="orgdetails.html?id=${org.id}" class="event-btn">LEARN MORE</a>
-            </div>
-        `).join('');
+  function renderOrgs(orgs) {
+    const container = document.getElementById('orgContainer');
+    if (orgs.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <h3>No organizations found</h3>
+          <p>Try a different search term or category.</p>
+        </div>`;
+      return;
     }
+    container.innerHTML = orgs.map(org => `
+      <div class="org-card">
+        <div class="org-card-img">
+          <img src="${org.logoUrl}" alt="${org.name}" onerror="this.src='imgs/logo.png'">
+        </div>
+        <div class="org-card-body">
+          <span class="org-category">${org.category || 'Organization'}</span>
+          <div class="org-name">${org.name}</div>
+          <div class="org-desc">${org.description || ''}</div>
+          <a href="orgdetails.html?id=${org.id}" class="org-btn">Learn More</a>
+        </div>
+      </div>
+    `).join('');
+  }
 
-    async function filterCategory(category, btn) {
-        currentCategory = category;
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('searchInput').value = '';
+  async function filterCategory(category, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('searchInput').value = '';
 
-        if (category === 'all') {
-            renderOrgs(allOrgs);
-        } else {
-            try {
-                const res = await fetch(`${API_URL}?category=${category}`);
-                const data = await res.json();
-                renderOrgs(data);
-            } catch (err) {
-                renderOrgs([]);
-            }
-        }
+    if (category === 'all') {
+      renderOrgs(allOrgs);
+    } else {
+      try {
+        const res = await fetch(`${API_URL}?category=${category}`);
+        const data = await res.json();
+        renderOrgs(data);
+      } catch (err) {
+        renderOrgs([]);
+      }
     }
+  }
 
-    document.getElementById('searchInput').addEventListener('input', async function () {
-        const search = this.value.trim();
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('.filter-btn').classList.add('active');
-        currentCategory = 'all';
+  document.getElementById('searchInput').addEventListener('input', async function () {
+    const search = this.value.trim();
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.filter-btn').classList.add('active');
 
-        if (search === '') {
-            renderOrgs(allOrgs);
-            return;
-        }
-        try {
-            const res = await fetch(`${API_URL}?search=${search}`);
-            const data = await res.json();
-            renderOrgs(data);
-        } catch (err) {
-            renderOrgs([]);
-        }
-    });
+    if (search === '') {
+      renderOrgs(allOrgs);
+      return;
+    }
+    try {
+      const res = await fetch(`${API_URL}?search=${search}`);
+      const data = await res.json();
+      renderOrgs(data);
+    } catch (err) {
+      renderOrgs([]);
+    }
+  });
 
-    fetchOrgs();
+  fetchOrgs();
 </script>
 
-<script src="sors.js"></script>
 <script src="sors.js"></script>
 </body>
 </html>
