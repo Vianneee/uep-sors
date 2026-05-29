@@ -33,7 +33,8 @@ public class SecurityConfig {
                     "/auth/login",
                     "/auth/verify-login",
                     "/auth/guest",
-                    "/auth/resend-otp"
+                    "/auth/resend-otp",
+                    "/h2-console/**"
                 ).permitAll()
 
                 // ─── Guest can only view ───────────────────
@@ -56,6 +57,7 @@ public class SecurityConfig {
                 // ─── Everything else needs authentication ──
                 .anyRequest().authenticated()
             )
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()))
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

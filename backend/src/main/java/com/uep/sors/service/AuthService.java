@@ -143,11 +143,21 @@ public class AuthService {
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new RuntimeException("Invalid credentials.");
+        
+            // Skip OTP for admin — return token directly
+            if (user.getRole() == Role.ADMIN) {
+                String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
+                return Map.of(
+                    "message", "Admin login successful.",
+                    "email", user.getEmail(),
+                    "isAdmin", "true",
+                    "token", token
+                );
+            }
 
-        saveAndSendOTP(user.getEmail(), OtpType.LOGIN);
-
-        return Map.of("message", "Credentials verified. OTP sent to your email.", "email", user.getEmail());
-    }
+            saveAndSendOTP(user.getEmail(), OtpType.LOGIN);
+            return Map.of("message", "Credentials verified. OTP sent to your email.", "email", user.getEmail());
+        }
 
     // ─── LOGIN Step 2 — Verify OTP ─────────────────────────
     public AuthResponse verifyLogin(VerifyOtpRequest request) {

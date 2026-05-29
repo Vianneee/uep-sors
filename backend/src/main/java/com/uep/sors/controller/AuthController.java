@@ -40,7 +40,15 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
             Map<String, String> result = authService.login(request);
-            return ResponseEntity.ok(Map.of("success", true, "message", result.get("message"), "email", result.get("email")));
+            java.util.Map<String, Object> response = new java.util.HashMap<>();
+            response.put("success", true);
+            response.put("message", result.get("message"));
+            response.put("email", result.get("email"));
+            if (result.containsKey("isAdmin")) {
+                response.put("isAdmin", result.get("isAdmin"));
+                response.put("token", result.get("token"));
+            }
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
         }

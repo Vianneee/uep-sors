@@ -644,7 +644,15 @@
         // Sort by most recent first
         apps.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
 
-        const cards = apps.map(app => buildCard(app)).join('');
+        // Fetch org names from organizations backend
+        const orgNames = {};
+        try {
+          const orgRes = await fetch('http://localhost:8082/api/organizations');
+          const orgs = await orgRes.json();
+          orgs.forEach(org => { orgNames[org.id] = org.name; });
+        } catch (e) {}
+
+        const cards = apps.map(app => buildCard(app, orgNames)).join('');
 
         showResults(`
           <div class="results-header">
@@ -663,7 +671,7 @@
       }
     }
 
-    function buildCard(app) {
+    function buildCard(app, orgNames = {}) {
       const status = app.status || 'PENDING';
       const statusLabels = {
         PENDING: 'Under Review',
@@ -680,7 +688,7 @@
         ? new Date(app.reviewedAt).toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' })
         : 'Not yet reviewed';
 
-      const orgName = `Organization #${app.organizationId}`;
+      const orgName = orgNames[app.organizationId] || `Organization #${app.organizationId}`;
 
       const reviewNotes = app.reviewNotes
         ? `<span class="review-notes">💬 "${app.reviewNotes}"</span>`
