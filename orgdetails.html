@@ -160,6 +160,32 @@
       font-size: 15px;
     }
 
+    .committees-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 16px;
+        margin-top: 8px;
+    }
+
+    .committee-item {
+        background: var(--navy);
+        border-radius: 12px;
+        padding: 20px;
+    }
+
+    .committee-name {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--gold);
+        margin-bottom: 8px;
+    }
+
+    .committee-desc {
+        font-size: 13px;
+        color: rgba(255,255,255,0.75);
+        line-height: 1.6;
+    }
+
     @media (max-width: 640px) {
       .org-header-card { flex-direction: column; text-align: center; }
       .org-logo { width: 100px; height: 100px; }
@@ -254,6 +280,32 @@
         <ul class="officers-list">
           ${officersList}
         </ul>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">🤝 Be Part of ${org.name}</h2>
+        <div class="committees-grid">
+          <div class="committee-item">
+            <div class="committee-name">Internal Committee</div>
+            <p class="committee-desc">Focuses on members' welfare, engagement, and personal development to foster a supportive and collaborative environment within the organization.</p>
+          </div>
+          <div class="committee-item">
+            <div class="committee-name">External Committee</div>
+            <p class="committee-desc">Builds partnerships and manages communication with other organizations, institutions, and networks. It also oversees logistics and other requirements needed to ensure activities run smoothly.</p>
+          </div>
+          <div class="committee-item">
+            <div class="committee-name">Finance Committee</div>
+            <p class="committee-desc">Manages the organization's financial operations, including budgeting, fundraising, and resource allocation to sustain its programs and activities.</p>
+          </div>
+          <div class="committee-item">
+            <div class="committee-name">Multimedia Committee</div>
+            <p class="committee-desc">Handles promotions by producing creative materials such as publications, social media content, and other visual or digital outputs.</p>
+          </div>
+          <div class="committee-item">
+            <div class="committee-name">Documentation Committee</div>
+            <p class="committee-desc">Documents and archives the organization's activities and milestones through photos, videos, and written reports to preserve its history and promote transparency.</p>
+          </div>
+        </div>
       </div>
     `;
 

@@ -51,7 +51,7 @@ function showGuestModal(message) {
       <h2 style="font-family:'Playfair Display',serif; font-size:22px; color:#131045; margin-bottom:10px;">Login Required</h2>
       <p style="font-size:14px; color:#666; line-height:1.7; margin-bottom:28px;">${message}</p>
       <div style="display:flex; gap:12px; justify-content:center;">
-        <button onclick="document.getElementById('guest-modal').remove()" style="
+        <button onclick="window.location.href='org.html'" style="
           font-family:'Poppins',sans-serif; font-size:14px; font-weight:600;
           color:#131045; background:#f7f7f9; border:2px solid #e2e2e8;
           border-radius:50px; padding:11px 24px; cursor:pointer;
@@ -67,11 +67,6 @@ function showGuestModal(message) {
   `;
 
   document.body.appendChild(modal);
-
-  // Close on overlay click
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) modal.remove();
-  });
 }
 
 // ── Reaction Gate ──
