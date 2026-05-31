@@ -1,3 +1,5 @@
+package com.uep.sors.entity;
+
 import jakarta.persistence.*;
 import lombok.Data;
  
