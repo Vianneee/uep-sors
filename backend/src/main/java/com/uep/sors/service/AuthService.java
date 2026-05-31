@@ -143,21 +143,21 @@ public class AuthService {
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new RuntimeException("Invalid credentials.");
-        
-            // Skip OTP for admin — return token directly
-            if (user.getRole() == Role.ADMIN) {
-                String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
-                return Map.of(
-                    "message", "Admin login successful.",
-                    "email", user.getEmail(),
-                    "isAdmin", "true",
-                    "token", token
-                );
-            }
 
-            saveAndSendOTP(user.getEmail(), OtpType.LOGIN);
-            return Map.of("message", "Credentials verified. OTP sent to your email.", "email", user.getEmail());
+        // Skip OTP for admin — return token directly
+        if (user.getRole() == Role.ADMIN) {
+            String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
+            return Map.of(
+                "message", "Admin login successful.",
+                "email", user.getEmail(),
+                "isAdmin", "true",
+                "token", token
+            );
         }
+
+        saveAndSendOTP(user.getEmail(), OtpType.LOGIN);
+        return Map.of("message", "Credentials verified. OTP sent to your email.", "email", user.getEmail());
+    }
 
     // ─── LOGIN Step 2 — Verify OTP ─────────────────────────
     public AuthResponse verifyLogin(VerifyOtpRequest request) {
@@ -213,5 +213,30 @@ public class AuthService {
         saveAndSendOTP(email.toLowerCase().trim(), otpType);
 
         return "OTP resent. Check your email.";
+    }
+
+    // ─── CREATE PIO (Editor in Chief only) ─────────────────
+    public String createPio(CreatePioRequest request) {
+        if (userRepository.existsByEmail(request.getEmail()))
+            throw new RuntimeException("Email is already registered.");
+        if (userRepository.existsByStudentId(request.getStudentId()))
+            throw new RuntimeException("Student ID is already registered.");
+
+        validatePassword(request.getPassword());
+
+        User pio = new User();
+        pio.setFullName(request.getFullName());
+        pio.setStudentId(request.getStudentId());
+        pio.setAge(request.getAge());
+        pio.setProgram(request.getProgram());
+        pio.setYearLevel(request.getYearLevel());
+        pio.setEmail(request.getEmail().toLowerCase().trim());
+        pio.setPassword(passwordEncoder.encode(request.getPassword()));
+        pio.setRole(Role.PIO);
+        pio.setOrganizationId(request.getOrganizationId());
+        pio.setIsVerified(true);
+        userRepository.save(pio);
+
+        return "PIO account created successfully.";
     }
 }

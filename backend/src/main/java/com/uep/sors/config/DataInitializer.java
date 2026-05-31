@@ -1,5 +1,5 @@
 package com.uep.sors.config;
-
+ 
 import com.uep.sors.entity.Role;
 import com.uep.sors.entity.User;
 import com.uep.sors.repository.UserRepository;
@@ -10,15 +10,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
-
+ 
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
-    
+ 
     private final RegistrationPeriodRepository registrationPeriodRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    
+ 
     @Override
     public void run(String... args) throws Exception {
         if (registrationPeriodRepository.findAll().isEmpty()) {
@@ -30,7 +30,7 @@ public class DataInitializer implements CommandLineRunner {
                     .description("Computer Science Club - Spring 2026 Recruitment")
                     .build();
             registrationPeriodRepository.save(period1);
-            
+ 
             RegistrationPeriod period2 = RegistrationPeriod.builder()
                     .organizationId(2L)
                     .startDate(LocalDateTime.of(2026, 5, 1, 0, 0))
@@ -39,7 +39,7 @@ public class DataInitializer implements CommandLineRunner {
                     .description("Engineering Club - Spring 2026 Recruitment")
                     .build();
             registrationPeriodRepository.save(period2);
-            
+ 
             RegistrationPeriod period3 = RegistrationPeriod.builder()
                     .organizationId(3L)
                     .startDate(LocalDateTime.of(2026, 4, 1, 0, 0))
@@ -49,7 +49,7 @@ public class DataInitializer implements CommandLineRunner {
                     .build();
             registrationPeriodRepository.save(period3);
         }
-
+ 
         if (userRepository.findByEmail("admin@uep.edu.ph").isEmpty()) {
             User admin = new User();
             admin.setFullName("System Administrator");
@@ -62,6 +62,20 @@ public class DataInitializer implements CommandLineRunner {
             admin.setRole(Role.ADMIN);
             admin.setIsVerified(true);
             userRepository.save(admin);
+        }
+ 
+        if (userRepository.findByEmail("editorinchief@uep.edu.ph").isEmpty()) {
+            User eic = new User();
+            eic.setFullName("Editor in Chief");
+            eic.setStudentId("000001");
+            eic.setAge(25);
+            eic.setProgram("Administration");
+            eic.setYearLevel(1);
+            eic.setEmail("editorinchief@uep.edu.ph");
+            eic.setPassword(passwordEncoder.encode("Editor@1234"));
+            eic.setRole(Role.EDITOR_IN_CHIEF);
+            eic.setIsVerified(true);
+            userRepository.save(eic);
         }
     }
 }
