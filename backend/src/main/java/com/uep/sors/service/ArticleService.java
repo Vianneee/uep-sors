@@ -25,6 +25,10 @@ public class ArticleService {
         return articleRepository.findByCategory(category);
     }
 
+    public List<Article> getArticlesByOrganization(Long organizationId) {
+        return articleRepository.findByOrganizationId(organizationId);
+    }
+
     public Article createArticle(Article article) {
         return articleRepository.save(article);
     }
@@ -35,6 +39,8 @@ public class ArticleService {
         article.setTitle(updatedArticle.getTitle());
         article.setContent(updatedArticle.getContent());
         article.setCategory(updatedArticle.getCategory());
+        article.setOrganizationId(updatedArticle.getOrganizationId());
+        article.setImageUrl(updatedArticle.getImageUrl());
         article.setAuthorName(updatedArticle.getAuthorName());
         return articleRepository.save(article);
     }

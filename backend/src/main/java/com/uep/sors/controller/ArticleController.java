@@ -33,6 +33,11 @@ public class ArticleController {
         return articleService.getArticlesByCategory(category);
     }
 
+    @GetMapping("/organization/{organizationId}")
+    public List<Article> getByOrganization(@PathVariable Long organizationId) {
+        return articleService.getArticlesByOrganization(organizationId);
+    }
+
     @PostMapping
     @PreAuthorize("hasAnyRole('PIO', 'EDITOR', 'ADMIN')")
     public Article createArticle(@RequestBody Article article) {

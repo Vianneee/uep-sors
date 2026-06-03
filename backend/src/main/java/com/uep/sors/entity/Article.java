@@ -18,6 +18,10 @@ public class Article {
 
     private String category;
 
+    private Long organizationId;
+
+    private String imageUrl;
+
     private String authorName;
 
     private LocalDateTime createdAt;
@@ -43,6 +47,10 @@ public class Article {
     public void setContent(String content) { this.content = content; }
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
+    public Long getOrganizationId() { return organizationId; }
+    public void setOrganizationId(Long organizationId) { this.organizationId = organizationId; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public String getAuthorName() { return authorName; }
     public void setAuthorName(String authorName) { this.authorName = authorName; }
     public LocalDateTime getCreatedAt() { return createdAt; }

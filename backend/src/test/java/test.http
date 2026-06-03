@@ -1,0 +1,12 @@
+### Step 1: Login as Editor in Chief
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@uep.edu.ph",
+    "password": "Admin@1234"
+}
+
+### Step 2: Get articles by org
+GET http://localhost:8080/api/articles/organization/1
+Authorization: Bearer 
