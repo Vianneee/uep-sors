@@ -102,10 +102,11 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
   } else {
     const studentNum = localStorage.getItem('sors_studentNumber') || '';
-const role = localStorage.getItem('sors_role') || '';
+    const fullName = localStorage.getItem('sors_fullName') || studentNum || 'UEP User';
+    const role = localStorage.getItem('sors_role') || '';
 
-let navLinks = '';
-if (role === 'ROLE_PIO' || role === 'PIO') {
+    let navLinks = '';
+    if (role === 'ROLE_PIO' || role === 'PIO') {
   navLinks = `
     <a href="pio-dashboard.html" style="
       font-family:'Poppins',sans-serif; font-size:12px; font-weight:600;
@@ -137,7 +138,7 @@ if (role === 'ROLE_PIO' || role === 'PIO') {
 }
 
 indicator.innerHTML = `
-  <span style="color:#131045;">👤 ${studentNum}</span>
+  <span style="color:#131045;">👤 ${fullName}</span>
   ${navLinks}
   <button onclick="logout()" style="
     background:transparent; color:#666; border:1px solid #e2e2e8;

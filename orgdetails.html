@@ -244,7 +244,7 @@
 
   async function fetchOrg() {
     try {
-      const res = await fetch(`http://localhost:8082/api/organizations/${id}`);
+      const res = await fetch(`${SORS_CONFIG.ORGS_API}/${id}`);
       const org = await res.json();
       renderOrg(org);
     } catch (err) {
@@ -320,6 +320,9 @@
   }
 </script>
 
+<script src="config.js"></script>
 <script src="sors.js"></script>
 </body>
 </html>
+
+

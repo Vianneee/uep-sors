@@ -333,7 +333,38 @@
   leftArrow.addEventListener('click', () => { scrollContainer.scrollLeft -= 400; });
 </script>
 
+<script src="config.js"></script>
 <script src="sors.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch(`${SORS_CONFIG.API_BASE}/articles`);
+      if (!res.ok) return;
+      const articles = await res.json();
+      if (!Array.isArray(articles) || articles.length === 0) return;
+
+      const container = document.querySelector('.events-container');
+      if (!container) return;
+
+      container.innerHTML = articles.slice(0, 6).map(article => `
+        <a href="orgdetails.html?id=${article.organizationId || ''}" class="event-card-link">
+          <div class="event-card">
+            <img src="${article.imageUrl || 'imgs/logo.png'}" alt="${article.title}" onerror="this.src='imgs/logo.png'">
+            <div class="event-content">
+              <h3>${article.title}</h3>
+              <div class="date-line"></div>
+              <span>${new Date(article.createdAt || article.publishedAt || Date.now()).toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            </div>
+          </div>
+        </a>
+      `).join('');
+    } catch (e) {
+      console.error('Failed to load articles', e);
+    }
+  });
+</script>
 
 </body>
 </html>
+
+

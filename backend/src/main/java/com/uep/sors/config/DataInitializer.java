@@ -27,27 +27,38 @@ public class DataInitializer implements CommandLineRunner {
                     .startDate(LocalDateTime.of(2026, 5, 1, 0, 0))
                     .endDate(LocalDateTime.of(2026, 12, 31, 23, 59))
                     .isActive(true)
-                    .description("Computer Science Club - Spring 2026 Recruitment")
+                    .description("Computer Science Club - 2026 Recruitment")
                     .build();
             registrationPeriodRepository.save(period1);
  
             RegistrationPeriod period2 = RegistrationPeriod.builder()
                     .organizationId(2L)
                     .startDate(LocalDateTime.of(2026, 5, 1, 0, 0))
-                    .endDate(LocalDateTime.of(2026, 5, 30, 23, 59))
+                    .endDate(LocalDateTime.of(2026, 12, 31, 23, 59))
                     .isActive(true)
-                    .description("Engineering Club - Spring 2026 Recruitment")
+                    .description("Engineering Club - 2026 Recruitment")
                     .build();
             registrationPeriodRepository.save(period2);
  
             RegistrationPeriod period3 = RegistrationPeriod.builder()
                     .organizationId(3L)
-                    .startDate(LocalDateTime.of(2026, 4, 1, 0, 0))
-                    .endDate(LocalDateTime.of(2026, 4, 15, 23, 59))
+                    .startDate(LocalDateTime.of(2026, 5, 1, 0, 0))
+                    .endDate(LocalDateTime.of(2026, 12, 31, 23, 59))
                     .isActive(true)
-                    .description("Music Club - Spring 2026 Recruitment")
+                    .description("Music Club - 2026 Recruitment")
                     .build();
             registrationPeriodRepository.save(period3);
+
+            for (long i = 4; i <= 12; i++) {
+                RegistrationPeriod p = RegistrationPeriod.builder()
+                        .organizationId(i)
+                        .startDate(LocalDateTime.of(2026, 1, 1, 0, 0))
+                        .endDate(LocalDateTime.of(2026, 12, 31, 23, 59))
+                        .isActive(true)
+                        .description("Organization " + i + " - 2026 Recruitment")
+                        .build();
+                registrationPeriodRepository.save(p);
+            }
         }
  
         if (userRepository.findByEmail("admin@uep.edu.ph").isEmpty()) {

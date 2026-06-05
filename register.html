@@ -557,7 +557,8 @@
   </style>
 </head>
 <body>
-  <script src="sors.js"></script>
+  <script src="config.js"></script>
+<script src="sors.js"></script>
   <script>requireLogin('Please sign in to apply to an organization.');</script>
 
   <!-- NAVBAR -->
@@ -742,7 +743,7 @@
   </footer>
 
   <script>
-    const API_BASE = 'http://localhost:8080';
+    const API_BASE = SORS_CONFIG.API_BASE;
 
     // ── Read orgId from URL ──
     const urlParams = new URLSearchParams(window.location.search);
@@ -812,7 +813,7 @@
 
       try {
         const token = localStorage.getItem('sors_token');
-        const res = await fetch(`${API_BASE}/api/applications`, {
+        const res = await fetch(`${API_BASE}/applications`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -872,6 +873,9 @@
       history.back();
     });
   </script>
+<script src="config.js"></script>
 <script src="sors.js"></script>
 </body>
 </html>
+
+

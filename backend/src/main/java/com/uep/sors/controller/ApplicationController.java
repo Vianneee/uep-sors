@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/applications")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "${cors.allowed-origins}")
 public class ApplicationController {
 
     private final ApplicationService applicationService;

@@ -291,7 +291,7 @@
 </footer>
 
 <script>
-  const API_URL = 'http://localhost:8082/api/organizations';
+  const API_URL = SORS_CONFIG.ORGS_API;
   let allOrgs = [];
 
   async function fetchOrgs() {
@@ -371,6 +371,9 @@
   fetchOrgs();
 </script>
 
+<script src="config.js"></script>
 <script src="sors.js"></script>
 </body>
 </html>
+
+

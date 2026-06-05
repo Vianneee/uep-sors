@@ -593,7 +593,7 @@
   </footer>
 
   <script>
-    const API_BASE = 'http://localhost:8080';
+    const API_BASE = SORS_CONFIG.API_BASE;
 
     // ── Auto-fill from localStorage ──
     const saved = localStorage.getItem('sors_studentNumber');
@@ -617,7 +617,7 @@
 
       try {
         const token = localStorage.getItem('sors_token');
-        const res = await fetch(`${API_BASE}/api/applications/student/${studentNumber}`, {
+        const res = await fetch(`${API_BASE}/applications/student/${studentNumber}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -644,13 +644,11 @@
         // Sort by most recent first
         apps.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
 
-        // Fetch org names from organizations backend
         const orgNames = {};
-        try {
-          const orgRes = await fetch('http://localhost:8082/api/organizations');
-          const orgs = await orgRes.json();
-          orgs.forEach(org => { orgNames[org.id] = org.name; });
-        } catch (e) {}
+        const uniqueOrgIds = [...new Set(apps.map(app => app.organizationId))];
+        await Promise.all(uniqueOrgIds.map(async (orgId) => {
+          orgNames[orgId] = await getOrgName(orgId);
+        }));
 
         const cards = apps.map(app => buildCard(app, orgNames)).join('');
 
@@ -665,9 +663,29 @@
       } catch (err) {
         showResults(`<div class="error-state">❌ Could not connect to the server. Make sure the backend is running and try again.</div>`);
         console.error(err);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'View History';
+      }
+    }
+
+    async function getOrgName(id) {
+      let cache = { _ts: 0 };
+      try {
+        const cacheStr = localStorage.getItem('sors_org_cache');
+        cache = cacheStr ? JSON.parse(cacheStr) : { _ts: 0 };
+      } catch (e) {
+        cache = { _ts: 0 };
+      }
+      if (cache[id] && (Date.now() - cache._ts < 86400000)) {
+        return cache[id];
+      }
+      try {
+        const res = await fetch(`${SORS_CONFIG.ORGS_API}/${id}`);
+        const org = await res.json();
+        cache[id] = org.name || `Organization #${id}`;
+        cache._ts = Date.now();
+        localStorage.setItem('sors_org_cache', JSON.stringify(cache));
+        return cache[id];
+      } catch (e) {
+        return `Organization #${id}`;
       }
     }
 
@@ -737,6 +755,9 @@
     }
   </script>
 
+<script src="config.js"></script>
 <script src="sors.js"></script>
 </body>
 </html>
+
+

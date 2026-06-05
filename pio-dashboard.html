@@ -681,8 +681,8 @@
   </div>
 
   <script>
-    const API_BASE = 'http://localhost:8080/api';
-    const ORGS_API = 'http://localhost:8082/api/organizations';
+    const API_BASE = SORS_CONFIG.API_BASE;
+    const ORGS_API = SORS_CONFIG.ORGS_API;
 
     const token = localStorage.getItem('sors_token');
     const role = localStorage.getItem('sors_role');

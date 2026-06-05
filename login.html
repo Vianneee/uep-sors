@@ -261,7 +261,8 @@
     </div>
   </div>
 
-  <script src="sors.js"></script>
+  <script src="config.js"></script>
+<script src="sors.js"></script>
   <script>
     async function loginAsStudent() {
       const studentId = document.getElementById('studentId').value.trim();
@@ -276,7 +277,7 @@
       btn.textContent = 'Signing in...';
 
       try {
-        const res = await fetch('http://localhost:8080/api/auth/login', {
+        const res = await fetch(`${SORS_CONFIG.API_BASE}/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: studentId, password: password })
@@ -355,7 +356,7 @@
       btn.textContent = 'Verifying...';
 
       try {
-        const res = await fetch('http://localhost:8080/api/auth/verify-login', {
+        const res = await fetch(`${SORS_CONFIG.API_BASE}/auth/verify-login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, otp })
@@ -379,6 +380,7 @@
         // Save auth data
         localStorage.setItem('sors_user', role === 'ROLE_STUDENT' ? 'student' : role.toLowerCase().replace('role_', ''));
         localStorage.setItem('sors_studentNumber', data.studentId || studentId);
+        localStorage.setItem('sors_fullName', data.fullName || 'UEP User');
         localStorage.setItem('sors_token', data.token);
         localStorage.setItem('sors_role', role);
         localStorage.removeItem('sors_pending_email');
@@ -406,7 +408,7 @@
       const email = localStorage.getItem('sors_pending_email');
       if (!email) return;
       try {
-        await fetch('http://localhost:8080/api/auth/resend-otp', {
+        await fetch(`${SORS_CONFIG.API_BASE}/auth/resend-otp`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, type: 'LOGIN' })
@@ -419,3 +421,5 @@
   </script>
 </body>
 </html>
+
+

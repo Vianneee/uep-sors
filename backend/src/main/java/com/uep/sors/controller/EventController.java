@@ -10,7 +10,7 @@ import java.util.List;
  
 @RestController
 @RequestMapping("/api/events")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "${cors.allowed-origins}")
 public class EventController {
  
     @Autowired
