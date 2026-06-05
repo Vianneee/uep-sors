@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIO Dashboard — UEP SORS</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: var(--gray-bg); }
+
+    /* ── PIO HEADER ── */
+    .pio-header {
+      background: var(--navy);
+      padding: 0;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .pio-navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+    }
+
+    .pio-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pio-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: url("imgs/logo.png") center/cover no-repeat;
+      border: 2px solid var(--gold);
+    }
+
+    .pio-brand-text {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--white);
+    }
+
+    .pio-brand-text span {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+    }
+
+    .pio-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pio-nav-btn {
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      padding: 7px 18px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .pio-nav-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .pio-nav-btn.gold {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold);
+      font-weight: 700;
+    }
+
+    .pio-nav-btn.gold:hover { background: var(--gold-dark); }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      background: var(--navy);
+      padding: 40px 32px 36px;
+      text-align: center;
+      position: relative;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--gold);
+    }
+
+    .page-hero .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 4vw, 36px);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .page-hero p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ── MAIN ── */
+    .main-wrap {
+      max-width: 1100px;
+      margin: 36px auto 60px;
+      padding: 0 20px;
+    }
+
+    /* ── STATS ROW ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      border-top: 3px solid var(--gray-border);
+    }
+
+    .stat-card.pending { border-top-color: #f59e0b; }
+    .stat-card.approved { border-top-color: #10b981; }
+    .stat-card.rejected { border-top-color: #ef4444; }
+    .stat-card.total { border-top-color: var(--navy); }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .toolbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: 'Poppins', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--white);
+      border: 2px solid var(--gray-border);
+      border-radius: 50px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+    .filter-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+    /* ── APPLICANT CARD ── */
+    .applicant-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-border);
+      border-left: 5px solid var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .applicant-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .applicant-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .applicant-info { flex: 1; min-width: 0; }
+
+    .applicant-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .applicant-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .meta-item strong { color: var(--text-dark); font-weight: 600; }
+
+    /* ── DETAIL PANEL ── */
+    .detail-panel {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-top: 24px;
+      box-shadow: var(--shadow-sm);
+      border-top: 4px solid var(--gold);
+      display: none;
+    }
+
+    .detail-panel.show { display: block; }
+
+    .detail-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .detail-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px 32px;
+      margin-bottom: 24px;
+    }
+
+    .detail-field label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .detail-field .value {
+      font-size: 14px;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .detail-field.full { grid-column: 1 / -1; }
+
+    .detail-textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--gray-border);
+      border-radius: var(--radius);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      color: var(--text-dark);
+      resize: vertical;
+      min-height: 80px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .detail-textarea:focus { border-color: var(--navy); }
+
+    .action-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .btn-approve {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      background: #10b981;
+      border: none;
+      border-radius: 50px;
+      padding: 11px 28px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-approve:hover { background: #059669; }
+
+    .btn-reject {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      background: #ef4444;
+      border: none;
+      border-radius: 50px;
+      padding: 11px 28px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-reject:hover { background: #dc2626; }
+
+    .btn-close {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--gray-bg);
+      border: 2px solid var(--gray-border);
+      border-radius: 50px;
+      padding: 11px 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-left: auto;
+    }
+
+    .btn-close:hover { border-color: var(--navy); color: var(--navy); }
+
+    /* ── CONFIRM POPUP ── */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(19,16,69,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+
+    .popup-overlay.show { display: flex; }
+
+    .popup-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 36px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+    }
+
+    .popup-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .popup-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .popup-btns { display: flex; gap: 12px; justify-content: center; }
+
+    .btn-cancel-popup {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--gray-bg);
+      border: 2px solid var(--gray-border);
+      border-radius: 50px;
+      padding: 10px 24px;
+      cursor: pointer;
+    }
+
+    .btn-confirm-approve {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      background: #10b981;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 24px;
+      cursor: pointer;
+    }
+
+    .btn-confirm-reject {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      background: #ef4444;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 24px;
+      cursor: pointer;
+    }
+
+    /* ── MSG ── */
+    .msg-bar {
+      display: none;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .msg-bar.success { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; display: block; }
+    .msg-bar.error { background: #fef2f2; color: #991b1b; border: 1px solid #fca5a5; display: block; }
+
+    /* ── EMPTY/LOADING ── */
+    .empty-state { text-align: center; padding: 60px; color: var(--text-muted); }
+    .empty-state h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--navy); margin-bottom: 8px; }
+    .loading-state { text-align: center; padding: 48px; color: var(--text-muted); }
+    .spinner-lg {
+      width: 36px; height: 36px;
+      border: 3px solid var(--gray-border);
+      border-top-color: var(--navy);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── ACCESS DENIED ── */
+    .access-denied {
+      max-width: 480px;
+      margin: 80px auto;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .access-denied h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .access-denied p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .detail-grid { grid-template-columns: 1fr; }
+      .pio-navbar { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PIO NAVBAR -->
+  <header class="pio-header">
+    <nav class="pio-navbar">
+      <div class="pio-brand">
+        <div class="pio-logo"></div>
+        <div class="pio-brand-text">
+          UEP SORS
+          <span>PIO Dashboard</span>
+        </div>
+      </div>
+      <div class="pio-nav-actions">
+        <a href="post-article.html" class="pio-nav-btn gold">+ Post Article</a>
+        <a href="dashboard.html" class="pio-nav-btn">View Site</a>
+        <button class="pio-nav-btn" onclick="logout()">Log Out</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ACCESS DENIED (shown if not PIO) -->
+  <div id="access-denied" style="display:none;">
+    <div class="access-denied">
+      <div style="font-size:48px;margin-bottom:16px;">🔒</div>
+      <h2>Access Restricted</h2>
+      <p>This page is only accessible to PIOs. Please log in with your PIO credentials.</p>
+      <a href="login.html" style="
+        display:inline-block; background:var(--gold); color:var(--navy);
+        font-family:'Poppins',sans-serif; font-weight:700; font-size:14px;
+        padding:12px 32px; border-radius:50px; text-decoration:none;
+      ">Sign In</a>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main-content" style="display:none;">
+
+    <!-- PAGE HERO -->
+    <div class="page-hero">
+      <p class="eyebrow">PIO Dashboard</p>
+      <h1 id="org-title">My Organization's Applicants</h1>
+      <p id="org-subtitle">Review and manage applications for your organization</p>
+    </div>
+
+    <div class="main-wrap">
+
+      <!-- MSG BAR -->
+      <div class="msg-bar" id="msgBar"></div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card total">
+          <div class="stat-number" id="statTotal">—</div>
+          <div class="stat-label">Total</div>
+        </div>
+        <div class="stat-card pending">
+          <div class="stat-number" id="statPending">—</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-card approved">
+          <div class="stat-number" id="statApproved">—</div>
+          <div class="stat-label">Approved</div>
+        </div>
+        <div class="stat-card rejected">
+          <div class="stat-number" id="statRejected">—</div>
+          <div class="stat-label">Rejected</div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="toolbar-title">Applications</div>
+        <div class="filter-row">
+          <button class="filter-btn active" onclick="filterApplicants('ALL', this)">All</button>
+          <button class="filter-btn" onclick="filterApplicants('PENDING', this)">Pending</button>
+          <button class="filter-btn" onclick="filterApplicants('APPROVED', this)">Approved</button>
+          <button class="filter-btn" onclick="filterApplicants('REJECTED', this)">Rejected</button>
+        </div>
+      </div>
+
+      <!-- APPLICANT LIST -->
+      <div id="applicant-list"></div>
+
+      <!-- DETAIL PANEL -->
+      <div class="detail-panel" id="detailPanel">
+        <div class="detail-header">
+          <div>
+            <div class="detail-name" id="detailName"></div>
+            <div id="detailBadge" style="margin-top:6px;"></div>
+          </div>
+          <button class="btn-close" onclick="closeDetail()">✕ Close</button>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-field">
+            <label>Student Number</label>
+            <div class="value" id="detailStudentNum"></div>
+          </div>
+          <div class="detail-field">
+            <label>Email</label>
+            <div class="value" id="detailEmail"></div>
+          </div>
+          <div class="detail-field">
+            <label>Program</label>
+            <div class="value" id="detailProgram"></div>
+          </div>
+          <div class="detail-field">
+            <label>Year Level</label>
+            <div class="value" id="detailYear"></div>
+          </div>
+          <div class="detail-field">
+            <label>Contact Number</label>
+            <div class="value" id="detailContact"></div>
+          </div>
+          <div class="detail-field">
+            <label>Facebook</label>
+            <div class="value" id="detailFacebook"></div>
+          </div>
+          <div class="detail-field full">
+            <label>Reason for Joining</label>
+            <div class="value" id="detailReason"></div>
+          </div>
+          <div class="detail-field full">
+            <label>Skills</label>
+            <div class="value" id="detailSkills"></div>
+          </div>
+          <div class="detail-field full">
+            <label>Previous Experience</label>
+            <div class="value" id="detailExperience"></div>
+          </div>
+          <div class="detail-field full">
+            <label>Review Notes (optional)</label>
+            <textarea class="detail-textarea" id="reviewNotes" placeholder="Add a note for the applicant..."></textarea>
+          </div>
+        </div>
+
+        <div class="action-btns">
+          <button class="btn-approve" onclick="showConfirm('approve')">✓ Approve</button>
+          <button class="btn-reject" onclick="showConfirm('reject')">✕ Reject</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONFIRM POPUP -->
+  <div class="popup-overlay" id="confirmPopup">
+    <div class="popup-card">
+      <div style="font-size:36px;margin-bottom:12px;" id="popupIcon">⚠️</div>
+      <h2 id="popupTitle">Confirm Action</h2>
+      <p id="popupMessage"></p>
+      <div class="popup-btns">
+        <button class="btn-cancel-popup" onclick="closeConfirm()">Cancel</button>
+        <button id="confirmBtn" onclick="executeAction()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:8080/api';
+    const ORGS_API = 'http://localhost:8082/api/organizations';
+
+    const token = localStorage.getItem('sors_token');
+    const role = localStorage.getItem('sors_role');
+
+    // Get orgId from JWT token
+    let orgId = null;
+    if (token) {
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            orgId = payload.organizationId;
+        } catch (e) {}
+    }
+
+    let allApplicants = [];
+    let selectedApplicant = null;
+    let pendingAction = null;
+
+    // ── Auth check ──
+    if (!token || (role !== 'ROLE_PIO' && role !== 'PIO')) {
+      document.getElementById('access-denied').style.display = 'block';
+    } else {
+      document.getElementById('main-content').style.display = 'block';
+      init();
+    }
+
+    async function init() {
+      // Fetch org name
+      if (orgId) {
+        try {
+          const res = await fetch(`${ORGS_API}/${orgId}`);
+          const org = await res.json();
+          if (org && org.name) {
+            document.getElementById('org-title').textContent = `${org.name} — Applicants`;
+            document.getElementById('org-subtitle').textContent = `Managing applications for ${org.name}`;
+          }
+        } catch (e) {}
+      }
+
+      loadApplicants();
+    }
+
+    async function loadApplicants() {
+      const list = document.getElementById('applicant-list');
+      list.innerHTML = `<div class="loading-state"><div class="spinner-lg"></div>Loading applicants...</div>`;
+
+      if (!orgId) {
+        list.innerHTML = `<div class="empty-state"><h3>No Organization Assigned</h3><p>Your account doesn't have an organization assigned. Contact the administrator.</p></div>`;
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/applications/organization/${orgId}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          list.innerHTML = `<div class="error-state">❌ ${data.message || 'Failed to load applicants.'}</div>`;
+          return;
+        }
+
+        allApplicants = data.data || [];
+        updateStats();
+        renderApplicants(allApplicants);
+
+      } catch (err) {
+        list.innerHTML = `<div class="error-state">❌ Could not connect to the server. Make sure the backend is running.</div>`;
+      }
+    }
+
+    function updateStats() {
+      document.getElementById('statTotal').textContent = allApplicants.length;
+      document.getElementById('statPending').textContent = allApplicants.filter(a => a.status === 'PENDING').length;
+      document.getElementById('statApproved').textContent = allApplicants.filter(a => a.status === 'APPROVED').length;
+      document.getElementById('statRejected').textContent = allApplicants.filter(a => a.status === 'REJECTED').length;
+    }
+
+    function renderApplicants(apps) {
+      const list = document.getElementById('applicant-list');
+
+      if (apps.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <div style="font-size:48px;margin-bottom:16px;">📋</div>
+            <h3>No Applicants</h3>
+            <p>No applications match the current filter.</p>
+          </div>`;
+        return;
+      }
+
+      apps.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+
+      list.innerHTML = apps.map(app => {
+        const initials = app.fullName ? app.fullName.split(' ').map(n => n[0]).slice(0,2).join('').toUpperCase() : '?';
+        const date = app.submittedAt ? new Date(app.submittedAt).toLocaleDateString('en-PH', { year:'numeric', month:'short', day:'numeric' }) : '—';
+        const yearLabel = app.yearLevel ? app.yearLevel + ['st','nd','rd','th'][Math.min(app.yearLevel-1,3)] + ' Year' : '—';
+
+        return `
+          <div class="applicant-card" onclick="viewApplicant(${app.id})">
+            <div class="applicant-avatar">${initials}</div>
+            <div class="applicant-info">
+              <div class="applicant-name">${app.fullName || 'Unknown'}</div>
+              <div class="applicant-meta">
+                <span class="meta-item">🎓 <strong>${app.studentNumber}</strong></span>
+                <span class="meta-item">📚 ${app.program || '—'}</span>
+                <span class="meta-item">📅 ${yearLabel}</span>
+                <span class="meta-item">🗓 ${date}</span>
+              </div>
+            </div>
+            <span class="status-badge ${app.status.toLowerCase()}">${statusLabel(app.status)}</span>
+          </div>`;
+      }).join('');
+    }
+
+    function filterApplicants(status, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filtered = status === 'ALL' ? allApplicants : allApplicants.filter(a => a.status === status);
+      renderApplicants(filtered);
+    }
+
+    async function viewApplicant(id) {
+      try {
+        const res = await fetch(`${API_BASE}/applications/${id}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (!data.success) return;
+
+        selectedApplicant = data.data;
+        const app = selectedApplicant;
+        const yearLabel = app.yearLevel ? app.yearLevel + ['st','nd','rd','th'][Math.min(app.yearLevel-1,3)] + ' Year' : '—';
+
+        document.getElementById('detailName').textContent = app.fullName;
+        document.getElementById('detailBadge').innerHTML = `<span class="status-badge ${app.status}">${statusLabel(app.status)}</span>`;
+        document.getElementById('detailStudentNum').textContent = app.studentNumber;
+        document.getElementById('detailEmail').textContent = app.email;
+        document.getElementById('detailProgram').textContent = app.program;
+        document.getElementById('detailYear').textContent = yearLabel;
+        document.getElementById('detailContact').textContent = app.contactNumber;
+        document.getElementById('detailFacebook').innerHTML = app.facebookLink ? `<a href="${app.facebookLink}" target="_blank" style="color:var(--navy);">View Profile</a>` : '—';
+        document.getElementById('detailReason').textContent = app.reasonForJoining;
+        document.getElementById('detailSkills').textContent = app.skills;
+        document.getElementById('detailExperience').textContent = app.previousExperience || 'None provided';
+        document.getElementById('reviewNotes').value = app.reviewNotes || '';
+
+        const panel = document.getElementById('detailPanel');
+        panel.classList.add('show');
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      } catch (err) {
+        showMsg('❌ Error loading applicant details.', 'error');
+      }
+    }
+
+    function closeDetail() {
+      document.getElementById('detailPanel').classList.remove('show');
+      selectedApplicant = null;
+    }
+
+    function showConfirm(action) {
+      if (!selectedApplicant) return;
+      pendingAction = action;
+
+      const isApprove = action === 'approve';
+      document.getElementById('popupIcon').textContent = isApprove ? '✅' : '❌';
+      document.getElementById('popupTitle').textContent = isApprove ? 'Approve Application?' : 'Reject Application?';
+      document.getElementById('popupMessage').textContent = `Are you sure you want to ${action} ${selectedApplicant.fullName}'s application?`;
+
+      const btn = document.getElementById('confirmBtn');
+      btn.className = isApprove ? 'btn-confirm-approve' : 'btn-confirm-reject';
+      btn.textContent = isApprove ? '✓ Approve' : '✕ Reject';
+
+      document.getElementById('confirmPopup').classList.add('show');
+    }
+
+    function closeConfirm() {
+      document.getElementById('confirmPopup').classList.remove('show');
+      pendingAction = null;
+    }
+
+    async function executeAction() {
+      if (!selectedApplicant || !pendingAction) return;
+      const action = pendingAction;
+      closeConfirm();
+
+      const endpoint = `${API_BASE}/applications/${selectedApplicant.id}/${action}`;
+      const reviewNotes = document.getElementById('reviewNotes').value;
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ reviewNotes })
+        });
+
+        if (res.ok) {
+          showMsg(`✅ Application ${action}d successfully!`, 'success');
+          closeDetail();
+          await loadApplicants();
+        } else {
+          const data = await res.json();
+          showMsg(`❌ ${data.message || 'Action failed.'}`, 'error');
+        }
+      } catch (err) {
+        showMsg('❌ Could not connect to the server.', 'error');
+      }
+    }
+
+    function statusLabel(status) {
+      const labels = { PENDING: 'Pending', APPROVED: 'Approved', REJECTED: 'Rejected', WITHDRAWN: 'Withdrawn' };
+      return labels[status] || status;
+    }
+
+    function showMsg(msg, type) {
+      const el = document.getElementById('msgBar');
+      el.textContent = msg;
+      el.className = `msg-bar ${type}`;
+      setTimeout(() => { el.className = 'msg-bar'; }, 4000);
+    }
+
+    function logout() {
+      localStorage.removeItem('sors_user');
+      localStorage.removeItem('sors_studentNumber');
+      localStorage.removeItem('sors_token');
+      localStorage.removeItem('sors_role');
+      localStorage.removeItem('sors_orgId');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

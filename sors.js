@@ -102,20 +102,50 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
   } else {
     const studentNum = localStorage.getItem('sors_studentNumber') || '';
-    indicator.innerHTML = `
-      <span style="color:#131045;">👤 ${studentNum}</span>
-      <a href="apphistory.html" style="
-        font-family:'Poppins',sans-serif; font-size:12px; font-weight:600;
-        color:#131045; text-decoration:none; padding:5px 14px;
-        border:1px solid #e2e2e8; border-radius:50px; transition:all 0.2s;
-      ">My Applications</a>
-      <button onclick="logout()" style="
-        background:transparent; color:#666; border:1px solid #e2e2e8;
-        border-radius:50px; padding:5px 14px; cursor:pointer;
-        font-family:'Poppins',sans-serif; font-size:12px; font-weight:600;
-        transition:all 0.2s;
-      ">Log Out</button>
-    `;
+const role = localStorage.getItem('sors_role') || '';
+
+let navLinks = '';
+if (role === 'ROLE_PIO' || role === 'PIO') {
+  navLinks = `
+    <a href="pio-dashboard.html" style="
+      font-family:'Poppins',sans-serif; font-size:12px; font-weight:600;
+      color:#131045; text-decoration:none; padding:5px 14px;
+      border:1px solid #e2e2e8; border-radius:50px; transition:all 0.2s;
+    ">My Org</a>
+    <a href="post-article.html" style="
+      font-family:'Poppins',sans-serif; font-size:12px; font-weight:600;
+      color:#131045; text-decoration:none; padding:5px 14px;
+      border:1px solid #e2e2e8; border-radius:50px; transition:all 0.2s;
+    ">Post Article</a>
+  `;
+} else if (role === 'ROLE_EDITOR_IN_CHIEF' || role === 'EDITOR_IN_CHIEF') {
+  navLinks = `
+    <a href="post-article.html" style="
+      font-family:'Poppins',sans-serif; font-size:12px; font-weight:600;
+      color:#131045; text-decoration:none; padding:5px 14px;
+      border:1px solid #e2e2e8; border-radius:50px; transition:all 0.2s;
+    ">Post Article</a>
+  `;
+} else {
+  navLinks = `
+    <a href="apphistory.html" style="
+      font-family:'Poppins',sans-serif; font-size:12px; font-weight:600;
+      color:#131045; text-decoration:none; padding:5px 14px;
+      border:1px solid #e2e2e8; border-radius:50px; transition:all 0.2s;
+    ">My Applications</a>
+  `;
+}
+
+indicator.innerHTML = `
+  <span style="color:#131045;">👤 ${studentNum}</span>
+  ${navLinks}
+  <button onclick="logout()" style="
+    background:transparent; color:#666; border:1px solid #e2e2e8;
+    border-radius:50px; padding:5px 14px; cursor:pointer;
+    font-family:'Poppins',sans-serif; font-size:12px; font-weight:600;
+    transition:all 0.2s;
+  ">Log Out</button>
+`;
   }
 
   navbar.appendChild(indicator);
@@ -125,5 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function logout() {
   localStorage.removeItem('sors_user');
   localStorage.removeItem('sors_studentNumber');
+  localStorage.removeItem('sors_token');
+  localStorage.removeItem('sors_role');
   window.location.href = 'login.html';
 }

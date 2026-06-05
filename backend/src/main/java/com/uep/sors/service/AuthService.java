@@ -146,7 +146,7 @@ public class AuthService {
 
         // Skip OTP for admin — return token directly
         if (user.getRole() == Role.ADMIN) {
-            String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
+            String token = jwtService.generateToken(user.getEmail(), user.getRole().name(), user.getOrganizationId());
             return Map.of(
                 "message", "Admin login successful.",
                 "email", user.getEmail(),
@@ -174,14 +174,15 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail().toLowerCase().trim())
                 .orElseThrow(() -> new RuntimeException("User not found."));
 
-        String token = jwtService.generateToken(user.getEmail(), user.getRole().name());
+        String token = jwtService.generateToken(user.getEmail(), user.getRole().name(), user.getOrganizationId());
 
         return new AuthResponse(
                 token,
                 user.getRole().name(),
                 user.getFullName(),
                 user.getEmail(),
-                user.getStudentId()
+                user.getStudentId(),
+                user.getOrganizationId()
         );
     }
 
@@ -193,6 +194,7 @@ public class AuthService {
                 token,
                 Role.GUEST.name(),
                 "Guest",
+                null,
                 null,
                 null
         );

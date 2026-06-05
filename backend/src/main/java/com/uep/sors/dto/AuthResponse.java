@@ -12,4 +12,5 @@ public class AuthResponse {
     private String fullName;
     private String email;
     private String studentId;
+    private Long organizationId;
 }

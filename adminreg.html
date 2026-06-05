@@ -611,7 +611,6 @@
   </a>
   <ul class="admin-nav-links">
     <li><a href="adminreg.html" class="active">Applications</a></li>
-    <li><a href="org.html">Organizations</a></li>
     <li><a href="dashboard.html">View Site</a></li>
   </ul>
   <div class="admin-nav-right">
@@ -646,6 +645,71 @@
     <div class="stat-card">
       <div class="stat-label">Rejected</div>
       <div class="stat-value" id="statRejected">—</div>
+    </div>
+  </div>
+
+  <!-- MANAGE PIOs SECTION -->
+  <div class="detail-card" id="piоSection" style="margin-bottom:28px;">
+    <div class="detail-header">
+      <h2>👥 Manage PIOs</h2>
+      <button class="btn btn-gold" onclick="togglePioForm()">+ Create New PIO</button>
+    </div>
+
+    <!-- Create PIO Form -->
+    <div id="pioForm" style="display:none;">
+      <div class="detail-grid">
+        <div class="detail-field">
+          <label>Full Name</label>
+          <input type="text" id="pioFullName" class="detail-value" style="border:2px solid var(--gray-border); border-radius:8px; font-family:'Poppins',sans-serif; font-size:14px; outline:none; cursor:text;" placeholder="e.g. Juan Dela Cruz">
+        </div>
+        <div class="detail-field">
+          <label>Student ID</label>
+          <input type="text" id="pioStudentId" class="detail-value" style="border:2px solid var(--gray-border); border-radius:8px; font-family:'Poppins',sans-serif; font-size:14px; outline:none; cursor:text;" placeholder="e.g. 123456">
+        </div>
+        <div class="detail-field">
+          <label>Email</label>
+          <input type="email" id="pioEmail" class="detail-value" style="border:2px solid var(--gray-border); border-radius:8px; font-family:'Poppins',sans-serif; font-size:14px; outline:none; cursor:text;" placeholder="pio@email.com">
+        </div>
+        <div class="detail-field">
+          <label>Password</label>
+          <input type="password" id="pioPassword" class="detail-value" style="border:2px solid var(--gray-border); border-radius:8px; font-family:'Poppins',sans-serif; font-size:14px; outline:none; cursor:text;" placeholder="Min 8 chars, 1 uppercase, 1 number, 1 special">
+        </div>
+        <div class="detail-field">
+          <label>Age</label>
+          <input type="number" id="pioAge" class="detail-value" style="border:2px solid var(--gray-border); border-radius:8px; font-family:'Poppins',sans-serif; font-size:14px; outline:none; cursor:text;" placeholder="e.g. 20" min="16" max="60">
+        </div>
+        <div class="detail-field">
+          <label>Program</label>
+          <input type="text" id="pioProgram" class="detail-value" style="border:2px solid var(--gray-border); border-radius:8px; font-family:'Poppins',sans-serif; font-size:14px; outline:none; cursor:text;" placeholder="e.g. Computer Science">
+        </div>
+        <div class="detail-field">
+          <label>Year Level</label>
+          <select id="pioYearLevel" class="detail-value" style="border:2px solid var(--gray-border); border-radius:8px; font-family:'Poppins',sans-serif; font-size:14px; outline:none; cursor:pointer;">
+            <option value="">Select year</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+            <option value="5">5th Year</option>
+          </select>
+        </div>
+        <div class="detail-field">
+          <label>Assign Organization</label>
+          <select id="pioOrgId" class="detail-value" style="border:2px solid var(--gray-border); border-radius:8px; font-family:'Poppins',sans-serif; font-size:14px; outline:none; cursor:pointer;">
+            <option value="">-- Select Organization --</option>
+          </select>
+        </div>
+      </div>
+      <div id="pioMsgContainer"></div>
+      <div class="button-group">
+        <button class="btn btn-approve" onclick="createPio()">Create PIO Account</button>
+        <button class="btn btn-gold" onclick="togglePioForm()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- PIOs List -->
+    <div id="piosList" style="margin-top:16px;">
+      <p style="font-size:13px; color:var(--text-muted);">Click "+ Create New PIO" to add a PIO for an organization.</p>
     </div>
   </div>
 
@@ -984,7 +1048,7 @@ async function loadApplicants() {
 
   try {
     const res = await fetch(`${API_BASE}/applications/organization/${orgId}`, {
-      headers: { 'Authorization': `Bearer ${adminToken}` }
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('sors_admin_token')}` }
     });
     const data = await res.json();
     clearMsg();
@@ -1157,6 +1221,85 @@ function showMsg(msg, type) {
 
 function clearMsg() {
   document.getElementById('messageContainer').innerHTML = '';
+}
+
+// ── PIO Management ──
+function togglePioForm() {
+  const form = document.getElementById('pioForm');
+  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+
+  // Populate org dropdown when form opens
+  if (form.style.display === 'block') {
+    populatePioOrgDropdown();
+  }
+}
+
+async function populatePioOrgDropdown() {
+  try {
+    const res = await fetch(ORGS_API);
+    const orgs = await res.json();
+    const select = document.getElementById('pioOrgId');
+    select.innerHTML = '<option value="">-- Select Organization --</option>';
+    orgs.forEach(org => {
+      const option = document.createElement('option');
+      option.value = org.id;
+      option.textContent = org.name;
+      select.appendChild(option);
+    });
+  } catch (err) {
+    // Fallback
+    const select = document.getElementById('pioOrgId');
+    select.innerHTML = '<option value="">-- Select Organization --</option>';
+    [1,2,3].forEach(i => {
+      const option = document.createElement('option');
+      option.value = i;
+      option.textContent = `Organization ${i}`;
+      select.appendChild(option);
+    });
+  }
+}
+
+async function createPio() {
+  const fullName = document.getElementById('pioFullName').value.trim();
+  const studentId = document.getElementById('pioStudentId').value.trim();
+  const email = document.getElementById('pioEmail').value.trim();
+  const password = document.getElementById('pioPassword').value.trim();
+  const age = parseInt(document.getElementById('pioAge').value);
+  const program = document.getElementById('pioProgram').value.trim();
+  const yearLevel = parseInt(document.getElementById('pioYearLevel').value);
+  const organizationId = parseInt(document.getElementById('pioOrgId').value);
+
+  if (!fullName || !studentId || !email || !password || !age || !program || !yearLevel || !organizationId) {
+    document.getElementById('pioMsgContainer').innerHTML = `<div class="msg msg-error">Please fill in all fields.</div>`;
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/auth/create-pio`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminToken}`
+      },
+      body: JSON.stringify({ fullName, studentId, age, program, yearLevel, email, password, organizationId })
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      document.getElementById('pioMsgContainer').innerHTML = `<div class="msg msg-success">✅ PIO account created successfully!</div>`;
+      // Clear form
+      ['pioFullName','pioStudentId','pioEmail','pioPassword','pioAge','pioProgram'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('pioYearLevel').value = '';
+      document.getElementById('pioOrgId').value = '';
+    } else {
+      document.getElementById('pioMsgContainer').innerHTML = `<div class="msg msg-error">❌ ${data.message || 'Failed to create PIO.'}</div>`;
+    }
+  } catch (err) {
+    document.getElementById('pioMsgContainer').innerHTML = `<div class="msg msg-error">❌ Could not connect to server.</div>`;
+  }
 }
 </script>
 

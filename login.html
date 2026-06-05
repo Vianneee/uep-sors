@@ -372,14 +372,28 @@
           return;
         }
 
-        // Save everything from the auth response
-        localStorage.setItem('sors_user', 'student');
+        // Decode token to get role
+        const payload = JSON.parse(atob(data.token.split('.')[1]));
+        const role = payload.role;
+
+        // Save auth data
+        localStorage.setItem('sors_user', role === 'ROLE_STUDENT' ? 'student' : role.toLowerCase().replace('role_', ''));
         localStorage.setItem('sors_studentNumber', data.studentId || studentId);
         localStorage.setItem('sors_token', data.token);
+        localStorage.setItem('sors_role', role);
         localStorage.removeItem('sors_pending_email');
         localStorage.removeItem('sors_pending_studentId');
 
-        window.location.href = 'dashboard.html';
+        if (role === 'ROLE_ADMIN' || role === 'ADMIN') {
+          window.location.href = 'adminreg.html';
+        } else if (role === 'ROLE_PIO' || role === 'PIO') {
+          window.location.href = 'pio-dashboard.html';
+        } else if (role === 'ROLE_EDITOR_IN_CHIEF' || role === 'EDITOR_IN_CHIEF') {
+          window.location.href = 'post-article.html';
+        } else {
+          window.location.href = 'dashboard.html';
+        }
+        
 
       } catch (err) {
         alert('Could not connect to the server.');

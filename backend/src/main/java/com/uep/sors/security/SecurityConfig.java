@@ -53,8 +53,8 @@ public class SecurityConfig {
                 ).hasAnyRole("STUDENT", "ADMIN", "PIO", "EDITOR_IN_CHIEF")
 
                 // ─── Admin only ────────────────────────────
-                .requestMatchers("/admin/**")
-                    .hasRole("ADMIN")
+                .requestMatchers("/auth/create-pio")
+                    .hasAnyRole("EDITOR_IN_CHIEF", "ADMIN")
 
                 // ─── Editor in Chief only ──────────────────
                 .requestMatchers("/auth/create-pio")

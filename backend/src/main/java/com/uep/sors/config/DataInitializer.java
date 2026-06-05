@@ -25,7 +25,7 @@ public class DataInitializer implements CommandLineRunner {
             RegistrationPeriod period1 = RegistrationPeriod.builder()
                     .organizationId(1L)
                     .startDate(LocalDateTime.of(2026, 5, 1, 0, 0))
-                    .endDate(LocalDateTime.of(2026, 5, 30, 23, 59))
+                    .endDate(LocalDateTime.of(2026, 12, 31, 23, 59))
                     .isActive(true)
                     .description("Computer Science Club - Spring 2026 Recruitment")
                     .build();

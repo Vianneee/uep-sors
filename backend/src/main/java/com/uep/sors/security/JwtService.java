@@ -31,6 +31,18 @@ public class JwtService {
                 .compact();
     }
 
+    public String generateToken(String email, String role, Long organizationId) {
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("role", role)
+                .claim("organizationId", organizationId)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+    
+
     public String extractEmail(String token) {
         return parseClaims(token).getSubject();
     }

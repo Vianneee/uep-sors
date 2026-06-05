@@ -91,7 +91,7 @@ public class AuthController {
  
     // ─── Create PIO (Editor in Chief only) ─────────────────
     @PostMapping("/create-pio")
-    @PreAuthorize("hasRole('EDITOR_IN_CHIEF')")
+    @PreAuthorize("hasAnyRole('EDITOR_IN_CHIEF', 'ADMIN')")
     public ResponseEntity<?> createPio(@RequestBody CreatePioRequest request) {
         try {
             String message = authService.createPio(request);

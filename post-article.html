@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Article — UEP SORS</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: var(--gray-bg); }
+
+    /* Role navbar */
+    .role-navbar {
+      width: 100%;
+      background: var(--navy);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .role-nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .role-nav-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: url("imgs/logo.png") center/cover no-repeat;
+      border: 2px solid var(--gold);
+      flex-shrink: 0;
+    }
+
+    .role-nav-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--gold);
+    }
+
+    .role-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .role-nav-links a {
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 50px;
+      transition: all 0.2s;
+    }
+
+    .role-nav-links a:hover,
+    .role-nav-links a.active {
+      color: var(--navy);
+      background: var(--gold);
+    }
+
+    .role-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .role-badge {
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 50px;
+    }
+
+    .role-logout {
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      padding: 5px 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .role-logout:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* Page hero */
+    .page-hero {
+      background: var(--navy);
+      padding: 36px 40px;
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .page-hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .page-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--white);
+    }
+
+    /* Page wrap */
+    .page-wrap {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 32px;
+    }
+
+    /* Form card */
+    .form-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-border);
+      margin-bottom: 24px;
+    }
+
+    .form-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--gray-border);
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      color: var(--navy);
+      outline: none;
+      transition: border-color 0.2s;
+      background: var(--white);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+
+    .form-group textarea {
+      min-height: 300px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* Image preview */
+    .image-preview {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      background: var(--gray-bg);
+      border: 2px dashed var(--gray-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-preview-placeholder {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .image-preview-placeholder span {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* Articles list */
+    .articles-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-border);
+    }
+
+    .articles-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .article-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .article-item:last-child { border-bottom: none; }
+
+    .article-thumb {
+      width: 80px;
+      height: 60px;
+      border-radius: 8px;
+      background: var(--gray-bg);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .article-info { flex: 1; }
+
+    .article-title-text {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .article-meta-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .article-category-badge {
+      display: inline-block;
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 50px;
+      margin-bottom: 4px;
+    }
+
+    .article-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-edit {
+      padding: 6px 14px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-edit:hover { background: var(--gold-dark); }
+
+    .btn-del {
+      padding: 6px 14px;
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-del:hover { background: #dc2626; color: white; }
+
+    /* Submit button */
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 50px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .submit-btn:hover { background: var(--gold-dark); transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* Messages */
+    .msg {
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .msg-error { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; }
+    .msg-success { background: #ecfdf5; color: #059669; border: 1px solid #6ee7b7; }
+
+    /* Not authorized */
+    .not-authorized {
+      display: none;
+      max-width: 500px;
+      margin: 80px auto;
+      text-align: center;
+      padding: 0 32px;
+    }
+
+    .not-authorized .icon { font-size: 48px; margin-bottom: 16px; }
+
+    .not-authorized h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .not-authorized p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .page-wrap { padding: 0 16px; }
+      .role-navbar { padding: 0 20px; }
+      .form-card, .articles-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ROLE NAVBAR -->
+<nav class="role-navbar">
+  <a href="dashboard.html" class="role-nav-brand">
+    <div class="role-nav-logo"></div>
+    <span class="role-nav-title" id="navTitle">UEP SORS</span>
+  </a>
+  <ul class="role-nav-links">
+    <li><a href="post-article.html" class="active">Post Article</a></li>
+    <li id="pioDashLink" style="display:none;"><a href="pio-dashboard.html">My Org's Applicants</a></li>
+    <li><a href="dashboard.html">View Site</a></li>
+  </ul>
+  <div class="role-nav-right">
+    <span class="role-badge" id="roleBadge">EDITOR</span>
+    <button class="role-logout" onclick="roleLogout()">Log Out</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <p class="page-hero-label" id="heroLabel">Content Management</p>
+  <h1 id="heroTitle">Post an Article</h1>
+</section>
+
+<!-- NOT AUTHORIZED -->
+<div class="not-authorized" id="notAuthorized">
+  <div class="icon">🔒</div>
+  <h2>Access Restricted</h2>
+  <p>This page is only accessible to PIOs and the Editor in Chief.</p>
+  <a href="login.html" style="display:inline-block; padding:11px 28px; background:var(--gold); color:var(--navy); border-radius:50px; font-family:'Poppins',sans-serif; font-weight:700; text-decoration:none;">Go to Login</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="page-wrap" id="mainContent" style="display:none;">
+
+  <div id="msgContainer"></div>
+
+  <!-- Article Form -->
+  <div class="form-card">
+    <h2 id="formTitle">✍️ Write New Article</h2>
+
+    <div class="form-group">
+      <label for="articleTitle">Article Title *</label>
+      <input type="text" id="articleTitle" placeholder="Enter a compelling headline...">
+    </div>
+
+    <div class="form-group">
+      <label for="articleCategory">Category *</label>
+      <select id="articleCategory">
+        <option value="">-- Select Category --</option>
+        <option value="Campus News">Campus News</option>
+        <option value="Org News">Org News</option>
+        <option value="Events">Events</option>
+        <option value="Announcements">Announcements</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="articleImage">Hero Image URL (optional)</label>
+      <input type="text" id="articleImage" placeholder="https://example.com/image.jpg"
+        oninput="previewImage(this.value)">
+      <p class="form-hint">Paste a direct image URL. Leave blank to use a default image.</p>
+      <div class="image-preview" id="imagePreview">
+        <div class="image-preview-placeholder">
+          <span>🖼️</span>
+          Enter an image URL above to preview
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="articleContent">Article Content *</label>
+      <textarea id="articleContent" placeholder="Write your article here..."></textarea>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" onclick="submitArticle()">Publish Article</button>
+  </div>
+
+  <!-- My Articles -->
+  <div class="articles-card">
+    <h2>📰 My Published Articles</h2>
+    <div id="articlesList">
+      <div class="empty-state">⏳ Loading articles...</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"></div>
+      <div>
+        <div class="footer-name">University of Eastern Philippines</div>
+        <div class="footer-tagline">University Town, Northern Samar</div>
+      </div>
+    </div>
+    <div class="footer-links-group">
+      <a href="https://ueplms.net/studentportal/" target="_blank">Student Portal</a>
+      <a href="https://www.facebook.com/UEPOfficialFBPage" target="_blank">Facebook Page</a>
+      <a href="http://uep.edu.ph/certificate-of-program-compliance/" target="_blank">UEP COPC</a>
+      <a href="https://emailmg.ipage.com/roundcube/" target="_blank">Webmail</a>
+    </div>
+  </div>
+  <div class="footer-bottom">Copyright © 2025 University of Eastern Philippines</div>
+</footer>
+
+<script>
+const API_BASE = 'http://localhost:8080/api';
+const ORGS_API = 'http://localhost:8082/api/organizations';
+let currentRole = null;
+let currentOrgId = null;
+let editingArticleId = null;
+
+window.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('sors_token');
+  const role = localStorage.getItem('sors_role');
+
+  if (!token || (role !== 'ROLE_PIO' && role !== 'PIO' && role !== 'ROLE_EDITOR_IN_CHIEF' && role !== 'EDITOR_IN_CHIEF')) {
+    document.getElementById('notAuthorized').style.display = 'block';
+    return;
+  }
+
+  currentRole = role;
+
+  // Decode token to get org ID for PIO
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    currentOrgId = payload.organizationId || null;
+  } catch (e) {}
+
+  // Update navbar and hero based on role
+  if (role === 'ROLE_PIO' || role === 'PIO') {
+    document.getElementById('navTitle').textContent = 'UEP SORS PIO';
+    document.getElementById('roleBadge').textContent = 'PIO';
+    document.getElementById('heroLabel').textContent = 'PIO Content Management';
+    document.getElementById('heroTitle').textContent = 'Post an Article for Your Organization';
+    document.getElementById('pioDashLink').style.display = 'block';
+  } else {
+    document.getElementById('navTitle').textContent = 'UEP SORS Editor';
+    document.getElementById('roleBadge').textContent = 'EDITOR IN CHIEF';
+    document.getElementById('heroLabel').textContent = 'Editorial Management';
+    document.getElementById('heroTitle').textContent = 'Post a Campus Article';
+  }
+
+  document.getElementById('mainContent').style.display = 'block';
+  loadMyArticles();
+});
+
+function previewImage(url) {
+  const preview = document.getElementById('imagePreview');
+  if (url.trim()) {
+    preview.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='<div class=\\'image-preview-placeholder\\'><span>❌</span>Invalid image URL</div>'" alt="Preview">`;
+  } else {
+    preview.innerHTML = `<div class="image-preview-placeholder"><span>🖼️</span>Enter an image URL above to preview</div>`;
+  }
+}
+
+async function loadMyArticles() {
+  try {
+    const token = localStorage.getItem('sors_token');
+    let url = `${API_BASE}/articles`;
+    if ((currentRole === 'ROLE_PIO' || currentRole === 'PIO') && currentOrgId) {
+      url = `${API_BASE}/articles/organization/${currentOrgId}`;
+    }
+
+    const res = await fetch(url, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const articles = await res.json();
+
+    if (!articles || articles.length === 0) {
+      document.getElementById('articlesList').innerHTML = `
+        <div class="empty-state">📭 No articles published yet. Write your first one above!</div>`;
+      return;
+    }
+
+    document.getElementById('articlesList').innerHTML = articles.map(a => `
+      <div class="article-item">
+        <img class="article-thumb" src="${a.imageUrl || 'imgs/logo.png'}" 
+          onerror="this.src='imgs/logo.png'" alt="${a.title}">
+        <div class="article-info">
+          <div class="article-category-badge">${a.category || 'General'}</div>
+          <div class="article-title-text">${a.title}</div>
+          <div class="article-meta-text">By ${a.authorName || 'Unknown'} · ${new Date(a.createdAt).toLocaleDateString('en-PH', {year:'numeric', month:'long', day:'numeric'})}</div>
+        </div>
+        <div class="article-actions">
+          <button class="btn-edit" onclick="editArticle(${a.id}, '${encodeURIComponent(a.title)}', '${encodeURIComponent(a.content)}', '${a.category}', '${a.imageUrl || ''}')">Edit</button>
+          <button class="btn-del" onclick="deleteArticle(${a.id})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  } catch (err) {
+    document.getElementById('articlesList').innerHTML = `
+      <div class="empty-state">❌ Could not load articles. Make sure the backend is running.</div>`;
+  }
+}
+
+async function submitArticle() {
+  const title = document.getElementById('articleTitle').value.trim();
+  const category = document.getElementById('articleCategory').value;
+  const imageUrl = document.getElementById('articleImage').value.trim();
+  const content = document.getElementById('articleContent').value.trim();
+
+  if (!title || !category || !content) {
+    showMsg('Please fill in all required fields.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = editingArticleId ? 'Updating...' : 'Publishing...';
+
+  const token = localStorage.getItem('sors_token');
+  const studentName = localStorage.getItem('sors_studentNumber') || 'Unknown';
+
+  const payload = {
+    title,
+    content,
+    category,
+    imageUrl: imageUrl || null,
+    authorName: studentName,
+    organizationId: (currentRole === 'ROLE_PIO' || currentRole === 'PIO') ? currentOrgId : null
+  };
+
+  try {
+    const url = editingArticleId
+      ? `${API_BASE}/articles/${editingArticleId}`
+      : `${API_BASE}/articles`;
+    const method = editingArticleId ? 'PUT' : 'POST';
+
+    const res = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      showMsg(editingArticleId ? '✅ Article updated successfully!' : '✅ Article published successfully!', 'success');
+      clearForm();
+      loadMyArticles();
+    } else {
+      const data = await res.json();
+      showMsg(`❌ ${data.message || 'Failed to publish article.'}`, 'error');
+    }
+  } catch (err) {
+    showMsg('❌ Could not connect to the server.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = editingArticleId ? 'Update Article' : 'Publish Article';
+  }
+}
+
+function editArticle(id, title, content, category, imageUrl) {
+  editingArticleId = id;
+  document.getElementById('articleTitle').value = decodeURIComponent(title);
+  document.getElementById('articleContent').value = decodeURIComponent(content);
+  document.getElementById('articleCategory').value = category;
+  document.getElementById('articleImage').value = imageUrl;
+  previewImage(imageUrl);
+  document.getElementById('formTitle').textContent = '✏️ Edit Article';
+  document.getElementById('submitBtn').textContent = 'Update Article';
+  document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function deleteArticle(id) {
+  if (!confirm('Are you sure you want to delete this article? This cannot be undone.')) return;
+
+  const token = localStorage.getItem('sors_token');
+  try {
+    const res = await fetch(`${API_BASE}/articles/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (res.ok) {
+      showMsg('✅ Article deleted successfully!', 'success');
+      loadMyArticles();
+    } else {
+      showMsg('❌ Failed to delete article.', 'error');
+    }
+  } catch (err) {
+    showMsg('❌ Could not connect to the server.', 'error');
+  }
+}
+
+function clearForm() {
+  editingArticleId = null;
+  document.getElementById('articleTitle').value = '';
+  document.getElementById('articleContent').value = '';
+  document.getElementById('articleCategory').value = '';
+  document.getElementById('articleImage').value = '';
+  document.getElementById('imagePreview').innerHTML = `
+    <div class="image-preview-placeholder"><span>🖼️</span>Enter an image URL above to preview</div>`;
+  document.getElementById('formTitle').textContent = '✍️ Write New Article';
+  document.getElementById('submitBtn').textContent = 'Publish Article';
+}
+
+function showMsg(msg, type) {
+  const cls = type === 'error' ? 'msg msg-error' : 'msg msg-success';
+  document.getElementById('msgContainer').innerHTML = `<div class="${cls}">${msg}</div>`;
+  setTimeout(() => document.getElementById('msgContainer').innerHTML = '', 4000);
+}
+
+function roleLogout() {
+  localStorage.removeItem('sors_user');
+  localStorage.removeItem('sors_studentNumber');
+  localStorage.removeItem('sors_token');
+  localStorage.removeItem('sors_role');
+  window.location.href = 'login.html';
+}
+</script>
+
+</body>
+</html>
