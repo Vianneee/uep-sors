@@ -48,9 +48,13 @@ public class ApplicationService {
             );
         }
         
-        // Step 3: Check for duplicate application
+        // Step 3: Check for duplicate active application (not rejected/withdrawn)
         Optional<Application> existingApplication = applicationRepository
-                .findByOrganizationIdAndStudentNumber(dto.getOrganizationId(), dto.getStudentNumber());
+                .findByOrganizationIdAndStudentNumberAndStatusIn(
+                    dto.getOrganizationId(),
+                    dto.getStudentNumber(),
+                    java.util.List.of(ApplicationStatus.PENDING, ApplicationStatus.APPROVED)
+                );
         
         if (existingApplication.isPresent()) {
             log.warn("Duplicate application attempt from student: {} for organization: {}", 
@@ -59,6 +63,7 @@ public class ApplicationService {
                 "Student already has an active application for this organization"
             );
         }
+
         
         // Step 4: Create and save application
         Application application = Application.builder()

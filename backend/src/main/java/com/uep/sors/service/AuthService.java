@@ -15,10 +15,14 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
     private final UserRepository userRepository;
     private final OtpRepository otpRepository;
@@ -40,7 +44,7 @@ public class AuthService {
 
     // ─── OTP Generator ─────────────────────────────────────
     private String generateOTP() {
-        return String.format("%06d", new Random().nextInt(999999));
+        return String.format("%06d", new Random().nextInt(1000000));
     }
 
     // ─── Save OTP to DB ────────────────────────────────────
@@ -61,15 +65,25 @@ public class AuthService {
         try {
             emailService.sendOTP(email, code, type.name());
         } catch (Exception e) {
+            log.error("SMTP error sending OTP to {}: {} — {}", email, e.getClass().getSimpleName(), e.getMessage());
             throw new RuntimeException("Failed to send OTP email. Please try again.");
         }
     }
 
     // ─── REGISTER Step 1 ───────────────────────────────────
     public String register(RegisterRequest request) {
-        // Duplicate checks
-        if (userRepository.existsByEmail(request.getEmail()))
+        String normalizedEmail = request.getEmail().toLowerCase().trim();
+
+        // If user already exists but is unverified, just resend OTP (retry-safe)
+        java.util.Optional<User> existingUser = userRepository.findByEmail(normalizedEmail);
+        if (existingUser.isPresent()) {
+            if (!existingUser.get().getIsVerified()) {
+                saveAndSendOTP(normalizedEmail, OtpType.REGISTER);
+                return "Registration successful! Check your email for the verification code.";
+            }
             throw new RuntimeException("Email is already registered.");
+        }
+
         if (userRepository.existsByStudentId(request.getStudentId()))
             throw new RuntimeException("Student ID is already registered.");
 
@@ -93,14 +107,14 @@ public class AuthService {
         user.setAge(request.getAge());
         user.setProgram(request.getProgram());
         user.setYearLevel(request.getYearLevel());
-        user.setEmail(request.getEmail().toLowerCase().trim());
+        user.setEmail(normalizedEmail);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.STUDENT);
         user.setIsVerified(false);
         userRepository.save(user);
 
-        // Send OTP
-        saveAndSendOTP(request.getEmail().toLowerCase().trim(), OtpType.REGISTER);
+        // Send OTP — if this fails the user is unverified and next attempt will resend
+        saveAndSendOTP(normalizedEmail, OtpType.REGISTER);
 
         return "Registration successful! Check your email for the verification code.";
     }

@@ -52,12 +52,8 @@ public class SecurityConfig {
                     "/dashboard/**"
                 ).hasAnyRole("STUDENT", "ADMIN", "PIO", "EDITOR_IN_CHIEF")
 
-                // ─── Admin only ────────────────────────────
-                .requestMatchers("/auth/create-pio")
-                    .hasAnyRole("EDITOR_IN_CHIEF", "ADMIN")
-
                 // ─── Editor in Chief only ──────────────────
-                .requestMatchers("/auth/create-pio")
+                .requestMatchers("/api/auth/create-pio")
                     .hasRole("EDITOR_IN_CHIEF")
 
                 // ─── Everything else needs authentication ──
