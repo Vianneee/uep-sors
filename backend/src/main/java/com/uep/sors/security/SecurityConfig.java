@@ -30,13 +30,13 @@ public class SecurityConfig {
 
                 // ─── Public endpoints (no token needed) ───
                 .requestMatchers(
-                    "/auth/register",
-                    "/auth/verify-register",
-                    "/auth/login",
-                    "/auth/verify-login",
-                    "/auth/guest",
-                    "/auth/resend-otp",
-                    "/h2-console/**"
+                 "/api/auth/register",
+                 "/api/auth/verify-register",
+                 "/api/auth/login",
+                "/api/auth/verify-login",
+                "/api/auth/guest",
+                "/api/auth/resend-otp",
+                 "/h2-console/**"
                 ).permitAll()
 
                 // ─── Guest can only view ───────────────────

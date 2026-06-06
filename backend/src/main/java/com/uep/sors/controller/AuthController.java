@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
  
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "${cors.allowed-origins}")
+@CrossOrigin(origins = "*")
 public class AuthController {
     private final AuthService authService;
  
@@ -91,7 +91,7 @@ public class AuthController {
  
     // ─── Create PIO (Editor in Chief only) ─────────────────
     @PostMapping("/create-pio")
-    @PreAuthorize("hasAnyRole('EDITOR_IN_CHIEF', 'ADMIN')")
+    @PreAuthorize("hasRole('EDITOR_IN_CHIEF')")
     public ResponseEntity<?> createPio(@RequestBody CreatePioRequest request) {
         try {
             String message = authService.createPio(request);
