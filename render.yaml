@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: uep-sors
+    name: uepsors
     env: docker
     plan: free
     envVars:
