@@ -86,10 +86,10 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- PostgreSQL for development/testing -->
+        <!-- H2 embedded database (file-based for persistence on Render Disk) -->
         <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
