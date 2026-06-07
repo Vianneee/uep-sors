@@ -1,1 +1,7 @@
-backend/src/main/resources/application.properties
+# H2 file-based database files (generated at runtime)
+backend/data/
+backend/organizations/data/
+
+# Maven build output
+backend/target/
+backend/organizations/target/
