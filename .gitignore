@@ -5,3 +5,6 @@ backend/organizations/data/
 # Maven build output
 backend/target/
 backend/organizations/target/
+
+# Environment variables
+.env
