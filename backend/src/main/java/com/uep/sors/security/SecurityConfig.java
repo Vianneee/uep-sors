@@ -39,6 +39,11 @@ public class SecurityConfig {
 
                 // ─── Public endpoints (no token needed) ───
                 .requestMatchers(
+                    "/",
+                    "/*.html",
+                    "/*.js",
+                    "/*.css",
+                    "/imgs/**",
                     "/api/auth/register",
                     "/api/auth/verify-register",
                     "/api/auth/login",
