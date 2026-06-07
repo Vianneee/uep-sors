@@ -61,6 +61,8 @@ public class AuthService {
         try {
             emailService.sendOTP(email, code, type.name());
         } catch (Exception e) {
+            System.err.println("EMAIL ERROR: " + e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException("Failed to send OTP email. Please try again.");
         }
     }
@@ -100,9 +102,12 @@ public class AuthService {
         userRepository.save(user);
 
         // Send OTP
-        saveAndSendOTP(request.getEmail().toLowerCase().trim(), OtpType.REGISTER);
-
-        return "Registration successful! Check your email for the verification code.";
+        try {
+            saveAndSendOTP(request.getEmail().toLowerCase().trim(), OtpType.REGISTER);
+        } catch (Exception e) {
+            userRepository.delete(user); // Rollback user if email fails
+            throw e;
+        }
     }
 
     // ─── REGISTER Step 2 — Verify OTP ──────────────────────
