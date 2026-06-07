@@ -238,6 +238,8 @@
   <div class="footer-bottom">Copyright © 2025 University of Eastern Philippines</div>
 </footer>
 
+<script src="config.js"></script>
+<script src="sors.js"></script>
 <script>
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
@@ -250,7 +252,7 @@
     } catch (err) {
       document.getElementById('pageContent').innerHTML = `
         <div class="error-state">
-          ❌ Failed to load organization. Make sure the organizations backend is running on port 8082.
+          Failed to load organization. Make sure the backend is running on port 8080.
         </div>`;
     }
   }
@@ -320,8 +322,6 @@
   }
 </script>
 
-<script src="config.js"></script>
-<script src="sors.js"></script>
 </body>
 </html>
 

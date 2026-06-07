@@ -1,0 +1,16 @@
+# Ignore build artifacts
+backend/target/
+backend/data/
+
+# Ignore secrets — never bake into image
+.env
+
+# Ignore git metadata and logs
+.git/
+log/
+
+# Ignore Windows scripts (not needed inside container)
+*.bat
+
+# Ignore dev tools
+*.sh

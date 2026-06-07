@@ -1,23 +1,29 @@
 package com.uep.sors.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    private static final String BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
 
-    @Value("${spring.mail.username}")
-    private String fromEmail;
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    public void sendOTP(String toEmail, String otp, String type) throws MessagingException {
+    @Value("${brevo.api-key}")
+    private String apiKey;
+
+    @Value("${brevo.sender.email}")
+    private String senderEmail;
+
+    public void sendOTP(String toEmail, String otp, String type) {
         String subject = type.equals("LOGIN")
                 ? "UEP SORS – Your Login Verification Code"
                 : "UEP SORS – Verify Your Email";
@@ -43,13 +49,18 @@ public class EmailService {
                 </div>
                 """.formatted(action, otp);
 
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setFrom(fromEmail);
-        helper.setTo(toEmail);
-        helper.setSubject(subject);
-        helper.setText(html, true);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("api-key", apiKey);
 
-        mailSender.send(message);
+        Map<String, Object> body = Map.of(
+                "sender", Map.of("name", "UEP SORS", "email", senderEmail),
+                "to", List.of(Map.of("email", toEmail)),
+                "subject", subject,
+                "htmlContent", html
+        );
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
+        restTemplate.postForObject(BREVO_API_URL, request, String.class);
     }
 }

@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: uep-sors
+    env: docker
+    plan: free
+    envVars:
+      - key: JWT_SECRET
+        sync: false
+      - key: BREVO_API_KEY
+        sync: false
+      - key: BREVO_SENDER_EMAIL
+        sync: false
+    disk:
+      name: sors-data
+      mountPath: /app/data
+      sizeGB: 1

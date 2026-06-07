@@ -85,7 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const navbar = document.querySelector('.navbar');
   if (!navbar) return;
 
+  // Prevent duplicate indicators
+  if (document.getElementById('sors-user-indicator')) return;
+
   const indicator = document.createElement('div');
+  indicator.id = 'sors-user-indicator';
   indicator.style.cssText = `
     display: flex; align-items: center; gap: 8px;
     font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600;

@@ -46,9 +46,17 @@ public class AuthController {
             response.put("success", true);
             response.put("message", result.get("message"));
             response.put("email", result.get("email"));
-            if (result.containsKey("isAdmin")) {
-                response.put("isAdmin", result.get("isAdmin"));
+            if (result.containsKey("token")) {
                 response.put("token", result.get("token"));
+                if (result.containsKey("isAdmin")) {
+                    response.put("isAdmin", result.get("isAdmin"));
+                }
+                if (result.containsKey("fullName")) {
+                    response.put("fullName", result.get("fullName"));
+                }
+                if (result.containsKey("studentId")) {
+                    response.put("studentId", result.get("studentId"));
+                }
             }
             return ResponseEntity.ok(response);
         } catch (Exception e) {

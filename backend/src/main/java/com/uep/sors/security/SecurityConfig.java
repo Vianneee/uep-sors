@@ -3,6 +3,7 @@ package com.uep.sors.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,6 +33,11 @@ public class SecurityConfig {
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+
+                // ─── Allow CORS preflight for all routes ───
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                // ─── Public endpoints (no token needed) ───
                 .requestMatchers(
                     "/api/auth/register",
                     "/api/auth/verify-register",
@@ -39,6 +45,8 @@ public class SecurityConfig {
                     "/api/auth/verify-login",
                     "/api/auth/guest",
                     "/api/auth/resend-otp",
+                    "/api/health",
+                    "/api/organizations/**",
                     "/h2-console/**"
                 ).permitAll()
                 .requestMatchers(
@@ -50,9 +58,9 @@ public class SecurityConfig {
                     "/apply/**",
                     "/dashboard/**"
                 ).hasAnyRole("STUDENT", "ADMIN", "PIO", "EDITOR_IN_CHIEF")
-                .requestMatchers("/auth/create-pio")
-                    .hasAnyRole("EDITOR_IN_CHIEF", "ADMIN")
-                .requestMatchers("/auth/create-pio")
+
+                // ─── Editor in Chief only ──────────────────
+                .requestMatchers("/api/auth/create-pio")
                     .hasRole("EDITOR_IN_CHIEF")
                 .anyRequest().authenticated()
             )

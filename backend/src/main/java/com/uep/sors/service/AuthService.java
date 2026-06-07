@@ -15,10 +15,17 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
+
+    // Switch to enable/disable 2FA (OTP via email) during login
+    public static final boolean TWO_FA_ENABLED = true;
 
     private final UserRepository userRepository;
     private final OtpRepository otpRepository;
@@ -40,7 +47,7 @@ public class AuthService {
 
     // ─── OTP Generator ─────────────────────────────────────
     private String generateOTP() {
-        return String.format("%06d", new Random().nextInt(999999));
+        return String.format("%06d", new Random().nextInt(1000000));
     }
 
     // ─── Save OTP to DB ────────────────────────────────────
@@ -61,41 +68,63 @@ public class AuthService {
         try {
             emailService.sendOTP(email, code, type.name());
         } catch (Exception e) {
-            System.err.println("EMAIL ERROR: " + e.getMessage());
-            e.printStackTrace();
+            log.error("SMTP error sending OTP to {}: {} — {}", email, e.getClass().getSimpleName(), e.getMessage());
             throw new RuntimeException("Failed to send OTP email. Please try again.");
         }
     }
 
     // ─── REGISTER Step 1 ───────────────────────────────────
     public String register(RegisterRequest request) {
-        // Duplicate checks
-        if (userRepository.existsByEmail(request.getEmail()))
-            throw new RuntimeException("Email is already registered.");
-        if (userRepository.existsByStudentId(request.getStudentId()))
-            throw new RuntimeException("Student ID is already registered.");
+        String normalizedEmail = request.getEmail().toLowerCase().trim();
 
-        // Password match
+        // Validate inputs before touching the DB
         if (!request.getPassword().equals(request.getConfirmPassword()))
             throw new RuntimeException("Passwords do not match.");
-
-        // Password strength
         validatePassword(request.getPassword());
-
-        // Age and year level range
         if (request.getAge() < 16 || request.getAge() > 60)
             throw new RuntimeException("Age must be between 16 and 60.");
         if (request.getYearLevel() < 1 || request.getYearLevel() > 6)
             throw new RuntimeException("Year level must be between 1 and 6.");
 
-        // Save user (unverified)
+        java.util.Optional<User> existingByEmail = userRepository.findByEmail(normalizedEmail);
+
+        // Same email retry — update details and resend OTP
+        if (existingByEmail.isPresent()) {
+            User existing = existingByEmail.get();
+            if (existing.getIsVerified())
+                throw new RuntimeException("Email is already registered.");
+
+            // Update fields in case the user corrected a typo
+            existing.setFullName(request.getFullName());
+            existing.setStudentId(request.getStudentId());
+            existing.setAge(request.getAge());
+            existing.setProgram(request.getProgram());
+            existing.setYearLevel(request.getYearLevel());
+            existing.setPassword(passwordEncoder.encode(request.getPassword()));
+            userRepository.save(existing);
+
+            saveAndSendOTP(normalizedEmail, OtpType.REGISTER);
+            return "Registration successful! Check your email for the verification code.";
+        }
+
+        // Student ID check — if it belongs to an unverified account, clean it up
+        java.util.Optional<User> existingByStudentId = userRepository.findByStudentId(request.getStudentId());
+        if (existingByStudentId.isPresent()) {
+            User existing = existingByStudentId.get();
+            if (existing.getIsVerified())
+                throw new RuntimeException("Student ID is already registered.");
+            // Stale unverified record from a failed previous attempt — remove it
+            userRepository.delete(existing);
+        }
+
+        // Fresh registration
         User user = new User();
         user.setFullName(request.getFullName());
         user.setStudentId(request.getStudentId());
         user.setAge(request.getAge());
         user.setProgram(request.getProgram());
         user.setYearLevel(request.getYearLevel());
-        user.setEmail(request.getEmail().toLowerCase().trim());
+        user.setEmail(normalizedEmail);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.STUDENT);
         user.setIsVerified(false);
@@ -103,11 +132,12 @@ public class AuthService {
 
         // Send OTP
         try {
-            saveAndSendOTP(request.getEmail().toLowerCase().trim(), OtpType.REGISTER);
+            saveAndSendOTP(normalizedEmail, OtpType.REGISTER);
         } catch (Exception e) {
             userRepository.delete(user); // Rollback user if email fails
             throw e;
         }
+        return "Registration successful! Check your email for the verification code.";
     }
 
     // ─── REGISTER Step 2 — Verify OTP ──────────────────────
@@ -157,6 +187,18 @@ public class AuthService {
                 "email", user.getEmail(),
                 "isAdmin", "true",
                 "token", token
+            );
+        }
+
+        // Skip OTP if 2FA is disabled globally
+        if (!TWO_FA_ENABLED) {
+            String token = jwtService.generateToken(user.getEmail(), user.getRole().name(), user.getOrganizationId());
+            return Map.of(
+                "message", "Login successful.",
+                "email", user.getEmail(),
+                "token", token,
+                "fullName", user.getFullName() != null ? user.getFullName() : "",
+                "studentId", user.getStudentId() != null ? user.getStudentId() : ""
             );
         }
 
