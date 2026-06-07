@@ -24,6 +24,9 @@ public class AuthService {
 
     private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
+    // Switch to enable/disable 2FA (OTP via email) during login
+    public static final boolean TWO_FA_ENABLED = true;
+
     private final UserRepository userRepository;
     private final OtpRepository otpRepository;
     private final JwtService jwtService;
@@ -178,6 +181,18 @@ public class AuthService {
                 "email", user.getEmail(),
                 "isAdmin", "true",
                 "token", token
+            );
+        }
+
+        // Skip OTP if 2FA is disabled globally
+        if (!TWO_FA_ENABLED) {
+            String token = jwtService.generateToken(user.getEmail(), user.getRole().name(), user.getOrganizationId());
+            return Map.of(
+                "message", "Login successful.",
+                "email", user.getEmail(),
+                "token", token,
+                "fullName", user.getFullName() != null ? user.getFullName() : "",
+                "studentId", user.getStudentId() != null ? user.getStudentId() : ""
             );
         }
 
