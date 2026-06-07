@@ -74,33 +74,47 @@ public class AuthService {
     public String register(RegisterRequest request) {
         String normalizedEmail = request.getEmail().toLowerCase().trim();
 
-        // If user already exists but is unverified, just resend OTP (retry-safe)
-        java.util.Optional<User> existingUser = userRepository.findByEmail(normalizedEmail);
-        if (existingUser.isPresent()) {
-            if (!existingUser.get().getIsVerified()) {
-                saveAndSendOTP(normalizedEmail, OtpType.REGISTER);
-                return "Registration successful! Check your email for the verification code.";
-            }
-            throw new RuntimeException("Email is already registered.");
-        }
-
-        if (userRepository.existsByStudentId(request.getStudentId()))
-            throw new RuntimeException("Student ID is already registered.");
-
-        // Password match
+        // Validate inputs before touching the DB
         if (!request.getPassword().equals(request.getConfirmPassword()))
             throw new RuntimeException("Passwords do not match.");
-
-        // Password strength
         validatePassword(request.getPassword());
-
-        // Age and year level range
         if (request.getAge() < 16 || request.getAge() > 60)
             throw new RuntimeException("Age must be between 16 and 60.");
         if (request.getYearLevel() < 1 || request.getYearLevel() > 6)
             throw new RuntimeException("Year level must be between 1 and 6.");
 
-        // Save user (unverified)
+        java.util.Optional<User> existingByEmail = userRepository.findByEmail(normalizedEmail);
+
+        // Same email retry — update details and resend OTP
+        if (existingByEmail.isPresent()) {
+            User existing = existingByEmail.get();
+            if (existing.getIsVerified())
+                throw new RuntimeException("Email is already registered.");
+
+            // Update fields in case the user corrected a typo
+            existing.setFullName(request.getFullName());
+            existing.setStudentId(request.getStudentId());
+            existing.setAge(request.getAge());
+            existing.setProgram(request.getProgram());
+            existing.setYearLevel(request.getYearLevel());
+            existing.setPassword(passwordEncoder.encode(request.getPassword()));
+            userRepository.save(existing);
+
+            saveAndSendOTP(normalizedEmail, OtpType.REGISTER);
+            return "Registration successful! Check your email for the verification code.";
+        }
+
+        // Student ID check — if it belongs to an unverified account, clean it up
+        java.util.Optional<User> existingByStudentId = userRepository.findByStudentId(request.getStudentId());
+        if (existingByStudentId.isPresent()) {
+            User existing = existingByStudentId.get();
+            if (existing.getIsVerified())
+                throw new RuntimeException("Student ID is already registered.");
+            // Stale unverified record from a failed previous attempt — remove it
+            userRepository.delete(existing);
+        }
+
+        // Fresh registration
         User user = new User();
         user.setFullName(request.getFullName());
         user.setStudentId(request.getStudentId());
@@ -113,9 +127,7 @@ public class AuthService {
         user.setIsVerified(false);
         userRepository.save(user);
 
-        // Send OTP — if this fails the user is unverified and next attempt will resend
         saveAndSendOTP(normalizedEmail, OtpType.REGISTER);
-
         return "Registration successful! Check your email for the verification code.";
     }
 
