@@ -2,15 +2,11 @@
 echo Starting SORS Project Services...
 
 :: Start main backend (Port 8080)
-echo [1/3] Starting parent backend on port 8080...
-start "SORS Parent Backend (8080)" cmd /k "cd backend && .\mvnw spring-boot:run"
-
-:: Start organizations backend (Port 8082)
-echo [2/3] Starting organizations backend on port 8082...
-start "SORS Organizations (8082)" cmd /k "cd backend\organizations && .\mvnw spring-boot:run"
+echo [1/2] Starting backend on port 8080...
+start "SORS Backend (8080)" cmd /k "cd backend && .\mvnw spring-boot:run"
 
 :: Start frontend server (Port 3000)
-echo [3/3] Starting frontend server on port 3000...
+echo [2/2] Starting frontend server on port 3000...
 :: Attempt to use python, fallback to npx http-server if python fails
 where python >nul 2>nul
 if %errorlevel% equ 0 (
@@ -21,8 +17,9 @@ if %errorlevel% equ 0 (
 
 echo ===================================================
 echo All services have been launched in separate windows!
-echo - Main Backend:      http://localhost:8080
-echo - Organizations API: http://localhost:8082
+echo - Backend API:       http://localhost:8080
+echo - Health Check:      http://localhost:8080/api/health
+echo - Organizations API: http://localhost:8080/api/organizations
 echo - Frontend App:      http://localhost:3000/login.html
 echo ===================================================
 echo To stop them, close the spawned windows or run stop.bat

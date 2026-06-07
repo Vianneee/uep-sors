@@ -36,6 +36,8 @@ public class SecurityConfig {
                 "/api/auth/verify-login",
                 "/api/auth/guest",
                 "/api/auth/resend-otp",
+                "/api/health",
+                "/api/organizations/**",
                  "/h2-console/**"
                 ).permitAll()
 
